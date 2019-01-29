@@ -57,9 +57,7 @@ class SDf(tkinter.Tk):
         self.imagejauge=self.fond0.create_image(self.w-925,(self.h/1.2), image = self.jauge, anchor = NW)
         self.pb = self.fond0.create_rectangle(self.progr,(self.h/1.2),self.w-425,(self.h/1.2)+30, fill='white', width='1')
 
-        tkinter.Tk.__init__(self,parent, nom)
-
-        self.parent = parent
+        tkinter.Tk.__init__(self, parent)
 
         self.coords = [[(self.w/2)-45, (self.h/2)-225, (self.w/2)+45, (self.h/2)-135],
                        [(self.w/2)-45, (self.h/2)-45, (self.w/2)+45, (self.h/2)+45],
@@ -78,7 +76,7 @@ class SDf(tkinter.Tk):
                        [(self.w/2)+315, (self.h/2)+135, (self.w/2)+405, (self.h/2)+225]]
 
         self.ellipses = [
-            self.fond0.create_oval(coordfill='grey80', width='5')
+            self.fond0.create_oval(coord, fill='grey80', width='5')
             for coord in self.coords]
 
         self.start=self.fond0.create_text(self.w/2,self.h/2,text="Touchez l'ecran pour démarrer", font=('Arial 60 bold'),fill='green')
