@@ -160,7 +160,7 @@ class SDf(tkinter.Tk):
         self.comb=[]
         
         self.ellipses = [
-            self.fond0.create_oval(coordfill='grey80', width='5')
+            self.fond0.create_oval(coord, fill='grey80', width='5')
             for coord in self.coords
         ]
 
