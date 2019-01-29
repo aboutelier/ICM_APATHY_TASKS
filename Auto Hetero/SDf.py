@@ -58,7 +58,8 @@ class SDf(tkinter.Tk):
         self.pb = self.fond0.create_rectangle(self.progr,(self.h/1.2),self.w-425,(self.h/1.2)+30, fill='white', width='1')
 
         tkinter.Tk.__init__(self,parent, nom)
-        self.parent, nom=parent
+
+        self.parent = parent
 
         self.coords = [[(self.w/2)-45, (self.h/2)-225, (self.w/2)+45, (self.h/2)-135],
                        [(self.w/2)-45, (self.h/2)-45, (self.w/2)+45, (self.h/2)+45],
