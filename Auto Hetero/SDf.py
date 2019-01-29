@@ -185,92 +185,92 @@ class SDf(tkinter.Tk):
         print('clic x:{}'.format(self.coordclicx))
         print('clic y:{}'.format(self.coordclicy))
         if (self.w/2)-45<=self.clicx<=(self.w/2)+45 and (self.h/2)-225<=self.clicy<=(self.h/2)-135:
-            self.clicn= self.coord0
-            self.ellipse0=self.fond0.create_oval(self.coord0, fill='grey40', width='5')
+            self.clicn= self.coords[0]
+            self.ellipse0=self.fond0.create_oval(self.coords[0], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)-45<=self.clicx<=(self.w/2)+45 and (self.h/2)-45<=self.clicy<=(self.h/2)+45:
-            self.clicn= self.coord1
-            self.ellipse1=self.fond0.create_oval(self.coord1, fill='grey40', width='5')
+            self.clicn= self.coords[1]
+            self.ellipse1=self.fond0.create_oval(self.coords[1], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)-45<=self.clicx<=(self.w/2)+45 and (self.h/2)+135<=self.clicy<=(self.h/2)+225:
-            self.clicn= self.coord2
-            self.ellipse2=self.fond0.create_oval(self.coord2, fill='grey40', width='5')
+            self.clicn= self.coords[2]
+            self.ellipse2=self.fond0.create_oval(self.coords[2], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)-135<=self.clicx<=(self.w/2)-45 and (self.h/2)-135<=self.clicy<=(self.h/2)-45:
-            self.clicn= self.coord3
-            self.ellipse3=self.fond0.create_oval(self.coord3, fill='grey40', width='5')
+            self.clicn= self.coords[3]
+            self.ellipse3=self.fond0.create_oval(self.coords[3], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)+45<=self.clicx<=(self.w/2)+135 and (self.h/2)-135<=self.clicy<=(self.h/2)-45:
-            self.clicn= self.coord4
-            self.ellipse4=self.fond0.create_oval(self.coord4, fill='grey40', width='5')
+            self.clicn= self.coords[4]
+            self.ellipse4=self.fond0.create_oval(self.coords[4], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)-225<=self.clicx<=(self.w/2)-135 and (self.h/2)-45<=self.clicy<=(self.h/2)+45:
-            self.clicn= self.coord5
-            self.ellipse5=self.fond0.create_oval(self.coord5, fill='grey40', width='5')
+            self.clicn= self.coords[5]
+            self.ellipse5=self.fond0.create_oval(self.coords[5], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)+135<=self.clicx<=(self.w/2)+225 and (self.h/2)-45<=self.clicy<=(self.h/2)+45:
-            self.clicn= self.coord6
-            self.ellipse6=self.fond0.create_oval(self.coord6, fill='grey40', width='5')
+            self.clicn= self.coords[6]
+            self.ellipse6=self.fond0.create_oval(self.coords[6], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)-135<=self.clicx<=(self.w/2)-45 and (self.h/2)+45<=self.clicy<=(self.h/2)+135:
-            self.clicn= self.coord7
-            self.ellipse7=self.fond0.create_oval(self.coord7, fill='grey40', width='5')
+            self.clicn= self.coords[7]
+            self.ellipse7=self.fond0.create_oval(self.coords[7], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)+45<=self.clicx<=(self.w/2)+135 and (self.h/2)+45 <=self.clicy<=(self.h/2)+135:
-            self.clicn= self.coord8
-            self.ellipse8=self.fond0.create_oval(self.coord8, fill='grey40', width='5')
+            self.clicn= self.coords[8]
+            self.ellipse8=self.fond0.create_oval(self.coords[8], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)-225<=self.clicx<=(self.w/2)-135 and (self.h/2)+135<=self.clicy<=(self.h/2)+225:
-            self.clicn= self.coord9
-            self.ellipse9=self.fond0.create_oval(self.coord9, fill='grey40', width='5')
+            self.clicn= self.coords[9]
+            self.ellipse9=self.fond0.create_oval(self.coords[9], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)+135<=self.clicx<=(self.w/2)+225 and (self.h/2)+135<=self.clicy<=(self.h/2)+225:
-            self.clicn= self.coord10
-            self.ellipse10=self.fond0.create_oval(self.coord10, fill='grey40', width='5')
+            self.clicn= self.coords[10]
+            self.ellipse10=self.fond0.create_oval(self.coords[10], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)-315<=self.clicx<=(self.w/2)-225 and (self.h/2)+45<=self.clicy<=(self.h/2)+135:
-            self.clicn= self.coord11
-            self.ellipse11=self.fond0.create_oval(self.coord11, fill='grey40', width='5')
+            self.clicn= self.coords[11]
+            self.ellipse11=self.fond0.create_oval(self.coords[11], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)+225<=self.clicx<=(self.w/2)+315 and (self.h/2)+45<=self.clicy<=(self.h/2)+135:
-            self.clicn= self.coord12
-            self.ellipse12=self.fond0.create_oval(self.coord12, fill='grey40', width='5')
+            self.clicn= self.coords[12]
+            self.ellipse12=self.fond0.create_oval(self.coords[12], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)-405<=self.clicx<=(self.w/2)-315 and (self.h/2)-135<=self.clicy<=(self.h/2)+225:
-            self.clicn= self.coord13
-            self.ellipse13=self.fond0.create_oval(self.coord13, fill='grey40', width='5')
+            self.clicn= self.coords[13]
+            self.ellipse13=self.fond0.create_oval(self.coords[13], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
         elif (self.w/2)+315<=self.clicx<=(self.w/2)+405 and (self.h/2)+135<=self.clicy<=(self.h/2)+225:
-            self.clicn= self.coord14
-            self.ellipse14=self.fond0.create_oval(self.coord14, fill='grey40', width='5')
+            self.clicn= self.coords[14]
+            self.ellipse14=self.fond0.create_oval(self.coords[14], fill='grey40', width='5')
             f = open(self.filename, "a")
             f.write('{}'.format(self.clicn))
             self.verifcercle()
