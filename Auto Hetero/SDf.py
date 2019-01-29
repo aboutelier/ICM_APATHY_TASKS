@@ -480,7 +480,7 @@ if __name__ == "__main__":
     maindir = joinpath(DOSSIER, nom)
     os.mkdir(maindir)
 
-    app = SDf(None)
+    app = SDf(nom, None)
     app.title('My application')
     app.destroy()
     app.mainloop()
