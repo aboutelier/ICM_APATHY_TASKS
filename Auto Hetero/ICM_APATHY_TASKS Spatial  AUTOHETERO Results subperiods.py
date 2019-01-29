@@ -27,7 +27,7 @@ MAIN_DIR = joinpath(DOSSIER, nom)
 os.mkdir(MAIN_DIR)
 ########################################################################################################################################################################        
 class SDf(tkinter.Tk):
-    def __init__(self, parent, nom):
+    def __init__(self, nom, parent=None):
         self.racine0=tkinter.Tk()
         self.racine0.attributes('-fullscreen',True)
         self.w, self.h = self.racine0.winfo_screenwidth(),self.racine0.winfo_screenheight()
@@ -37,7 +37,7 @@ class SDf(tkinter.Tk):
         self.pieces = PhotoImage(file=IMAGE_PIECES)
         self.fond0.create_image(50, 10, image = self.pieces, anchor = NW)
 
-        self.filename = joinpath(MAINDIR, "{}_SpatialeDifficileFaible.xls".format(nom))
+        self.filename = joinpath(DOSSIER, nom, "{}_SpatialeDifficileFaible.xls".format(nom))
 
         f = open(self.filename, "a")
         f.write("\nTACHE SPATIALE DIFFICILE FAIBLE GAIN\n\n")
@@ -484,7 +484,7 @@ class SDf(tkinter.Tk):
 ########################################################################################################################################################################        
 
 class SDF(tkinter.Tk):
-    def __init__(self,parent):
+    def __init__(self,nom, parent=None):
         self.racine0=tkinter.Tk()
         self.racine0.attributes('-fullscreen',True)
         self.w, self.h = self.racine0.winfo_screenwidth(),self.racine0.winfo_screenheight()
@@ -494,7 +494,7 @@ class SDF(tkinter.Tk):
         self.pieces = PhotoImage(file = IMAGE_PIECES_2)
         self.fond0.create_image(50, 10, image = self.pieces, anchor = NW)
 
-        self.filename = joinpath(MAINDIR, "{}_SpatialeDifficileFort.xls".format(nom))
+        self.filename = joinpath(DOSSIER, nom, "{}_SpatialeDifficileFort.xls".format(nom))
 
         f = open(self.filename, "a")
         f.write("\nTACHE SPATIALE DIFFICILE FORT GAIN\n\n")
@@ -984,7 +984,7 @@ class SDF(tkinter.Tk):
 
 
 class SFf(tkinter.Tk):
-        def __init__(self,parent):
+        def __init__(self,parent=None):
                 self.racine0=tkinter.Tk()
                 self.racine0.attributes('-fullscreen',True)
                 self.w, self.h = self.racine0.winfo_screenwidth(),self.racine0.winfo_screenheight()
@@ -1289,7 +1289,7 @@ class SFf(tkinter.Tk):
 ########################################################################################################################################################################        
 
 class SFF(tkinter.Tk):
-    def __init__(self,parent):
+    def __init__(self,parent=None):
         self.racine0=tkinter.Tk()
         self.racine0.attributes('-fullscreen',True)
         self.w, self.h = self.racine0.winfo_screenwidth(),self.racine0.winfo_screenheight()
@@ -1592,7 +1592,7 @@ class SFF(tkinter.Tk):
 ########################################################################################################################################################################        
     
 class VDf(tkinter.Tk):
-    def __init__(self,parent):
+    def __init__(self,parent=None):
         self.racine0=tkinter.Tk()
         self.racine0.attributes('-fullscreen',True)
         self.w, self.h = self.racine0.winfo_screenwidth(),self.racine0.winfo_screenheight()
@@ -2289,7 +2289,7 @@ class VDf(tkinter.Tk):
 ########################################################################################################################################################################        
 
 class VDF(tkinter.Tk):
-    def __init__(self,parent):
+    def __init__(self,parent=None):
         self.racine0=tkinter.Tk()
         self.racine0.attributes('-fullscreen',True)
         self.w, self.h = self.racine0.winfo_screenwidth(),self.racine0.winfo_screenheight()
@@ -2984,7 +2984,7 @@ class VDF(tkinter.Tk):
 ########################################################################################################################################################################        
 
 class VFf(tkinter.Tk):
-        def __init__(self,parent):
+        def __init__(self,parent=None):
                 self.racine0=tkinter.Tk()
                 self.racine0.attributes('-fullscreen',True)
                 self.w, self.h = self.racine0.winfo_screenwidth(),self.racine0.winfo_screenheight()
@@ -3377,7 +3377,7 @@ class VFf(tkinter.Tk):
 ########################################################################################################################################################################        
 
 class VFF(tkinter.Tk):
-        def __init__(self,parent):
+        def __init__(self,parent=None):
                 self.racine0=tkinter.Tk()
                 self.racine0.attributes('-fullscreen',True)
                 self.w, self.h = self.racine0.winfo_screenwidth(),self.racine0.winfo_screenheight()
@@ -3769,7 +3769,7 @@ class VFF(tkinter.Tk):
 
 ########################################################################################################################################################################        
 class hetero(tkinter.Tk):
-        def __init__(self,parent):
+        def __init__(self,parent=None):
                 self.racine0=tkinter.Tk()
                 self.racine0.attributes('-fullscreen',True)
                 self.w, self.h = self.racine0.winfo_screenwidth(),self.racine0.winfo_screenheight()
@@ -4178,7 +4178,7 @@ class hetero(tkinter.Tk):
                 
 #######################################################################################################################################################################
 class auto(tkinter.Tk):
-        def __init__(self,parent):
+        def __init__(self,parent=None):
                 self.racine0=tkinter.Tk()
                 self.racine0.attributes('-fullscreen',True)
                 self.w, self.h = self.racine0.winfo_screenwidth(),self.racine0.winfo_screenheight()
