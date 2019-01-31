@@ -28,26 +28,30 @@ DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
 # Valeurs modifiables
 # -------------------
-DELTA_PROGRESSION = 2.50
-N_REUSSITE_AVANT_SON = 5
-
 END_TIMER_SEC = 30
 TEST_TIME_SEC = 180
 SUMMARY_TIME_SEC = 15
 
+SEPARATEUR = ","
+
+DELTA_PROGRESSION = 2.50
+N_REUSSITE_AVANT_SON = 5
+
 
 class SDf(Tk):
     titre = "SpatialeDifficileFaible"
-    ext = "xls"
+    valeurs_sauvees = [
+        "premier cercle", "deuxieme cercle",
+        "troisieme cercle", "quatrieme cercle",
+        "resultat", "temps de reponse", "temps ecoule"
+    ]
 
-    def __init__(self, nom, parent=None):
-        super().__init__(self, parent)
-
+    def __init__(self, parent, nom):
         self.filename = joinpath(
-            DOSSIER_SUJETS, nom, "{}_{}.{}".format(nom, self.titre, self.ext)
+            DOSSIER_SUJETS, nom, "{}_{}".format(nom, self.titre)
         )
         self.save_text("TACHE SPATIALE DIFFICILE FAIBLE GAIN")
-        self.save_text("Cercle 1,Cercle 2,Cercle 3,Cercle 4,Combi,RT")
+        self.save_csv(SEPARATEUR.join(self.valeurs_sauvees))
 
         self.racine = Tk()
         self.racine.attributes("-fullscreen", True)
@@ -77,6 +81,8 @@ class SDf(Tk):
             anchor=NW
         )
 
+        Tk.__init__(self, parent)
+
         self._initialise_counters()
         self._initialise_figures()
 
@@ -87,8 +93,7 @@ class SDf(Tk):
         self.combi = []
         self.counter = Counter()
 
-        self.t0 = perf_counter()
-        self.temps = END_TIMER_SEC
+        self.timer = END_TIMER_SEC
 
         self.SRT = 0
         self.SRTdejafait = 0
@@ -99,21 +104,21 @@ class SDf(Tk):
         """Initialisation de la partie dynamique de l'affichage"""
         # On crée tous les cercles
         self.circles = [
-            Circle(self.x_mid - 45, self.y_mid - 225),
-            Circle(self.x_mid - 45, self.y_mid - 45),
-            Circle(self.x_mid - 45, self.y_mid + 135),
-            Circle(self.x_mid - 135, self.y_mid - 135),
-            Circle(self.x_mid + 45, self.y_mid - 135),
-            Circle(self.x_mid - 225, self.y_mid - 45),
-            Circle(self.x_mid + 135, self.y_mid - 45),
-            Circle(self.x_mid - 135, self.y_mid + 45),
-            Circle(self.x_mid + 45, self.y_mid + 45),
-            Circle(self.x_mid - 225, self.y_mid + 135),
-            Circle(self.x_mid + 135, self.y_mid + 135),
-            Circle(self.x_mid - 315, self.y_mid + 45),
-            Circle(self.x_mid + 225, self.y_mid + 45),
-            Circle(self.x_mid - 405, self.y_mid + 135),
-            Circle(self.x_mid + 315, self.y_mid + 135),
+            Circle(0, self.x_mid - 45, self.y_mid - 225),
+            Circle(1, self.x_mid - 45, self.y_mid - 45),
+            Circle(2, self.x_mid - 45, self.y_mid + 135),
+            Circle(3, self.x_mid - 135, self.y_mid - 135),
+            Circle(4, self.x_mid + 45, self.y_mid - 135),
+            Circle(5, self.x_mid - 225, self.y_mid - 45),
+            Circle(6, self.x_mid + 135, self.y_mid - 45),
+            Circle(7, self.x_mid - 135, self.y_mid + 45),
+            Circle(8, self.x_mid + 45, self.y_mid + 45),
+            Circle(9, self.x_mid - 225, self.y_mid + 135),
+            Circle(10, self.x_mid + 135, self.y_mid + 135),
+            Circle(11, self.x_mid - 315, self.y_mid + 45),
+            Circle(12, self.x_mid + 225, self.y_mid + 45),
+            Circle(13, self.x_mid - 405, self.y_mid + 135),
+            Circle(14, self.x_mid + 315, self.y_mid + 135),
         ]
 
         # On pioche 5 cercles aléatoirement pour changer leur couleur
@@ -142,8 +147,8 @@ class SDf(Tk):
         self.draw_circles()
 
         # On affiche la barre de progresion
-        self.progr = self.w - 925
-        self.pb = None
+        self.progress = self.w - 925
+        self.progress_bar = None
         self.draw_progression()
 
         self.chrono = None
@@ -167,6 +172,7 @@ class SDf(Tk):
     def attente(self, event):
         "Register some events to be triggered at a later time"
         self.fond.delete(self.racine, self.start)
+        self.t0 = perf_counter()
         self.start_new_combinaison()
         self.after((TEST_TIME_SEC - END_TIMER_SEC) * 1000, self.start_chrono)
         self.after(TEST_TIME_SEC * 1000, self.finalisation)
@@ -176,7 +182,13 @@ class SDf(Tk):
         if print_:
             print(text)
         # and write in the file
-        with open(self.filename, "a") as f:
+        with open(self.filename + ".txt", "a") as f:
+            f.write(text)
+            if newline:
+                f.write("\n")
+    
+    def save_csv(self, text, newline=True):
+        with open(self.filename + ".csv", "a") as f:
             f.write(text)
             if newline:
                 f.write("\n")
@@ -194,11 +206,11 @@ class SDf(Tk):
         ]
 
     def draw_progression(self):
-        if self.pb is not None:
-            self.fond.delete(self.racine, self.pb)
+        if self.progress_bar is not None:
+            self.fond.delete(self.racine, self.progress_bar)
 
-        self.pb = self.fond.create_rectangle(
-            self.progr,
+        self.progress_bar = self.fond.create_rectangle(
+            self.progress,
             self.h / 1.2,
             self.w - 425,
             self.h / 1.2 + 30,
@@ -209,33 +221,39 @@ class SDf(Tk):
     def start_new_combinaison(self):
         self.comb = []
         self.numclic = 0
+        self.string_info = []
 
         self.draw_circles()
 
         self.tapp = perf_counter()
         self.fond.bind("<ButtonPress-1>", self.clic)
 
+    def print_line(self):
+        # Add elapsed time
+        self.string_info.append("{}".format(self.tclic - self.t0))
+        
+        # Join into a string and save as a new line in CSV file
+        self.save_csv(SEPARATEUR.join(self.string_info))
+
     def clic(self, event):
+        self.tclic = perf_counter()
         # Parcours la liste de cercles jusqu'à trouver le bon
         # Sinon on est tombé à côté.
         for idx, circle in enumerate(self.circles):
             isin_x = circle.x_min <= event.x <= circle.x_max
             isin_y = circle.y_min <= event.y <= circle.y_max
             if isin_x and isin_y:
-                self.ellipse[idx] = self.fond.create_oval(
+                self.ellipses[idx] = self.fond.create_oval(
                     circle.coords, fill="grey40", width="5"
                 )
-                self.save_text(
-                    "{}".format(circle.coords), newline=False, print_=False
-                )
+                self.string_info.append("{}".format(circle))
                 self.verifcercle(idx)
                 break
         else:
             coordclicx = self.fond.winfo_pointerx()
             coordclicy = self.fond.winfo_pointery()
-            self.save_text(
-                "[{}, {}".format(coordclicx, coordclicy),
-                newline=False, print_=False
+            self.string_info.append(
+                "Coords({};{})".format(coordclicx, coordclicy)
             )
             self.acote()
 
@@ -266,68 +284,73 @@ class SDf(Tk):
 
         self.combi.append(self.comb)
 
-        tclic = perf_counter()
+        response_time = self.tclic - self.tapp
+        self.RTmax = max(self.RTmax, response_time)
+        self.RTmin = min(self.RTmin, response_time)
+        self.SRT += response_time
 
-        self.RT = tclic - self.tapp
-        self.RTmax = max(self.RTmax, self.RT)
-        self.RTmin = min(self.RTmin, self.RT)
+        print("RT (sec) = {}\n".format(response_time))
+        self.string_info.append("Nouvelle combi")
+        self.string_info.append("{}".format(response_time))
 
-        print("RT sec={}\n".format(self.RT))
-        self.save_text("[Nouvelle combi[", newline=False, print_=False)
-        self.save_text("{}".format(self.RT), print_=False)
-        self.SRT += self.RT
-
-        self.progr += DELTA_PROGRESSION
-
+        self.progress += DELTA_PROGRESSION
         self.draw_progression()
 
         if self.counter.NR % N_REUSSITE_AVANT_SON == 0:
             PlaySound(SON_PIECES, SND_FILENAME | SND_ASYNC)
 
+        self.print_line()
         self.start_new_combinaison()
 
     def erreur(self, couleur):
         self.counter.add_error()
 
-        text = "[" * (4 - self.numclic)
-        text += "Distracteur {}".format(couleur)
-        self.save_text(text, print_=False)
+        # Missing circles
+        for _ in range(3 - self.numclic):
+            self.string_info.append("")
+        self.string_info.append("Distracteur {}".format(couleur))
+        self.string_info.append("")
 
+        self.print_line()
         self.start_new_combinaison()
 
     def memecercle(self):
         self.counter.add_meme_cercle()
 
-        text = "[" * (4 - self.numclic)
-        text += "Meme cercle"
-        self.save_text(text, print_=False)
+        # Missing circles
+        for _ in range(3 - self.numclic):
+            self.string_info.append("")
+        self.string_info.append("Meme cercle")
+        self.string_info.append("")
 
+        self.print_line()
         self.start_new_combinaison()
 
     def dejafait(self):
         self.counter.add_meme_combinaison()
 
-        tclic = perf_counter()
+        RTdejafait = self.tclic - self.tapp
+        self.SRTdejafait += RTdejafait
 
-        self.RTdejafait = tclic - self.tapp
-        self.SRTdejafait += self.RTdejafait
+        self.string_info.append("Combi déjà faite")
+        self.string_info.append("{}".format(RTdejafait))
 
-        self.save_text("[Combi déjà faite[", newline=False, print_=False)
-        self.save_text("{}".format(self.RTdejafait), print_=False)
-
+        self.print_line()
         self.start_new_combinaison()
 
     def acote(self):
         self.counter.add_a_cote()
 
-        text = "[" * (4 - self.numclic)
-        text += "A cote"
-        self.save_text(text, print_=False)
+        for _ in range(3 - self.numclic):
+            self.string_info.append("")
+        self.string_info.append("A cote")
+        self.string_info.append("")
 
+        self.print_line()
         self.start_new_combinaison()
 
     def start_chrono(self):
-        self.save_text("\n30 sec")
+        self.save_csv("# ***** 30 sec line *****")
         self.show_chrono()
 
     def show_chrono(self):
@@ -337,17 +360,17 @@ class SDf(Tk):
         self.chrono = self.fond.create_text(
             self.x_mid,
             self.h / 8,
-            text="{}".format(self.temps),
+            text="{}".format(self.timer),
             font="Arial 120 bold",
             fill="black",
         )
 
-        self.one_second = self.after(1000, self.elapse_second)
+        self.one_second = self.after(1000, self.next_second)
 
-    def elapse_second(self):
-        self.temps -= 1
+    def next_second(self):
+        self.timer -= 1
 
-        if self.temps > 0:
+        if self.timer > 0:
             self.show_chrono()
         else:
             self.fond.delete(self.racine, self.chrono)
@@ -391,7 +414,7 @@ class SDf(Tk):
                     self.counter.ND + self.counter.NR
                 )
 
-        self.save_text("\n\nBonnes reponses: %.2f" % self.counter.NR)
+        self.save_text("Bonnes reponses: %.2f" % self.counter.NR)
         self.save_text("Erreurs couleur: %.2f" % self.counter.NE)
         self.save_text("Erreurs repetition: %.2f" % self.counter.ND)
         self.save_text("Erreurs même cercle: %.2f" % self.counter.MC)
@@ -411,9 +434,13 @@ class SDf(Tk):
 if __name__ == "__main__":
     nom = input("Nom sujet :")
     maindir = joinpath(DOSSIER_SUJETS, nom)
-    mkdir(maindir)
+    try:
+        mkdir(maindir)
+    except FileExistsError:
+        import sys
+        sys.exit("Subject name already exists. Try again with a different name.")
 
-    app = SDf(nom, None)
+    app = SDf(None, nom)
     app.title("My application")
     app.destroy()
     app.mainloop()
