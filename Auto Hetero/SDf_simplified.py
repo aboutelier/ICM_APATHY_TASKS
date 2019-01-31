@@ -1,3 +1,30 @@
+"""
+Petite explication des changements
+----------------------------------
+
+En haut du fichier et dans l'ordre tu trouveras
+
+1) des imports de deux nouvelles classes qui vont servir: 
+    - Cercle pour définir les positions, la couleur et le numéro des cercles
+    - Counter pour la partie comptage des différentes réponses
+
+2) des liens absolus vers des fichiers sur l'appareil qui sont utilisés 
+dans le code
+
+3) des variables globales qui vont modifier le comportement général du 
+programme. Ex: changer TEST_TIME_SEC permet de diminuer le temps d'acquisition
+ce qui est pratique pour tester le code
+
+Dans la classe SDf j'ai:
+- changé les noms des variables et des méthodes pour augmenter la clarté
+- remplacé toutes les coordonnées écrites en dur par mes objets Cercles
+- séparé clairement la partie initialisation du reste
+- ajouté certaines méthodes partant du principe: une action = une méthode
+- créé deux fichiers de sortie, un au format CSV (facile à lire dans Excel)
+avec les infos que tu veux et l'autre en fichier texte classique avec les
+valeurs qui résument le test.
+
+"""
 from os import mkdir
 from os.path import join as joinpath
 from random import randrange
@@ -28,8 +55,8 @@ DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
 # Valeurs modifiables
 # -------------------
-END_TIMER_SEC = 30
 TEST_TIME_SEC = 180
+END_TIMER_SEC = 30
 SUMMARY_TIME_SEC = 15
 
 SEPARATEUR = ","
@@ -90,7 +117,7 @@ class SDf(Tk):
 
     def _initialise_counters(self):
         """Mise à zéro des compteurs"""
-        self.combi = []
+        self.combinaisons = []
         self.counter = Counter()
 
         self.timer = END_TIMER_SEC
@@ -186,7 +213,7 @@ class SDf(Tk):
             f.write(text)
             if newline:
                 f.write("\n")
-    
+
     def save_csv(self, text, newline=True):
         with open(self.filename + ".csv", "a") as f:
             f.write(text)
@@ -228,10 +255,10 @@ class SDf(Tk):
         self.tapp = perf_counter()
         self.fond.bind("<ButtonPress-1>", self.clic)
 
-    def print_line(self):
+    def save_line(self):
         # Add elapsed time
         self.string_info.append("{}".format(self.tclic - self.t0))
-        
+
         # Join into a string and save as a new line in CSV file
         self.save_csv(SEPARATEUR.join(self.string_info))
 
@@ -274,7 +301,7 @@ class SDf(Tk):
             else:
                 print("Combi:{}".format(self.comb))
 
-                if self.comb in self.combi:
+                if self.comb in self.combinaisons:
                     self.after(100, self.dejafait)
                 else:
                     self.after(100, self.reussite)
@@ -282,7 +309,7 @@ class SDf(Tk):
     def reussite(self):
         self.counter.add_reussite()
 
-        self.combi.append(self.comb)
+        self.combinaisons.append(self.comb)
 
         response_time = self.tclic - self.tapp
         self.RTmax = max(self.RTmax, response_time)
@@ -299,7 +326,7 @@ class SDf(Tk):
         if self.counter.NR % N_REUSSITE_AVANT_SON == 0:
             PlaySound(SON_PIECES, SND_FILENAME | SND_ASYNC)
 
-        self.print_line()
+        self.save_line()
         self.start_new_combinaison()
 
     def erreur(self, couleur):
@@ -311,7 +338,7 @@ class SDf(Tk):
         self.string_info.append("Distracteur {}".format(couleur))
         self.string_info.append("")
 
-        self.print_line()
+        self.save_line()
         self.start_new_combinaison()
 
     def memecercle(self):
@@ -323,7 +350,7 @@ class SDf(Tk):
         self.string_info.append("Meme cercle")
         self.string_info.append("")
 
-        self.print_line()
+        self.save_line()
         self.start_new_combinaison()
 
     def dejafait(self):
@@ -335,7 +362,7 @@ class SDf(Tk):
         self.string_info.append("Combi déjà faite")
         self.string_info.append("{}".format(RTdejafait))
 
-        self.print_line()
+        self.save_line()
         self.start_new_combinaison()
 
     def acote(self):
@@ -346,7 +373,7 @@ class SDf(Tk):
         self.string_info.append("A cote")
         self.string_info.append("")
 
-        self.print_line()
+        self.save_line()
         self.start_new_combinaison()
 
     def start_chrono(self):
@@ -438,7 +465,9 @@ if __name__ == "__main__":
         mkdir(maindir)
     except FileExistsError:
         import sys
-        sys.exit("Subject name already exists. Try again with a different name.")
+        sys.exit(
+            "Subject name already exists. Try again with a different name."
+        )
 
     app = SDf(None, nom)
     app.title("My application")
