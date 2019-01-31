@@ -1,10 +1,14 @@
-import os
-import random
-import time
-import tkinter
-import winsound
+from os import mkdir
 from os.path import join as joinpath
-from tkinter import *
+from random import randrange
+from time import perf_counter
+from tkinter import Tk
+from tkinter import NW
+from tkinter import Canvas
+from tkinter import PhotoImage
+from winsound import PlaySound
+from winsound import SND_FILENAME
+from winsound import SND_ASYNC
 
 # Nouveaux imports
 # ----------------
@@ -32,22 +36,20 @@ TEST_TIME_SEC = 180
 SUMMARY_TIME_SEC = 15
 
 
-class SDf(tkinter.Tk):
+class SDf(Tk):
     titre = "SpatialeDifficileFaible"
-    extension = "xls"
+    ext = "xls"
 
     def __init__(self, nom, parent=None):
         super().__init__(self, parent)
 
         self.filename = joinpath(
-            DOSSIER_SUJETS, nom, "{}_{}.{}".format(nom, self.titre, self.extension)
+            DOSSIER_SUJETS, nom, "{}_{}.{}".format(nom, self.titre, self.ext)
         )
         self.save_text("TACHE SPATIALE DIFFICILE FAIBLE GAIN")
-        self.save_text(
-            "Coord Cercle 1,Coord Cercle 2,Coord Cercle 3,Coord Cercle 4,Combi,RT"
-        )
+        self.save_text("Cercle 1,Cercle 2,Cercle 3,Cercle 4,Combi,RT")
 
-        self.racine = tkinter.Tk()
+        self.racine = Tk()
         self.racine.attributes("-fullscreen", True)
 
         # Dimensions de l'écran
@@ -58,12 +60,21 @@ class SDf(tkinter.Tk):
         self.x_mid = self.w / 2
         self.y_mid = self.h / 2
 
-        # Initialisation de la partie statique de l'affichage (fond blanc + images)
-        self.fond = tkinter.Canvas(self.racine, bg="white", width=self.w, height=self.h)
+        # Initialisation de la partie statique de l'affichage
+        # (fond blanc + images)
+        self.fond = Canvas(
+            self.racine, bg="white", width=self.w, height=self.h
+        )
         self.fond.pack(fill="both")
-        self.fond.create_image(50, 10, image=PhotoImage(file=IMAGE_PIECES), anchor=NW)
         self.fond.create_image(
-            self.w - 925, (self.h / 1.2), image=PhotoImage(file=IMAGE_JAUGE), anchor=NW
+            50, 10,
+            image=PhotoImage(file=IMAGE_PIECES),
+            anchor=NW
+        )
+        self.fond.create_image(
+            self.w - 925, (self.h / 1.2),
+            image=PhotoImage(file=IMAGE_JAUGE),
+            anchor=NW
         )
 
         self._initialise_counters()
@@ -76,7 +87,7 @@ class SDf(tkinter.Tk):
         self.combi = []
         self.counter = Counter()
 
-        self.t0 = time.perf_counter()
+        self.t0 = perf_counter()
         self.temps = END_TIMER_SEC
 
         self.SRT = 0
@@ -111,8 +122,9 @@ class SDf(tkinter.Tk):
         circle_index = list(range(0, len(self.circles)))
         for _ in range(5):
             # Valeur aléatoire entre 0 et le nombre de cercles disponibles
-            random_val = random.randrange(0, len(circle_index))
-            # On extrait cette valeur de la liste des indices (on la supprime au passage)
+            random_val = randrange(0, len(circle_index))
+            # On extrait cette valeur de la liste des indices
+            # (on la supprime au passage)
             idx_random = circle_index.pop(random_val)
             # On l'ajoute à notre nouvelle liste
             color_index.append(idx_random)
@@ -200,21 +212,31 @@ class SDf(tkinter.Tk):
 
         self.draw_circles()
 
-        self.tapp = time.perf_counter()
+        self.tapp = perf_counter()
         self.fond.bind("<ButtonPress-1>", self.clic)
 
     def clic(self, event):
-        # Parcours la liste de cercles jusqu'à trouver le bon, ou alors c'est à côté.
+        # Parcours la liste de cercles jusqu'à trouver le bon
+        # Sinon on est tombé à côté.
         for idx, circle in enumerate(self.circles):
-            if (circle.x_min <= event.x <= circle.x_max) and (circle.y_min <= event.y <= circle.y_max):
-                self.ellipse[idx] = self.fond.create_oval(circle.coords, fill="grey40", width="5")
-                self.save_text("{}".format(circle.coords), newline=False, print_=False)
+            isin_x = circle.x_min <= event.x <= circle.x_max
+            isin_y = circle.y_min <= event.y <= circle.y_max
+            if isin_x and isin_y:
+                self.ellipse[idx] = self.fond.create_oval(
+                    circle.coords, fill="grey40", width="5"
+                )
+                self.save_text(
+                    "{}".format(circle.coords), newline=False, print_=False
+                )
                 self.verifcercle(idx)
                 break
         else:
             coordclicx = self.fond.winfo_pointerx()
             coordclicy = self.fond.winfo_pointery()
-            self.save_text("[{}, {}".format(coordclicx, coordclicy), newline=False, print_=False)
+            self.save_text(
+                "[{}, {}".format(coordclicx, coordclicy),
+                newline=False, print_=False
+            )
             self.acote()
 
     def verifcercle(self, idx: int):
@@ -244,7 +266,7 @@ class SDf(tkinter.Tk):
 
         self.combi.append(self.comb)
 
-        tclic = time.perf_counter()
+        tclic = perf_counter()
 
         self.RT = tclic - self.tapp
         self.RTmax = max(self.RTmax, self.RT)
@@ -260,7 +282,7 @@ class SDf(tkinter.Tk):
         self.draw_progression()
 
         if self.counter.NR % N_REUSSITE_AVANT_SON == 0:
-            winsound.PlaySound(SON_PIECES, winsound.SND_FILENAME | winsound.SND_ASYNC)
+            PlaySound(SON_PIECES, SND_FILENAME | SND_ASYNC)
 
         self.start_new_combinaison()
 
@@ -285,7 +307,7 @@ class SDf(tkinter.Tk):
     def dejafait(self):
         self.counter.add_meme_combinaison()
 
-        tclic = time.perf_counter()
+        tclic = perf_counter()
 
         self.RTdejafait = tclic - self.tapp
         self.SRTdejafait += self.RTdejafait
@@ -334,7 +356,9 @@ class SDf(tkinter.Tk):
         self.racine.after_cancel(self.one_second)
 
         self.fond.destroy()
-        self.fond = tkinter.Canvas(self.racine, bg="white", width=self.w, height=self.h)
+        self.fond = Canvas(
+            self.racine, bg="white", width=self.w, height=self.h
+        )
         self.fond.pack(fill="both")
 
         self.fond.create_text(
@@ -363,7 +387,9 @@ class SDf(tkinter.Tk):
                 RTmoytot = RTmoyreussi
             else:
                 RTmoydejafait = self.SRTdejafait / self.counter.ND
-                RTmoytot = (self.SRT + self.SRTdejafait) / (self.counter.ND + self.counter.NR)
+                RTmoytot = (self.SRT + self.SRTdejafait) / (
+                    self.counter.ND + self.counter.NR
+                )
 
         self.save_text("\n\nBonnes reponses: %.2f" % self.counter.NR)
         self.save_text("Erreurs couleur: %.2f" % self.counter.NE)
@@ -385,7 +411,7 @@ class SDf(tkinter.Tk):
 if __name__ == "__main__":
     nom = input("Nom sujet :")
     maindir = joinpath(DOSSIER_SUJETS, nom)
-    os.mkdir(maindir)
+    mkdir(maindir)
 
     app = SDf(nom, None)
     app.title("My application")
