@@ -60,8 +60,8 @@ DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
 # Valeurs modifiables
 # -------------------
-TEST_TIME_SEC = 120
-END_TIMER_SEC = 30
+TEST_TIME_SEC = 30
+END_TIMER_SEC = 20
 SUMMARY_TIME_SEC = 15
 
 SEPARATEUR = ";"

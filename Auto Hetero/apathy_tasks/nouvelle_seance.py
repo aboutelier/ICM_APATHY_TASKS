@@ -1,4 +1,4 @@
-from random import shuffle
+from random import sample
 from functools import partial
 from os.path import join as joinpath
 
@@ -19,19 +19,19 @@ SpatialeDifficileFaible = partial(SpatialeDifficile, gain_faible=True)
 
 # Write the list of tasks to be proposed to the user
 # --------------------------------------------------
-FIRST_TASK_LIST = shuffle([
+FIRST_TASK_LIST = [
     SpatialeFacileFaible,
     SpatialeFacileFort,
     SpatialeDifficileFaible,
     SpatialeDifficileFort,
-])
+]
 
-SECOND_TASK_LIST = shuffle([
+SECOND_TASK_LIST = [
     Hetero,
     Auto,
-])
+]
 
-TASK_ORDER = [task.__name__ for task in FIRST_TASK_LIST + SECOND_TASK_LIST]
+# TASK_ORDER = [task.__name__ for task in FIRST_TASK_LIST + SECOND_TASK_LIST]
 
 
 def main(name, maindir):
@@ -41,9 +41,11 @@ def main(name, maindir):
     )
     with open(seance_filename, 'a') as f:
         f.write("Ordre des différentes tâches :\n")
-        f.write("\n".join(TASK_ORDER))
+        # f.write("\n".join(TASK_ORDER))
 
-    for task in FIRST_TASK_LIST:
+    # for idx in sample(list(range(0, len(FIRST_TASK_LIST)))):
+    for task in sample(FIRST_TASK_LIST, len(FIRST_TASK_LIST)):
+        # task = FIRST_TASK_LIST[idx]
         app = task(None, name, SUBJECT_FOLDER)
         app.title("my application")
         app.destroy()
@@ -51,7 +53,7 @@ def main(name, maindir):
 
     pace = 1
 
-    for task in SECOND_TASK_LIST:
+    for task in sample(SECOND_TASK_LIST, len(SECOND_TASK_LIST)):
         app = task(None, name, SUBJECT_FOLDER, pace)
         app.title("my application")
         app.destroy()

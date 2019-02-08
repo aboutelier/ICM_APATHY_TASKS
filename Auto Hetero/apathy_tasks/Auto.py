@@ -73,7 +73,7 @@ class Auto(Tk):
         "coord (x, y)", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom, pace):
+    def __init__(self, parent, nom, maindir, pace=1):
 
         self.filename = joinpath(
             DOSSIER_SUJETS, nom, "{}_Auto".format(nom)
@@ -298,13 +298,13 @@ class Auto(Tk):
         self.chrono_event = self.after(1000, self.show_chrono)
 
     def metronome(self):
-        # PlaySound(SON_PACE, SND_FILENAME | SND_ASYNC)
+        PlaySound(SON_PACE, SND_FILENAME | SND_ASYNC)
         self.metronome_event = self.after(self.pace * 1000, self.metronome)
 
     def update_progress(self):
         n_current_reussites = self.counter.n_reussites
 
-        if n_current_reussites - self.n_old_reussites <= DELAY_PROGRESSION:
+        if n_current_reussites - self.n_old_reussites < DELAY_PROGRESSION:
             self.progress -= self.delta_progression
             self.draw_progression()
 

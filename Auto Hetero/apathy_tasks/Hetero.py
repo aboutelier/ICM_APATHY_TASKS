@@ -57,7 +57,7 @@ DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
 # Valeurs modifiables
 # -------------------
-TEST_TIME_SEC = 50
+TEST_TIME_SEC = 20
 END_TIMER_SEC = 20
 SUMMARY_TIME_SEC = 15
 
@@ -74,7 +74,7 @@ class Hetero(Tk):
         "resultat", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom):
+    def __init__(self, parent, nom, maindir, pace):
 
         self.filename = joinpath(
             DOSSIER_SUJETS, nom, "{}_Hetero".format(nom)
