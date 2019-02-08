@@ -48,13 +48,10 @@ from .circle import Circle
 # --------------------------------
 MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 
-IMAGE_PIECES_FAIBLE = joinpath(MAINDIR, "Image" , "pieces.ppm")
-IMAGE_PIECES_FORT = joinpath(MAINDIR, "Image" , "pieces2.ppm")
+IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image" , "jaugedouble2.ppm")
 
-IMAGE_JAUGE = joinpath(MAINDIR, "Image" , "jauge.ppm")
+SON_PACE = joinpath(MAINDIR, "Son", ".wav")
 
-SON_FAIBLE = joinpath(MAINDIR, "Son", "Pièces.wav")
-SON_FORT = joinpath(MAINDIR, "Son", "Cash.wav")
 
 DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
@@ -66,38 +63,23 @@ SUMMARY_TIME_SEC = 15
 
 SEPARATEUR = ";"
 
-DELTA_PROGRESSION_FAIBLE = 2
-N_REUSSITE_AVANT_SON_FAIBLE = 5
-DELTA_PROGRESSION_FORT = 4
-N_REUSSITE_AVANT_SON_FORT = 10
+DELTA_PROGRESSION = 2
+# N_REUSSITE_AVANT_SON = 5
 
 
-class Auto(Tk):
+class Hetero(Tk):
     valeurs_sauvees = [
         "distracteur", "cible",
         "cercle choisi",
         "resultat", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom, gain_faible=True):
-        #définitions pour les sous-classes faible ou fort gain
-        if gain_faible:
-            category = "Faible"
-            self.image_pieces = IMAGE_PIECES_FAIBLE
-            self.son = SON_FAIBLE
-            self.delta_progression = DELTA_PROGRESSION_FAIBLE
-            self.n_reussite_avant_son = N_REUSSITE_AVANT_SON_FAIBLE
-        else:
-            category = "Fort"
-            self.image_pieces = IMAGE_PIECES_FORT
-            self.son = SON_FORT
-            self.delta_progression = DELTA_PROGRESSION_FORT
-            self.n_reussite_avant_son = N_REUSSITE_AVANT_SON_FORT
+    def __init__(self, parent, nom):
 
         self.filename = joinpath(
-            DOSSIER_SUJETS, nom, "{}_SpatialeFacile{}".format(nom, category)
+            DOSSIER_SUJETS, nom, "{}_Hetero".format(nom)
         )
-        self.save_text("TACHE SPATIALE FACILE {} GAIN".format(category.upper()))
+        self.save_text("TACHE SPATIALE HETEROGENEREE")
         self.save_csv(SEPARATEUR.join(self.valeurs_sauvees))
 
         self.racine = Tk()
@@ -117,16 +99,12 @@ class Auto(Tk):
             self.racine, bg="white", width=self.w, height=self.h
         )
         self.fond.pack(fill="both")
-        self.fond.create_image(
-            50, 10,
-            image=PhotoImage(file=self.image_pieces),
-            anchor=NW
-        )
-        self.fond.create_image(
-            self.w - 925, (self.h / 1.2),
-            image=PhotoImage(file=IMAGE_JAUGE),
-            anchor=NW
-        )
+
+        self.jauge = PhotoImage(file = IMAGE_JAUGE_AUTOHETERO)
+        self.imagejauge = self.fond.create_image(
+            self.w - 1075, self.h/1.2,
+            image = self.jauge,
+            anchor = NW)
 
         Tk.__init__(self, parent)
 
@@ -176,7 +154,7 @@ class Auto(Tk):
         self.draw_circles()
 
         # On affiche la barre de progression
-        self.progress = self.w - 925
+        self.progress = self.w - 292
         self.progress_bar = None
         self.draw_progression()
 
@@ -260,10 +238,10 @@ class Auto(Tk):
             self.fond.delete(self.racine, self.progress_bar)
 
         self.progress_bar = self.fond.create_rectangle(
+            self.w - 292,
+            self.h / 1.2 + 1,
             self.progress,
-            self.h / 1.2,
-            self.w - 425,
-            self.h / 1.2 + 30,
+            self.h / 1.2 + 95,
             fill="white",
             width="1",
         )
@@ -334,11 +312,11 @@ class Auto(Tk):
         self.RTmax = max(self.RTmax, response_time)
         self.RTmin = min(self.RTmin, response_time)
 
-        self.progress += self.delta_progression
+        self.progress -= DELTA_PROGRESSION
         self.draw_progression()
 
-        if self.counter.n_reussites % self.n_reussite_avant_son == 0:
-            PlaySound(self.son, SND_FILENAME | SND_ASYNC)
+        # if self.counter.n_reussites % self.n_reussite_avant_son == 0:
+        #     PlaySound(self.son, SND_FILENAME | SND_ASYNC)
 
         self.save_line()
         self.start_new_combinaison()
@@ -465,7 +443,7 @@ if __name__ == "__main__":
             "Subject name already exists. Try again with a different name."
         )
 
-    app = SpatialeFacile(None, nom)
+    app = Hetero(None, nom)
     app.title("My application")
     app.destroy()
     app.mainloop()
