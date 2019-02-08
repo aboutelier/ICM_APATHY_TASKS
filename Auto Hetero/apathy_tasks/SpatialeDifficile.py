@@ -4,14 +4,14 @@ Petite explication des changements
 
 En haut du fichier et dans l'ordre tu trouveras
 
-1) des imports de deux nouvelles classes qui vont servir: 
+1) des imports de deux nouvelles classes qui vont servir:
     - Cercle pour définir les positions, la couleur et le numéro des cercles
     - Counter pour la partie comptage des différentes réponses
 
-2) des liens absolus vers des fichiers sur l'appareil qui sont utilisés 
+2) des liens absolus vers des fichiers sur l'appareil qui sont utilisés
 dans le code
 
-3) des variables globales qui vont modifier le comportement général du 
+3) des variables globales qui vont modifier le comportement général du
 programme. Ex: changer TEST_TIME_SEC permet de diminuer le temps d'acquisition
 ce qui est pratique pour tester le code
 
@@ -41,8 +41,8 @@ from winsound import SND_ASYNC
 
 # Nouveaux imports
 # ----------------
-from counter import CounterDifficile
-from circle import Circle
+from .counter import CounterDifficile
+from .circle import Circle
 
 # Chemins locaux vers les fichiers
 # --------------------------------
@@ -133,7 +133,7 @@ class SpatialeDifficile(Tk):
 
         self.jauge = PhotoImage(file = IMAGE_JAUGE)
         self.fond.create_image(self.w-925,(self.h/1.2), image = self.jauge, anchor = NW)
-        
+
         Tk.__init__(self, parent)
 
         self._initialise_counters()
@@ -178,7 +178,7 @@ class SpatialeDifficile(Tk):
         color_index = []
         # Liste des indices des differents cercles
 
-        
+
         circle_index = list(range(0, len(self.circles)))
         for _ in range(5):
             # Valeur aléatoire entre 0 et le nombre de cercles disponibles
@@ -348,7 +348,7 @@ class SpatialeDifficile(Tk):
     def reussite(self):
         self.counter.add_reussite()
         self.combinaisons.append(self.comb)
-        
+
         self.string_info.append("Nouvelle combi")
         #self.string_info.append("{}".format(response_time))
 
@@ -422,7 +422,7 @@ class SpatialeDifficile(Tk):
             self.string_info.append("")
         self.string_info.append("A cote")
         # self.string_info.append("")
-        
+
         # RT à chaque ligne
         #response_time = self.tclic - self.tapp
         #self.string_info.append("{}".format(response_time))
@@ -525,7 +525,7 @@ if __name__ == "__main__":
         sys.exit(
             "Subject name already exists. Try again with a different name."
         )
-    
+
     app = SpatialeDifficile(None, nom, gain_faible=(gain == "faible"))
     app.title("My application")
     app.destroy()
