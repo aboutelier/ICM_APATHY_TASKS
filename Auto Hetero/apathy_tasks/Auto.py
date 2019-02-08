@@ -27,7 +27,6 @@ valeurs qui résument le test.
 """
 from os import mkdir
 from os.path import join as joinpath
-from random import randrange
 from time import perf_counter
 import tkinter
 from tkinter import *
@@ -41,21 +40,24 @@ from winsound import SND_ASYNC
 
 # Nouveaux imports
 # ----------------
-from .counter import CounterFacile
-from .circle import Circle
+from counter import CounterFacile
+from circle import Circle
 
 # Chemins locaux vers les fichiers
 # --------------------------------
-MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
+# MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
+MAINDIR = "/tmp"
 
-IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image" , "jaugedouble2.ppm")
+IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image", "jaugedouble2.ppm")
+
+SON_PACE = joinpath(MAINDIR, "Son", "Metronome.wav")
+SON_PERTE = joinpath(MAINDIR, "Son", "BOUH.wav")
 
 DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
 # Valeurs modifiables
 # -------------------
-TEST_TIME_SEC = 50
-END_TIMER_SEC = 20
+TEST_TIME_SEC = 20
 SUMMARY_TIME_SEC = 15
 
 SEPARATEUR = ";"
@@ -75,6 +77,7 @@ class Auto(Tk):
         self.filename = joinpath(
             DOSSIER_SUJETS, nom, "{}_Auto".format(nom)
         )
+        self.pace = pace
         self.save_text("TACHE SPATIALE AUTOGENEREE")
         self.save_csv(SEPARATEUR.join(self.valeurs_sauvees))
 
@@ -96,24 +99,30 @@ class Auto(Tk):
         )
         self.fond.pack(fill="both")
 
-        self.jauge = PhotoImage(file = IMAGE_JAUGE_AUTOHETERO)
+        self.jauge = PhotoImage(file=IMAGE_JAUGE_AUTOHETERO)
         self.imagejauge = self.fond.create_image(
             self.w - 1075, self.h/1.2,
-            image = self.jauge,
-            anchor = NW)
+            image=self.jauge,
+            anchor=NW)
+
+        # Initialize progress
+        self.progress = self.w - 292
+        self.n_old_reussites = 0
+        self.n_too_slow = 0
 
         Tk.__init__(self, parent)
 
         self._initialise_counters()
         self._initialise_figures()
+        self._initialise_timers()
 
-        self.fond.bind("<Button-1>", self.attente)
+        self.start_new_combinaison()
 
     def _initialise_counters(self):
         """Mise à zéro des compteurs"""
         self.counter = CounterFacile()
 
-        self.timer = END_TIMER_SEC
+        self.timer = TEST_TIME_SEC
 
         self.SRT = 0
         self.RTmax = 0
@@ -145,18 +154,17 @@ class Auto(Tk):
         self.draw_circles()
 
         # On affiche la barre de progression
-        self.progress = self.w - 292
         self.progress_bar = None
         self.draw_progression()
 
         self.chrono = None
 
-    def attente(self, event):
-        "Register some events to be triggered at a later time"
-        self.fond.delete(self.racine, self.start)
+    def _initialise_timers(self):
         self.t0 = perf_counter()
-        self.start_new_combinaison()
-        self.after((TEST_TIME_SEC - END_TIMER_SEC) * 1000, self.start_chrono)
+        self.show_chrono()
+        self.metronome()
+        self.update_progress()
+        self.slow_sound()
         self.after(TEST_TIME_SEC * 1000, self.finalisation)
 
     def save_text(self, text, newline=True, print_=True):
@@ -187,7 +195,6 @@ class Auto(Tk):
             for circle in self.circles
         ]
 
-
     def draw_progression(self):
         if self.progress_bar is not None:
             self.fond.delete(self.racine, self.progress_bar)
@@ -210,14 +217,10 @@ class Auto(Tk):
 
         self.fond.bind("<Button-1>", self.clic)
 
-    #affichage RT et classement dans somme RT combi réussies ou déjà faites
-    def store_response_time(self, dejaf = False):
+    def store_response_time(self, dejafait=False):
         response_time = self.tclic - self.tapp
         self.string_info.append("{}".format(response_time))
-        if dejaf:
-            self.SRTdejafait += response_time
-        else:
-            self.SRT += response_time
+        self.SRT += response_time
 
         return response_time
 
@@ -232,18 +235,17 @@ class Auto(Tk):
         self.tclic = perf_counter()
         # Parcours la liste de cercles jusqu'à trouver le bon
         # Sinon on est tombé à côté.
-
         for idx, circle in enumerate(self.circles):
             isin_x = circle.x_min <= event.x <= circle.x_max
             isin_y = circle.y_min <= event.y <= circle.y_max
             if isin_x and isin_y:
                 self.string_info.append("{}".format(circle))
-                
+
                 circle.toggle_color()
                 self.draw_circles()
                 circle.set_grey()
 
-                self.after(100, self.reussite)
+                self.after(200, self.reussite)
 
                 break
         else:
@@ -267,9 +269,6 @@ class Auto(Tk):
         self.progress -= DELTA_PROGRESSION
         self.draw_progression()
 
-        # if self.counter.n_reussites % self.n_reussite_avant_son == 0:
-        #     PlaySound(self.son, SND_FILENAME | SND_ASYNC)
-
         self.save_line()
         self.start_new_combinaison()
 
@@ -283,10 +282,6 @@ class Auto(Tk):
         self.save_line()
         self.start_new_combinaison()
 
-    def start_chrono(self):
-        self.save_csv("# ***** 30 sec line *****")
-        self.show_chrono()
-
     def show_chrono(self):
         if self.chrono is not None:
             self.fond.delete(self.racine, self.chrono)
@@ -299,18 +294,35 @@ class Auto(Tk):
             fill="black",
         )
 
-        self.one_second = self.after(1000, self.next_second)
-
-    def next_second(self):
         self.timer -= 1
 
-        if self.timer > 0:
-            self.show_chrono()
-        else:
-            self.fond.delete(self.racine, self.chrono)
+        self.chrono_event = self.after(1000, self.show_chrono)
+
+    def metronome(self):
+        PlaySound(SON_PACE, SND_FILENAME | SND_ASYNC)
+        self.metronome_event = self.after(self.pace * 1000, self.metronome)
+
+    def update_progress(self):
+        n_current_reussites = self.counter.n_reussites
+        self.n_old_reussites = ...
+
+        # A COMPLETER + DEFINIR DELAY PROGRESSION
+
+        self.progress_event = self.after(DELAY_PROGRESSION * self.pace * 1000, self.update_progress)
+
+    def slow_sound(self):
+        if self.n_too_slow % N_SLOW_BEFORE_SOUND == 0:
+            ...
+
+        # A COMPLETER
+
+        self.slow_sound_event = self.after(100, self.slow_sound)
 
     def finalisation(self):
-        self.racine.after_cancel(self.one_second)
+        self.after_cancel(self.chrono_event)
+        self.after_cancel(self.metronome_event)
+        self.after_cancel(self.progress_event)
+        self.after_cancel(self.slow_sound_event)
 
         self.fond.destroy()
         self.fond = Canvas(
@@ -330,7 +342,6 @@ class Auto(Tk):
         if self.counter.total == 0:
             taux = 0
             RTmoyreussi = 180
-            RTmoydejafait = 0
             RTmoytot = 180
         else:
             taux = self.counter.n_reussites / self.counter.total * 100
@@ -340,12 +351,10 @@ class Auto(Tk):
                 RTmoyreussi = self.SRT / self.counter.n_reussites
 
             if self.counter.n_distracteur == 0:
-                RTmoydejafait = 0
                 RTmoytot = RTmoyreussi
             else:
-                RTmoydejafait = self.SRTdejafait / self.counter.n_distracteur
-                RTmoytot = (self.SRT + self.SRTdejafait) / (
-                    self.counter.n_distracteur + self.counter.n_reussites
+                RTmoytot = (
+                    self.SRT / (self.counter.n_distracteur + self.counter.n_reussites)
                 )
 
         self.save_text("Bonnes reponses (cercle): %.2f" % self.counter.n_reussites)
@@ -371,7 +380,6 @@ if __name__ == "__main__":
             "Subject name already exists. Try again with a different name."
         )
 
-    app = Auto(None, nom)
-    app.title("My application")
-    app.destroy()
+    app = Auto(None, nom, 1)
+    # app.title("My app")
     app.mainloop()
