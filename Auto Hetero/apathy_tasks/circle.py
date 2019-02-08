@@ -8,14 +8,22 @@ la couleur du cercle.
 """
 import random
 
+COLOR_LIST = ["yellow", "green", "blue", "red"]
+
 
 class Circle(object):
-    def __init__(self, id_, x_min, y_min, size=90):
+    def __init__(self, id_, x_min, y_min, size=90, random_color=False):
         self.id = id_
         self.x_min = x_min
         self.y_min = y_min
         self.x_max = x_min + size
         self.y_max = y_min + size
+
+        if random_color:
+            self._inner_color = random.choice(COLOR_LIST)
+        else:
+            self._inner_color = None
+
         self.set_grey()
 
     @property
@@ -32,8 +40,14 @@ class Circle(object):
         self.color = "grey80"
 
     def set_random_color(self):
-        liste_couleur = ["jaune", "vert", "bleu", "rouge"]
-        self.color = random.choice(liste_couleur)
+        self.color = random.choice(COLOR_LIST)
+
+    def toggle_color(self):
+        if self._inner_color is not None:
+            if self.color == 'grey80':
+                self.color = self._inner_color
+            else:
+                self.set_grey()
 
     def __repr__(self):
         return "Cercle {}".format(self.id)
