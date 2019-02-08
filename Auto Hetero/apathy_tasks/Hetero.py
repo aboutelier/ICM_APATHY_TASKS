@@ -51,7 +51,7 @@ MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image" , "jaugedouble2.ppm")
 
 SON_PACE = joinpath(MAINDIR, "Son", ".wav")
-
+SON_PERTE = joinpath(MAINDIR, "Son", "BOUH.wav")
 
 DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
