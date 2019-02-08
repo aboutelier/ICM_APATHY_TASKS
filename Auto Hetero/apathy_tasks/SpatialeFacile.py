@@ -121,17 +121,11 @@ class SpatialeFacile(Tk):
         self.fond.pack(fill="both")
 
         self.pieces = PhotoImage(file=self.image_pieces)
-        self.fond.create_image(
-            50, 10,
-            image=self.pieces,
-            anchor=NW
-        )
+        self.fond.create_image(50, 10, image=self.pieces, anchor=NW)
+
         self.jauge = PhotoImage(file=IMAGE_JAUGE)
-        self.fond.create_image(
-            self.w - 925, (self.h / 1.2),
-            image=self.jauge,
-            anchor=NW
-        )
+        self.fond.create_image(self.w - 925, (self.h / 1.2), image=self.jauge, anchor=NW)
+        self.progress = self.w - 925
 
         Tk.__init__(self, parent)
 
@@ -181,7 +175,6 @@ class SpatialeFacile(Tk):
         self.draw_circles()
 
         # On affiche la barre de progression
-        self.progress = self.w - 925
         self.progress_bar = None
         self.draw_progression()
 
@@ -197,7 +190,7 @@ class SpatialeFacile(Tk):
         )
         self.consigne = self.fond.create_text(
             self.w / 1.3,
-            (self.h / 1.6) - 300,
+            self.h / 1.6 - 300,
             text="Touchez le cercle bleu",
             font="Arial 20",
             justify="center",
@@ -260,6 +253,10 @@ class SpatialeFacile(Tk):
 
         self.draw_circles()
 
+    def update_progression(self):
+        self.progress += self.delta_progression
+        self.draw_progression()
+
     def draw_progression(self):
         if self.progress_bar is not None:
             self.fond.delete(self.racine, self.progress_bar)
@@ -298,7 +295,6 @@ class SpatialeFacile(Tk):
     def save_line(self):
         # Add elapsed time
         self.string_info.append("{}".format(self.tclic - self.t0))
-
         # Join into a string and save as a new line in CSV file
         self.save_csv(SEPARATEUR.join(self.string_info))
 
@@ -313,11 +309,11 @@ class SpatialeFacile(Tk):
                 self.string_info.append("{}".format(circle))
 
                 if circle.color == "blue":
-                    self.after(100, self.reussite)
+                    self.reussite()
                 elif circle.color == "red":
-                    self.after(100, self.distrait)
+                    self.distrait()
                 else:
-                    self.after(100, self.cercle_gris)
+                    self.cercle_gris()
 
                 break
         else:
@@ -326,56 +322,39 @@ class SpatialeFacile(Tk):
             self.string_info.append(
                 "Coords({},{})".format(coordclicx, coordclicy)
             )
-            self.after(100, self.acote)
+            self.acote()
+
+        self.save_line()
+        self.start_new_combinaison()
 
     def reussite(self):
-        self.counter.add_reussite()
-
         self.string_info.append("Cible")
+        self.counter.add_reussite()
 
         response_time = self.store_response_time()
         print("RT (sec) = {}\n".format(response_time))
         self.RTmax = max(self.RTmax, response_time)
         self.RTmin = min(self.RTmin, response_time)
 
-        self.progress += self.delta_progression
-        self.draw_progression()
+        self.update_progression()
 
         if self.counter.n_reussites % self.n_reussite_avant_son == 0:
             PlaySound(self.son, SND_FILENAME | SND_ASYNC)
 
-        self.save_line()
-        self.start_new_combinaison()
-
     def distrait(self):
-        self.counter.add_distracteur()
-
         self.string_info.append("Distracteur")
-
+        self.counter.add_distracteur()
         self.store_response_time()
-
-        self.save_line()
-        self.start_new_combinaison()
 
     def cercle_gris(self):
-        self.counter.add_error_gris()
-
         self.string_info.append("Cercle gris")
-
+        self.counter.add_error_gris()
         self.store_response_time()
-
-        self.save_line()
-        self.start_new_combinaison()
 
     def acote(self):
-        self.counter.add_a_cote()
-
         self.string_info.append("A cote")
-
+        self.counter.add_a_cote()
         self.store_response_time()
-
-        self.save_line()
-        self.start_new_combinaison()
 
     def start_chrono(self):
         self.save_csv("# ***** 30 sec line *****")
@@ -393,18 +372,12 @@ class SpatialeFacile(Tk):
             fill="black",
         )
 
-        self.one_second = self.after(1000, self.next_second)
-
-    def next_second(self):
         self.timer -= 1
 
-        if self.timer > 0:
-            self.show_chrono()
-        else:
-            self.fond.delete(self.racine, self.chrono)
+        self.chrono_event = self.after(1000, self.show_chrono)
 
     def finalisation(self):
-        self.racine.after_cancel(self.one_second)
+        self.after_cancel(self.chrono_event)
 
         self.fond.destroy()
         self.fond = Canvas(
