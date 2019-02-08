@@ -6,6 +6,7 @@ Deux méthodes ont été rajoutées pour changer facilement
 la couleur du cercle.
 
 """
+import random
 
 
 class Circle(object):
