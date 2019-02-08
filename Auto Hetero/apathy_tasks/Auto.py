@@ -50,9 +50,6 @@ MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 
 IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image" , "jaugedouble2.ppm")
 
-SON_PACE = joinpath(MAINDIR, "Son", ".wav")
-
-
 DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
 # Valeurs modifiables
@@ -67,19 +64,18 @@ DELTA_PROGRESSION = 2
 # N_REUSSITE_AVANT_SON = 5
 
 
-class Hetero(Tk):
+class Auto(Tk):
     valeurs_sauvees = [
-        "distracteur", "cible",
         "cercle choisi",
-        "resultat", "temps de reponse", "temps ecoule"
+        "coord (x, y)", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom):
+    def __init__(self, parent, nom, pace):
 
         self.filename = joinpath(
-            DOSSIER_SUJETS, nom, "{}_Hetero".format(nom)
+            DOSSIER_SUJETS, nom, "{}_Auto".format(nom)
         )
-        self.save_text("TACHE SPATIALE HETEROGENEREE")
+        self.save_text("TACHE SPATIALE AUTOGENEREE")
         self.save_csv(SEPARATEUR.join(self.valeurs_sauvees))
 
         self.racine = Tk()
@@ -120,7 +116,6 @@ class Hetero(Tk):
         self.timer = END_TIMER_SEC
 
         self.SRT = 0
-        self.SRTdejafait = 0
         self.RTmax = 0
         self.RTmin = 360
 
@@ -145,10 +140,6 @@ class Hetero(Tk):
             Circle(14, self.x_mid + 315, self.y_mid + 135, random_color=True),
         ]
 
-        # on initialise les indices distracteur et cible
-        self.distracteur_idx = 0
-        self.cible_idx = 1
-
         # On trace les cercles avec les bonnes couleurs
         self.ellipses = None
         self.draw_circles()
@@ -159,29 +150,6 @@ class Hetero(Tk):
         self.draw_progression()
 
         self.chrono = None
-
-        # On affiche les consignes
-        self.start = self.fond.create_text(
-            self.x_mid,
-            self.y_mid,
-            text="Touchez l'ecran pour démarrer",
-            font="Arial 60 bold",
-            fill="green",
-        )
-        self.consigne = self.fond.create_text(
-            self.w / 1.3,
-            (self.h / 1.6) - 300,
-            text="Touchez le cercle bleu",
-            font="Arial 20",
-            justify="center",
-        )
-
-    def randomize_index(self):
-        """Choix des indices aléatoires pour distracteur et cible"""
-        circle_index = list(range(0, len(self.circles)))
-        for _ in range(2):
-            self.distracteur_idx = circle_index.pop(randrange(0, len(circle_index)))
-            self.cible_idx = circle_index.pop(randrange(0, len(circle_index)))
 
     def attente(self, event):
         "Register some events to be triggered at a later time"
@@ -219,19 +187,6 @@ class Hetero(Tk):
             for circle in self.circles
         ]
 
-    def update_and_draw_circles(self):
-        #on recolore les anciens cible et distracteur en gris#
-        self.circles[self.distracteur_idx].set_grey()
-        self.circles[self.cible_idx].set_grey()
-
-        self.randomize_index()
-        # Le premier est rouge (distracteur)
-        self.circles[self.distracteur_idx].set_red()
-        # Le deuxieme est bleu (cible)
-        self.circles[self.cible_idx].set_blue()
-
-        self.draw_circles()
-
 
     def draw_progression(self):
         if self.progress_bar is not None:
@@ -249,10 +204,7 @@ class Hetero(Tk):
     def start_new_combinaison(self):
         self.string_info = []
 
-        self.update_and_draw_circles()
-
-        self.string_info.append("Circle {}".format(self.distracteur_idx))
-        self.string_info.append("Circle {}".format(self.cible_idx))
+        self.draw_circles()
 
         self.tapp = perf_counter()
 
@@ -280,18 +232,18 @@ class Hetero(Tk):
         self.tclic = perf_counter()
         # Parcours la liste de cercles jusqu'à trouver le bon
         # Sinon on est tombé à côté.
+
         for idx, circle in enumerate(self.circles):
             isin_x = circle.x_min <= event.x <= circle.x_max
             isin_y = circle.y_min <= event.y <= circle.y_max
             if isin_x and isin_y:
                 self.string_info.append("{}".format(circle))
+                
+                circle.toggle_color()
+                self.draw_circles()
+                circle.set_grey()
 
-                if circle.color == "blue":
-                    self.after(100, self.reussite)
-                elif circle.color == "red":
-                    self.after(100, self.distrait)
-                else:
-                    self.after(100, self.cercle_gris)
+                self.after(100, self.reussite)
 
                 break
         else:
@@ -317,26 +269,6 @@ class Hetero(Tk):
 
         # if self.counter.n_reussites % self.n_reussite_avant_son == 0:
         #     PlaySound(self.son, SND_FILENAME | SND_ASYNC)
-
-        self.save_line()
-        self.start_new_combinaison()
-
-    def distrait(self):
-        self.counter.add_distracteur()
-
-        self.string_info.append("Distracteur")
-
-        self.store_response_time()
-
-        self.save_line()
-        self.start_new_combinaison()
-
-    def cercle_gris(self):
-        self.counter.add_error_gris()
-
-        self.string_info.append("Cercle gris")
-
-        self.store_response_time()
 
         self.save_line()
         self.start_new_combinaison()
@@ -416,15 +348,11 @@ class Hetero(Tk):
                     self.counter.n_distracteur + self.counter.n_reussites
                 )
 
-        self.save_text("Bonnes reponses: %.2f" % self.counter.n_reussites)
-        self.save_text("Erreurs couleur: %.2f" % self.counter.n_erreurs)
-        self.save_text("Erreurs repetition: %.2f" % self.counter.n_distracteur)
+        self.save_text("Bonnes reponses (cercle): %.2f" % self.counter.n_reussites)
         self.save_text("Erreurs à côte: %.2f" % self.counter.n_a_cote)
-        self.save_text("Erreurs totales: {}".format(self.counter.n_erreur_tot))
         self.save_text("Nombre de reponses: {}".format(self.counter.total))
         self.save_text("Taux de reussite: %.2f" % taux)
         self.save_text("RTmoy reussi (sec): %.3f" % RTmoyreussi)
-        self.save_text("RTmoy deja fait (sec): %.3f" % RTmoydejafait)
         self.save_text("RTmoy tot (sec): %.3f" % RTmoytot)
         self.save_text("RTmax (sec): %.3f" % self.RTmax)
         self.save_text("RTmin (sec): %.3f" % self.RTmin)
@@ -443,7 +371,7 @@ if __name__ == "__main__":
             "Subject name already exists. Try again with a different name."
         )
 
-    app = Hetero(None, nom)
+    app = Auto(None, nom)
     app.title("My application")
     app.destroy()
     app.mainloop()
