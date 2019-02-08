@@ -15,7 +15,7 @@ class Circle(object):
         self.y_min = y_min
         self.x_max = x_min + size
         self.y_max = y_min + size
-        self.color = "grey80"
+        self.set_grey()
 
     @property
     def coords(self):
@@ -26,6 +26,13 @@ class Circle(object):
 
     def set_blue(self):
         self.color = "blue"
+
+    def set_grey(self):
+        self.color = "grey80"
+
+    def set_random_color(self):
+        liste_couleur = ["jaune", "vert", "bleu", "rouge"]
+        self.color = random.choice(liste_couleur)
 
     def __repr__(self):
         return "Cercle {}".format(self.id)
