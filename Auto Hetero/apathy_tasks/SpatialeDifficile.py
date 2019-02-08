@@ -48,10 +48,10 @@ from .circle import Circle
 # --------------------------------
 MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 
-IMAGE_PIECES_FAIBLE = joinpath(MAINDIR, "Image" , "pieces.ppm")
-IMAGE_PIECES_FORT = joinpath(MAINDIR, "Image" , "pieces2.ppm")
+IMAGE_PIECES_FAIBLE = joinpath(MAINDIR, "Image", "pieces.ppm")
+IMAGE_PIECES_FORT = joinpath(MAINDIR, "Image", "pieces2.ppm")
 
-IMAGE_JAUGE = joinpath(MAINDIR, "Image" , "jauge.ppm")
+IMAGE_JAUGE = joinpath(MAINDIR, "Image", "jauge.ppm")
 
 SON_FAIBLE = joinpath(MAINDIR, "Son", "Pièces.wav")
 SON_FORT = joinpath(MAINDIR, "Son", "Cash.wav")
@@ -79,8 +79,8 @@ class SpatialeDifficile(Tk):
         "resultat", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom, gain_faible=True):
-        #définition sous classe faible ou fort gain
+    def __init__(self, parent, nom, subject_dir, gain_faible=True):
+        # définition sous classe faible ou fort gain
         if gain_faible:
             category = "Faible"
             self.image_pieces = IMAGE_PIECES_FAIBLE
@@ -95,7 +95,7 @@ class SpatialeDifficile(Tk):
             self.n_reussite_avant_son = N_REUSSITE_AVANT_SON_FORT
 
         self.filename = joinpath(
-            DOSSIER_SUJETS, nom, "{}_SpatialeDifficile{}".format(nom, category)
+            subject_dir, nom, "{}_SpatialeDifficile{}".format(nom, category)
         )
         self.save_text("TACHE SPATIALE DIFFICILE {} GAIN".format(category.upper()))
         self.save_csv(SEPARATEUR.join(self.valeurs_sauvees))
@@ -128,11 +128,11 @@ class SpatialeDifficile(Tk):
         #     anchor=NW
         # )
 
-        self.pieces = PhotoImage(file = self.image_pieces)
-        self.fond.create_image(50, 10, image = self.pieces, anchor = NW)
+        self.pieces = PhotoImage(file=self.image_pieces)
+        self.fond.create_image(50, 10, image=self.pieces, anchor=NW)
 
-        self.jauge = PhotoImage(file = IMAGE_JAUGE)
-        self.fond.create_image(self.w-925,(self.h/1.2), image = self.jauge, anchor = NW)
+        self.jauge = PhotoImage(file=IMAGE_JAUGE)
+        self.fond.create_image(self.w - 925, self.h / 1.2, image=self.jauge, anchor=NW)
 
         Tk.__init__(self, parent)
 
@@ -177,8 +177,6 @@ class SpatialeDifficile(Tk):
         # On pioche 5 cercles aléatoirement pour changer leur couleur
         color_index = []
         # Liste des indices des differents cercles
-
-
         circle_index = list(range(0, len(self.circles)))
         for _ in range(5):
             # Valeur aléatoire entre 0 et le nombre de cercles disponibles
@@ -283,11 +281,10 @@ class SpatialeDifficile(Tk):
         self.tapp = perf_counter()
         self.fond.bind("<ButtonPress-1>", self.clic)
 
-    #affichage RT et classement dans somme RT combi réussies ou déjà faites
-    def store_response_time(self, dejaf = False):
+    def store_response_time(self, dejafait=False):
         response_time = self.tclic - self.tapp
         self.string_info.append("{}".format(response_time))
-        if dejaf:
+        if dejafait:
             self.SRTdejafait += response_time
         else:
             self.SRT += response_time
@@ -350,7 +347,6 @@ class SpatialeDifficile(Tk):
         self.combinaisons.append(self.comb)
 
         self.string_info.append("Nouvelle combi")
-        #self.string_info.append("{}".format(response_time))
 
         response_time = self.store_response_time()
         print("RT (sec) = {}\n".format(response_time))
@@ -373,10 +369,6 @@ class SpatialeDifficile(Tk):
         for _ in range(3 - self.numclic):
             self.string_info.append("")
         self.string_info.append("Distracteur {}".format(couleur))
-        # RT à chaque ligne
-        #response_time = self.tclic - self.tapp
-        #self.string_info.append("{}".format(response_time))
-        # self.string_info.append("")
 
         self.store_response_time()
 
@@ -404,11 +396,6 @@ class SpatialeDifficile(Tk):
         self.SRTdejafait += RTdejafait
 
         self.string_info.append("Combi déjà faite")
-        # self.string_info.append("{}".format(RTdejafait))
-
-        # RT à chaque ligne
-        #response_time = self.tclic - self.tapp
-        #self.string_info.append("{}".format(response_time))
 
         self.store_response_time()
 
@@ -421,11 +408,6 @@ class SpatialeDifficile(Tk):
         for _ in range(3 - self.numclic):
             self.string_info.append("")
         self.string_info.append("A cote")
-        # self.string_info.append("")
-
-        # RT à chaque ligne
-        #response_time = self.tclic - self.tapp
-        #self.string_info.append("{}".format(response_time))
 
         self.store_response_time()
 
