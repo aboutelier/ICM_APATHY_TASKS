@@ -18,7 +18,12 @@ class CounterDifficile(object):
 
     @property
     def n_erreur_tot(self):
-        return self.n_distracteur + self.n_meme_combi + self.n_meme_cercle + self.n_a_cote
+        return (
+            self.n_distracteur
+            + self.n_meme_combi
+            + self.n_meme_cercle
+            + self.n_a_cote
+        )
 
     @property
     def total(self):
