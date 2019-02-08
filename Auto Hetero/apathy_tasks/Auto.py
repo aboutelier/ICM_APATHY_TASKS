@@ -128,21 +128,21 @@ class Hetero(Tk):
         """Initialisation de la partie dynamique de l'affichage"""
         # On crée tous les cercles
         self.circles = [
-            Circle(0, self.x_mid - 45, self.y_mid - 225),
-            Circle(1, self.x_mid - 45, self.y_mid - 45),
-            Circle(2, self.x_mid - 45, self.y_mid + 135),
-            Circle(3, self.x_mid - 135, self.y_mid - 135),
-            Circle(4, self.x_mid + 45, self.y_mid - 135),
-            Circle(5, self.x_mid - 225, self.y_mid - 45),
-            Circle(6, self.x_mid + 135, self.y_mid - 45),
-            Circle(7, self.x_mid - 135, self.y_mid + 45),
-            Circle(8, self.x_mid + 45, self.y_mid + 45),
-            Circle(9, self.x_mid - 225, self.y_mid + 135),
-            Circle(10, self.x_mid + 135, self.y_mid + 135),
-            Circle(11, self.x_mid - 315, self.y_mid + 45),
-            Circle(12, self.x_mid + 225, self.y_mid + 45),
-            Circle(13, self.x_mid - 405, self.y_mid + 135),
-            Circle(14, self.x_mid + 315, self.y_mid + 135),
+            Circle(0, self.x_mid - 45, self.y_mid - 225, random_color=True),
+            Circle(1, self.x_mid - 45, self.y_mid - 45, random_color=True),
+            Circle(2, self.x_mid - 45, self.y_mid + 135, random_color=True),
+            Circle(3, self.x_mid - 135, self.y_mid - 135, random_color=True),
+            Circle(4, self.x_mid + 45, self.y_mid - 135, random_color=True),
+            Circle(5, self.x_mid - 225, self.y_mid - 45, random_color=True),
+            Circle(6, self.x_mid + 135, self.y_mid - 45, random_color=True),
+            Circle(7, self.x_mid - 135, self.y_mid + 45, random_color=True),
+            Circle(8, self.x_mid + 45, self.y_mid + 45, random_color=True),
+            Circle(9, self.x_mid - 225, self.y_mid + 135, random_color=True),
+            Circle(10, self.x_mid + 135, self.y_mid + 135, random_color=True),
+            Circle(11, self.x_mid - 315, self.y_mid + 45, random_color=True),
+            Circle(12, self.x_mid + 225, self.y_mid + 45, random_color=True),
+            Circle(13, self.x_mid - 405, self.y_mid + 135, random_color=True),
+            Circle(14, self.x_mid + 315, self.y_mid + 135, random_color=True),
         ]
 
         # on initialise les indices distracteur et cible
