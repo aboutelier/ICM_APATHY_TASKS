@@ -48,10 +48,10 @@ from .circle import Circle
 # --------------------------------
 MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 
-IMAGE_PIECES_FAIBLE = joinpath(MAINDIR, "Image" , "pieces.ppm")
-IMAGE_PIECES_FORT = joinpath(MAINDIR, "Image" , "pieces2.ppm")
+IMAGE_PIECES_FAIBLE = joinpath(MAINDIR, "Image", "pieces.ppm")
+IMAGE_PIECES_FORT = joinpath(MAINDIR, "Image", "pieces2.ppm")
 
-IMAGE_JAUGE = joinpath(MAINDIR, "Image" , "jauge.ppm")
+IMAGE_JAUGE = joinpath(MAINDIR, "Image", "jauge.ppm")
 
 SON_FAIBLE = joinpath(MAINDIR, "Son", "Pièces.wav")
 SON_FORT = joinpath(MAINDIR, "Son", "Cash.wav")
@@ -62,6 +62,8 @@ DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 # -------------------
 TEST_TIME_SEC = 30
 END_TIMER_SEC = 20
+# TEST_TIME_SEC = 120
+# END_TIMER_SEC = 30
 SUMMARY_TIME_SEC = 15
 
 SEPARATEUR = ";"
@@ -79,8 +81,8 @@ class SpatialeFacile(Tk):
         "resultat", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom, gain_faible=True):
-        #définitions pour les sous-classes faible ou fort gain
+    def __init__(self, parent, nom, subject_dir, gain_faible=True):
+        # définitions pour les sous-classes faible ou fort gain
         if gain_faible:
             category = "Faible"
             self.image_pieces = IMAGE_PIECES_FAIBLE
@@ -95,7 +97,7 @@ class SpatialeFacile(Tk):
             self.n_reussite_avant_son = N_REUSSITE_AVANT_SON_FORT
 
         self.filename = joinpath(
-            DOSSIER_SUJETS, nom, "{}_SpatialeFacile{}".format(nom, category)
+            subject_dir, nom, "{}_SpatialeFacile{}".format(nom, category)
         )
         self.save_text("TACHE SPATIALE FACILE {} GAIN".format(category.upper()))
         self.save_csv(SEPARATEUR.join(self.valeurs_sauvees))
@@ -118,16 +120,16 @@ class SpatialeFacile(Tk):
         )
         self.fond.pack(fill="both")
 
-        self.pieces = PhotoImage(file = self.image_pieces)
+        self.pieces = PhotoImage(file=self.image_pieces)
         self.fond.create_image(
             50, 10,
-            image = self.pieces,
+            image=self.pieces,
             anchor=NW
         )
-        self.jauge = PhotoImage(file = IMAGE_JAUGE)
+        self.jauge = PhotoImage(file=IMAGE_JAUGE)
         self.fond.create_image(
             self.w - 925, (self.h / 1.2),
-            image = self.jauge,
+            image=self.jauge,
             anchor=NW
         )
 
@@ -245,18 +247,18 @@ class SpatialeFacile(Tk):
         ]
 
     def update_and_draw_circles(self):
-        #on recolore les anciens cible et distracteur en gris#
+        # on recolore les anciens cible et distracteur en gris
         self.circles[self.distracteur_idx].set_grey()
         self.circles[self.cible_idx].set_grey()
 
         self.randomize_index()
+
         # Le premier est rouge (distracteur)
         self.circles[self.distracteur_idx].set_red()
         # Le deuxieme est bleu (cible)
         self.circles[self.cible_idx].set_blue()
 
         self.draw_circles()
-
 
     def draw_progression(self):
         if self.progress_bar is not None:
@@ -283,11 +285,10 @@ class SpatialeFacile(Tk):
 
         self.fond.bind("<Button-1>", self.clic)
 
-    #affichage RT et classement dans somme RT combi réussies ou déjà faites
-    def store_response_time(self, dejaf = False):
+    def store_response_time(self, dejafait=False):
         response_time = self.tclic - self.tapp
         self.string_info.append("{}".format(response_time))
-        if dejaf:
+        if dejafait:
             self.SRTdejafait += response_time
         else:
             self.SRT += response_time
@@ -469,7 +470,8 @@ if __name__ == "__main__":
             "Subject name already exists. Try again with a different name."
         )
 
-    app = SpatialeFacile(None, nom, gain_faible=(gain == "faible"))
+    app = SpatialeFacile(None, nom, DOSSIER_SUJETS,
+                         gain_faible=(gain == "faible"))
     app.title("My application")
     app.destroy()
     app.mainloop()
