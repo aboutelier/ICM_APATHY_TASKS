@@ -44,7 +44,7 @@ def main(name, maindir):
         f.write("\n".join(TASK_ORDER))
 
     for task in FIRST_TASK_LIST:
-        app = task(None, name, maindir)
+        app = task(None, name, SUBJECT_FOLDER)
         app.title("my application")
         app.destroy()
         app.mainloop()
@@ -52,7 +52,7 @@ def main(name, maindir):
     pace = 0
 
     for task in SECOND_TASK_LIST:
-        app = task(None, name, maindir, pace)
+        app = task(None, name, SUBJECT_FOLDER, pace)
         app.title("my application")
         app.destroy()
         app.mainloop()
