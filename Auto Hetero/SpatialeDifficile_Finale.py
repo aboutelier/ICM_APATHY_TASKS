@@ -177,7 +177,6 @@ class SpatialeDifficile(Tk):
         # On pioche 5 cercles aléatoirement pour changer leur couleur
         color_index = []
         # Liste des indices des differents cercles
-
         
         circle_index = list(range(0, len(self.circles)))
         for _ in range(5):
@@ -197,7 +196,7 @@ class SpatialeDifficile(Tk):
         for idx in color_index[2:]:
             self.circles[idx].set_blue()
 
-        # On trace les cercles avec les bonnes couleurs
+# On trace les cercles avec les bonnes couleurs
         self.ellipses = None
         self.draw_circles()
 

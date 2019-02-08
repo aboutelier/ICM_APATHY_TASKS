@@ -45,8 +45,7 @@ from circle import Circle
 
 # Chemins locaux vers les fichiers
 # --------------------------------
-# MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
-MAINDIR = "/tmp"
+MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 
 IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image", "jaugedouble2.ppm")
 
@@ -62,8 +61,10 @@ SUMMARY_TIME_SEC = 15
 
 SEPARATEUR = ";"
 
-DELTA_PROGRESSION = 2
-# N_REUSSITE_AVANT_SON = 5
+# pondération de la vitesse de perte : n pace avant perte visuelle
+DELAY_PROGRESSION = 3
+# nombre de delay progression avant son de perte
+N_SLOW_BEFORE_SOUND = 3
 
 
 class Auto(Tk):
@@ -157,6 +158,8 @@ class Auto(Tk):
         self.progress_bar = None
         self.draw_progression()
 
+        self.delta_progression = self.pace * 783 / TEST_TIME_SEC
+
         self.chrono = None
 
     def _initialise_timers(self):
@@ -164,7 +167,6 @@ class Auto(Tk):
         self.show_chrono()
         self.metronome()
         self.update_progress()
-        self.slow_sound()
         self.after(TEST_TIME_SEC * 1000, self.finalisation)
 
     def save_text(self, text, newline=True, print_=True):
@@ -266,9 +268,6 @@ class Auto(Tk):
         self.RTmax = max(self.RTmax, response_time)
         self.RTmin = min(self.RTmin, response_time)
 
-        self.progress -= DELTA_PROGRESSION
-        self.draw_progression()
-
         self.save_line()
         self.start_new_combinaison()
 
@@ -299,30 +298,29 @@ class Auto(Tk):
         self.chrono_event = self.after(1000, self.show_chrono)
 
     def metronome(self):
-        PlaySound(SON_PACE, SND_FILENAME | SND_ASYNC)
+        # PlaySound(SON_PACE, SND_FILENAME | SND_ASYNC)
         self.metronome_event = self.after(self.pace * 1000, self.metronome)
 
     def update_progress(self):
         n_current_reussites = self.counter.n_reussites
-        self.n_old_reussites = ...
 
-        # A COMPLETER + DEFINIR DELAY PROGRESSION
+        if n_current_reussites - self.n_old_reussites <= DELAY_PROGRESSION:
+            self.progress -= self.delta_progression
+            self.draw_progression()
+
+            self.n_too_slow += 1
+            
+        if self.n_too_slow % N_SLOW_BEFORE_SOUND == 0:
+            PlaySound(SON_PERTE, SND_FILENAME | SND_ASYNC)
+
+        self.n_old_reussites = n_current_reussites
 
         self.progress_event = self.after(DELAY_PROGRESSION * self.pace * 1000, self.update_progress)
-
-    def slow_sound(self):
-        if self.n_too_slow % N_SLOW_BEFORE_SOUND == 0:
-            ...
-
-        # A COMPLETER
-
-        self.slow_sound_event = self.after(100, self.slow_sound)
 
     def finalisation(self):
         self.after_cancel(self.chrono_event)
         self.after_cancel(self.metronome_event)
         self.after_cancel(self.progress_event)
-        self.after_cancel(self.slow_sound_event)
 
         self.fond.destroy()
         self.fond = Canvas(

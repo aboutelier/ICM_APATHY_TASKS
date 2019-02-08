@@ -41,8 +41,8 @@ from winsound import SND_ASYNC
 
 # Nouveaux imports
 # ----------------
-from .counter import CounterFacile
-from .circle import Circle
+from counter import CounterFacile
+from circle import Circle
 
 # Chemins locaux vers les fichiers
 # --------------------------------

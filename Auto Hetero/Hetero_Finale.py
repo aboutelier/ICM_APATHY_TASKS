@@ -50,8 +50,8 @@ MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 
 IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image" , "jaugedouble2.ppm")
 
-SON_PACE = joinpath(MAINDIR, "Son", ".wav")
-
+SON_PACE = joinpath(MAINDIR, "Son", "Metronome.wav")
+SON_PERTE = joinpath(MAINDIR, "Son", "BOUH.wav")
 
 DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
@@ -64,18 +64,19 @@ SUMMARY_TIME_SEC = 15
 SEPARATEUR = ";"
 
 DELTA_PROGRESSION = 2
-# N_REUSSITE_AVANT_SON = 5
+N_ECHEC_AVANT_SON = 5
 
 
 class Hetero(Tk):
     valeurs_sauvees = [
-        "distracteur", "cible",
+        "cible",
         "cercle choisi",
         "resultat", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom):
+    def __init__(self, parent, nom, pace):
 
+        self.pace = pace
         self.filename = joinpath(
             DOSSIER_SUJETS, nom, "{}_Hetero".format(nom)
         )
@@ -145,9 +146,8 @@ class Hetero(Tk):
             Circle(14, self.x_mid + 315, self.y_mid + 135),
         ]
         
-        # on initialise les indices distracteur et cible
-        self.distracteur_idx = 0
-        self.cible_idx = 1
+        # on initialise l'indice de la cible
+        self.cible_idx = 0
 
         # On trace les cercles avec les bonnes couleurs
         self.ellipses = None
@@ -171,17 +171,12 @@ class Hetero(Tk):
         self.consigne = self.fond.create_text(
             self.w / 1.3,
             (self.h / 1.6) - 300,
-            text="Touchez le cercle bleu",
+            text="Touchez le cercle coloré",
             font="Arial 20",
             justify="center",
         )
 
-    def randomize_index(self):
-        """Choix des indices aléatoires pour distracteur et cible"""
-        circle_index = list(range(0, len(self.circles)))
-        for _ in range(2):
-            self.distracteur_idx = circle_index.pop(randrange(0, len(circle_index)))
-            self.cible_idx = circle_index.pop(randrange(0, len(circle_index)))
+        
 
     def attente(self, event):
         "Register some events to be triggered at a later time"
@@ -190,6 +185,16 @@ class Hetero(Tk):
         self.start_new_combinaison()
         self.after((TEST_TIME_SEC - END_TIMER_SEC) * 1000, self.start_chrono)
         self.after(TEST_TIME_SEC * 1000, self.finalisation)
+        self.metronome()
+
+    def metronome(self):
+        self.son_pace = winsound.PlaySound(SON_PACE, winsound.SND_FILENAME | SND_ASYNC))
+        self.racine.after(pace, self.son_pace)
+
+    def perte(self):
+        
+
+
 
     def save_text(self, text, newline=True, print_=True):
         # print in the console
@@ -220,15 +225,12 @@ class Hetero(Tk):
         ]
 
     def update_and_draw_circles(self):
-        #on recolore les anciens cible et distracteur en gris#
-        self.circles[self.distracteur_idx].set_grey()
+        #on recolore l' ancienne cible en gris
         self.circles[self.cible_idx].set_grey()
-
-        self.randomize_index()
-        # Le premier est rouge (distracteur)
-        self.circles[self.distracteur_idx].set_red()
-        # Le deuxieme est bleu (cible)
-        self.circles[self.cible_idx].set_blue()
+        # on tire l'index de la cible de façon aléatoire
+        self.cible_idx = randrange(0, len(self.circles))
+        # La cible est d'une couleur aléatoire
+        self.circles[self.cible_idx].set_random_color()
 
         self.draw_circles()    
     
@@ -251,7 +253,6 @@ class Hetero(Tk):
 
         self.update_and_draw_circles()
 
-        self.string_info.append("Circle {}".format(self.distracteur_idx))
         self.string_info.append("Circle {}".format(self.cible_idx))
 
         self.tapp = perf_counter()
@@ -286,12 +287,10 @@ class Hetero(Tk):
             if isin_x and isin_y:
                 self.string_info.append("{}".format(circle))
 
-                if circle.color == "blue":
-                    self.after(100, self.reussite)
-                elif circle.color == "red":
-                    self.after(100, self.distrait)
-                else:
+                if circle.color == "grey80":
                     self.after(100, self.cercle_gris)
+                else:
+                    self.after(100, self.reussite)
 
                 break
         else:
@@ -317,16 +316,6 @@ class Hetero(Tk):
 
         # if self.counter.n_reussites % self.n_reussite_avant_son == 0:
         #     PlaySound(self.son, SND_FILENAME | SND_ASYNC)
-
-        self.save_line()
-        self.start_new_combinaison()
-
-    def distrait(self):
-        self.counter.add_distracteur()
-
-        self.string_info.append("Distracteur")
-        
-        self.store_response_time()
 
         self.save_line()
         self.start_new_combinaison()

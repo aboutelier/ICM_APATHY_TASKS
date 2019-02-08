@@ -41,8 +41,8 @@ from winsound import SND_ASYNC
 
 # Nouveaux imports
 # ----------------
-from .counter import CounterDifficile
-from .circle import Circle
+from counter import CounterDifficile
+from circle import Circle
 
 # Chemins locaux vers les fichiers
 # --------------------------------
@@ -173,7 +173,7 @@ class SpatialeDifficile(Tk):
             Circle(13, self.x_mid - 405, self.y_mid + 135),
             Circle(14, self.x_mid + 315, self.y_mid + 135),
         ]
-
+        
         # On pioche 5 cercles aléatoirement pour changer leur couleur
         color_index = []
         # Liste des indices des differents cercles
@@ -195,7 +195,7 @@ class SpatialeDifficile(Tk):
         for idx in color_index[2:]:
             self.circles[idx].set_blue()
 
-        # On trace les cercles avec les bonnes couleurs
+                # On trace les cercles avec les bonnes couleurs
         self.ellipses = None
         self.draw_circles()
 
