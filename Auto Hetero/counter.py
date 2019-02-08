@@ -23,16 +23,16 @@ class CounterDifficile(object):
     @property
     def total(self):
         return self.n_erreur_tot + self.n_reussites
-    
+
     def add_distracteur(self):
         self.n_distracteur += 1
-    
+
     def add_reussite(self):
         self.n_reussites += 1
-    
+
     def add_a_cote(self):
         self.n_a_cote += 1
-    
+
     def add_meme_cercle(self):
         self.n_meme_cercle += 1
 
@@ -54,16 +54,15 @@ class CounterFacile(object):
     @property
     def total(self):
         return self.n_erreur_tot + self.n_reussites
-    
+
     def add_error_gris(self):
         self.n_erreur_gris += 1
 
     def add_distracteur(self):
         self.n_distracteur += 1
-    
+
     def add_reussite(self):
         self.n_reussites += 1
-    
+
     def add_a_cote(self):
         self.n_a_cote += 1
-
