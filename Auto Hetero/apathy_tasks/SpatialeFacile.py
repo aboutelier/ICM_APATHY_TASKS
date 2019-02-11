@@ -99,6 +99,9 @@ class SpatialeFacile(Tk):
         self.filename = joinpath(
             subject_dir, nom, "{}_SpatialeFacile{}".format(nom, category)
         )
+        self.pace_filename = joinpath(
+            subject_dir, nom, "{}_pace_{}".format(nom, category.lower())
+        )
         self.save_text("TACHE SPATIALE FACILE {} GAIN".format(category.upper()))
         self.save_csv(SEPARATEUR.join(self.valeurs_sauvees))
 
@@ -414,6 +417,10 @@ class SpatialeFacile(Tk):
                 RTmoytot = (self.SRT + self.SRTdejafait) / (
                     self.counter.n_distracteur + self.counter.n_reussites
                 )
+
+        # Save the average response time
+        with open(self.pace_filename + ".pkl", 'wb') as f:
+            f.dump(RTmoy, f)
 
         self.save_text("Bonnes reponses: %.2f" % self.counter.n_reussites)
         self.save_text("Erreurs distracteur: %.2f" % self.counter.n_distracteur)
