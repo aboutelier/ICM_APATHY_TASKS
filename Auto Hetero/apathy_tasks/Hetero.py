@@ -51,14 +51,14 @@ MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image" , "jaugedouble2.ppm")
 
 SON_PACE = joinpath(MAINDIR, "Son", "Metronome.wav")
-SON_PERTE = joinpath(MAINDIR, "Son", "BOUH.wav")
+SON_PERTE = joinpath(MAINDIR, "Son", "Son_Perte1.wav")
 
 DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
 # Valeurs modifiables
 # -------------------
 TEST_TIME_SEC = 50
-END_TIMER_SEC = 20
+# END_TIMER_SEC = 20
 SUMMARY_TIME_SEC = 15
 
 SEPARATEUR = ";"
@@ -125,7 +125,7 @@ class Hetero(Tk):
         """Mise à zéro des compteurs"""
         self.counter = CounterFacile()
 
-        self.timer = END_TIMER_SEC
+        self.timer = TEST_TIME_SEC
 
         self.SRT = 0
         self.RTmax = 0
@@ -190,9 +190,10 @@ class Hetero(Tk):
         self.fond.delete(self.racine, self.start)
         self.t0 = perf_counter()
         self.start_new_combinaison()
-        self.after((TEST_TIME_SEC - END_TIMER_SEC) * 1000, self.start_chrono)
+        self.show_chrono()
         self.after(TEST_TIME_SEC * 1000, self.finalisation)
         self.metronome()
+        self.update_progress()
         
     def save_text(self, text, newline=True, print_=True):
         # print in the console
@@ -309,8 +310,8 @@ class Hetero(Tk):
         self.RTmax = max(self.RTmax, response_time)
         self.RTmin = min(self.RTmin, response_time)
 
-        self.progress -= self.delta_progression
-        self.draw_progression()
+        # self.progress -= self.delta_progression
+        # self.draw_progression()
 
         # if self.counter.n_reussites % self.n_reussite_avant_son == 0:
         #     PlaySound(self.son, SND_FILENAME | SND_ASYNC)
@@ -338,10 +339,6 @@ class Hetero(Tk):
         self.save_line()
         self.start_new_combinaison()
 
-    def start_chrono(self):
-        self.save_csv("# ***** 30 sec line *****")
-        self.show_chrono()
-
     def show_chrono(self):
         if self.chrono is not None:
             self.fond.delete(self.racine, self.chrono)
@@ -354,7 +351,9 @@ class Hetero(Tk):
             fill="black",
         )
 
-        self.one_second = self.after(1000, self.next_second)
+        self.timer -= 1
+
+        self.chrono_event = self.after(1000, self.show_chrono)
 
     def metronome(self):
         PlaySound(SON_PACE, SND_FILENAME | SND_ASYNC)
@@ -385,7 +384,9 @@ class Hetero(Tk):
             self.fond.delete(self.racine, self.chrono)
 
     def finalisation(self):
-        self.racine.after_cancel(self.one_second)
+        self.after_cancel(self.chrono_event)
+        self.after_cancel(self.metronome_event)
+        self.after_cancel(self.progress_event)
 
         self.fond.destroy()
         self.fond = Canvas(
