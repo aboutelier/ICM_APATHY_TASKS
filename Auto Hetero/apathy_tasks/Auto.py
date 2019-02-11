@@ -70,7 +70,7 @@ N_SLOW_BEFORE_SOUND = 3
 class Auto(Tk):
     valeurs_sauvees = [
         "cercle choisi",
-        "coord (x, y)", "temps de reponse", "temps ecoule"
+        "acote coord (x, y)", "temps de reponse", "temps ecoule"
     ]
 
     def __init__(self, parent, nom, maindir, pace=1):

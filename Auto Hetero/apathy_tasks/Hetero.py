@@ -4,14 +4,14 @@ Petite explication des changements
 
 En haut du fichier et dans l'ordre tu trouveras
 
-1) des imports de deux nouvelles classes qui vont servir:
+1) des imports de deux nouvelles classes qui vont servir: 
     - Cercle pour définir les positions, la couleur et le numéro des cercles
     - Counter pour la partie comptage des différentes réponses
 
-2) des liens absolus vers des fichiers sur l'appareil qui sont utilisés
+2) des liens absolus vers des fichiers sur l'appareil qui sont utilisés 
 dans le code
 
-3) des variables globales qui vont modifier le comportement général du
+3) des variables globales qui vont modifier le comportement général du 
 programme. Ex: changer TEST_TIME_SEC permet de diminuer le temps d'acquisition
 ce qui est pratique pour tester le code
 
@@ -50,32 +50,35 @@ MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 
 IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image" , "jaugedouble2.ppm")
 
-SON_PACE = joinpath(MAINDIR, "Son", ".wav")
+SON_PACE = joinpath(MAINDIR, "Son", "Metronome.wav")
 SON_PERTE = joinpath(MAINDIR, "Son", "BOUH.wav")
 
 DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
 # Valeurs modifiables
 # -------------------
-TEST_TIME_SEC = 20
+TEST_TIME_SEC = 50
 END_TIMER_SEC = 20
 SUMMARY_TIME_SEC = 15
 
 SEPARATEUR = ";"
 
-DELTA_PROGRESSION = 2
-# N_REUSSITE_AVANT_SON = 5
+# pondération de la vitesse de perte : n pace avant perte visuelle
+DELAY_PROGRESSION = 3
+# nombre de delay progression avant son de perte
+N_SLOW_BEFORE_SOUND = 3
 
 
 class Hetero(Tk):
     valeurs_sauvees = [
-        "distracteur", "cible",
+        "cible",
         "cercle choisi",
         "resultat", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom, maindir, pace):
+    def __init__(self, parent, nom, pace=1):
 
+        self.pace = pace
         self.filename = joinpath(
             DOSSIER_SUJETS, nom, "{}_Hetero".format(nom)
         )
@@ -99,12 +102,17 @@ class Hetero(Tk):
             self.racine, bg="white", width=self.w, height=self.h
         )
         self.fond.pack(fill="both")
-
+        
         self.jauge = PhotoImage(file = IMAGE_JAUGE_AUTOHETERO)
         self.imagejauge = self.fond.create_image(
-            self.w - 1075, self.h/1.2,
-            image = self.jauge,
+            self.w - 1075, self.h/1.2, 
+            image = self.jauge, 
             anchor = NW)
+
+        # Initialize progress
+        self.progress = self.w - 292
+        self.n_old_reussites = 0
+        self.n_too_slow = 0
 
         Tk.__init__(self, parent)
 
@@ -120,7 +128,6 @@ class Hetero(Tk):
         self.timer = END_TIMER_SEC
 
         self.SRT = 0
-        self.SRTdejafait = 0
         self.RTmax = 0
         self.RTmin = 360
 
@@ -144,10 +151,9 @@ class Hetero(Tk):
             Circle(13, self.x_mid - 405, self.y_mid + 135),
             Circle(14, self.x_mid + 315, self.y_mid + 135),
         ]
-
-        # on initialise les indices distracteur et cible
-        self.distracteur_idx = 0
-        self.cible_idx = 1
+        
+        # on initialise l'indice de la cible
+        self.cible_idx = 0
 
         # On trace les cercles avec les bonnes couleurs
         self.ellipses = None
@@ -157,6 +163,9 @@ class Hetero(Tk):
         self.progress = self.w - 292
         self.progress_bar = None
         self.draw_progression()
+
+        #  on calcule la vitesse de progression en fonction du pace
+        self.delta_progression = self.pace * 783 / TEST_TIME_SEC
 
         self.chrono = None
 
@@ -171,17 +180,10 @@ class Hetero(Tk):
         self.consigne = self.fond.create_text(
             self.w / 1.3,
             (self.h / 1.6) - 300,
-            text="Touchez le cercle bleu",
+            text="Touchez le cercle coloré",
             font="Arial 20",
             justify="center",
         )
-
-    def randomize_index(self):
-        """Choix des indices aléatoires pour distracteur et cible"""
-        circle_index = list(range(0, len(self.circles)))
-        for _ in range(2):
-            self.distracteur_idx = circle_index.pop(randrange(0, len(circle_index)))
-            self.cible_idx = circle_index.pop(randrange(0, len(circle_index)))
 
     def attente(self, event):
         "Register some events to be triggered at a later time"
@@ -190,7 +192,8 @@ class Hetero(Tk):
         self.start_new_combinaison()
         self.after((TEST_TIME_SEC - END_TIMER_SEC) * 1000, self.start_chrono)
         self.after(TEST_TIME_SEC * 1000, self.finalisation)
-
+        self.metronome()
+        
     def save_text(self, text, newline=True, print_=True):
         # print in the console
         if print_:
@@ -220,19 +223,16 @@ class Hetero(Tk):
         ]
 
     def update_and_draw_circles(self):
-        #on recolore les anciens cible et distracteur en gris#
-        self.circles[self.distracteur_idx].set_grey()
+        # on recolore l' ancienne cible en gris
         self.circles[self.cible_idx].set_grey()
+        # on tire l'index de la cible de façon aléatoire
+        self.cible_idx = randrange(0, len(self.circles))
+        # La cible est d'une couleur aléatoire
+        self.circles[self.cible_idx].set_random_color()
 
-        self.randomize_index()
-        # Le premier est rouge (distracteur)
-        self.circles[self.distracteur_idx].set_red()
-        # Le deuxieme est bleu (cible)
-        self.circles[self.cible_idx].set_blue()
-
-        self.draw_circles()
-
-
+        self.draw_circles()    
+    
+    
     def draw_progression(self):
         if self.progress_bar is not None:
             self.fond.delete(self.racine, self.progress_bar)
@@ -251,8 +251,7 @@ class Hetero(Tk):
 
         self.update_and_draw_circles()
 
-        self.string_info.append("Circle {}".format(self.distracteur_idx))
-        self.string_info.append("Circle {}".format(self.cible_idx))
+        self.string_info.append("Cercle {}".format(self.cible_idx))
 
         self.tapp = perf_counter()
 
@@ -286,12 +285,10 @@ class Hetero(Tk):
             if isin_x and isin_y:
                 self.string_info.append("{}".format(circle))
 
-                if circle.color == "blue":
-                    self.after(100, self.reussite)
-                elif circle.color == "red":
-                    self.after(100, self.distrait)
-                else:
+                if circle.color == "grey80":
                     self.after(100, self.cercle_gris)
+                else:
+                    self.after(100, self.reussite)
 
                 break
         else:
@@ -304,7 +301,7 @@ class Hetero(Tk):
 
     def reussite(self):
         self.counter.add_reussite()
-
+        
         self.string_info.append("Cible")
 
         response_time = self.store_response_time()
@@ -312,21 +309,11 @@ class Hetero(Tk):
         self.RTmax = max(self.RTmax, response_time)
         self.RTmin = min(self.RTmin, response_time)
 
-        self.progress -= DELTA_PROGRESSION
+        self.progress -= self.delta_progression
         self.draw_progression()
 
         # if self.counter.n_reussites % self.n_reussite_avant_son == 0:
         #     PlaySound(self.son, SND_FILENAME | SND_ASYNC)
-
-        self.save_line()
-        self.start_new_combinaison()
-
-    def distrait(self):
-        self.counter.add_distracteur()
-
-        self.string_info.append("Distracteur")
-
-        self.store_response_time()
 
         self.save_line()
         self.start_new_combinaison()
@@ -368,6 +355,26 @@ class Hetero(Tk):
         )
 
         self.one_second = self.after(1000, self.next_second)
+
+    def metronome(self):
+        PlaySound(SON_PACE, SND_FILENAME | SND_ASYNC)
+        self.metronome_event = self.after(self.pace * 1000, self.metronome)
+
+    def update_progress(self):
+        n_current_reussites = self.counter.n_reussites
+
+        if n_current_reussites - self.n_old_reussites < DELAY_PROGRESSION:
+            self.progress -= self.delta_progression
+            self.draw_progression()
+
+            self.n_too_slow += 1
+            
+        if self.n_too_slow % N_SLOW_BEFORE_SOUND == 0:
+            PlaySound(SON_PERTE, SND_FILENAME | SND_ASYNC)
+
+        self.n_old_reussites = n_current_reussites
+
+        self.progress_event = self.after(DELAY_PROGRESSION * self.pace * 1000, self.update_progress)
 
     def next_second(self):
         self.timer -= 1
@@ -417,8 +424,7 @@ class Hetero(Tk):
                 )
 
         self.save_text("Bonnes reponses: %.2f" % self.counter.n_reussites)
-        self.save_text("Erreurs couleur: %.2f" % self.counter.n_erreurs)
-        self.save_text("Erreurs repetition: %.2f" % self.counter.n_distracteur)
+        self.save_text("Erreurs gris: %.2f" % self.counter.n_erreur_gris)
         self.save_text("Erreurs à côte: %.2f" % self.counter.n_a_cote)
         self.save_text("Erreurs totales: {}".format(self.counter.n_erreur_tot))
         self.save_text("Nombre de reponses: {}".format(self.counter.total))
@@ -442,7 +448,7 @@ if __name__ == "__main__":
         sys.exit(
             "Subject name already exists. Try again with a different name."
         )
-
+    
     app = Hetero(None, nom)
     app.title("My application")
     app.destroy()

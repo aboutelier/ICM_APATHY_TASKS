@@ -33,7 +33,6 @@ SECOND_TASK_LIST = [
 
 # TASK_ORDER = [task.__name__ for task in FIRST_TASK_LIST + SECOND_TASK_LIST]
 
-
 def main(name, maindir):
     seance_filename = joinpath(
         maindir,
