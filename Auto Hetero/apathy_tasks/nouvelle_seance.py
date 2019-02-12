@@ -1,3 +1,4 @@
+import pickle
 from random import sample
 from functools import partial
 from os.path import join as joinpath
@@ -31,32 +32,52 @@ SECOND_TASK_LIST = [
     Auto,
 ]
 
-# TASK_ORDER = [task.__name__ for task in FIRST_TASK_LIST + SECOND_TASK_LIST]
+def get_pace_from_file(name, maindir, category):
+    filename = joinpath(
+        maindir,
+        "{}_pace_{}.pkl".format(name, category)
+    )
+    with open(filename, 'rb') as f:
+        pace = pickle.load(f)
+
+    return pace
+
+
+def get_average_pace(name, maindir):
+    pace_faible = get_pace_from_file(name, maindir, 'faible')
+    pace_fort = get_pace_from_file(name, maindir, 'fort')
+
+    return (pace_faible + pace_fort) / 2
+
 
 def main(name, maindir):
     seance_filename = joinpath(
         maindir,
         "liste_ordonnee_des_taches_{}.txt".format(name)
     )
-    with open(seance_filename, 'a') as f:
-        f.write("Ordre des différentes tâches :\n")
-        # f.write("\n".join(TASK_ORDER))
+    task_order = []
 
-    # for idx in sample(list(range(0, len(FIRST_TASK_LIST)))):
     for task in sample(FIRST_TASK_LIST, len(FIRST_TASK_LIST)):
-        # task = FIRST_TASK_LIST[idx]
+        task_order.append(task.__name__)
+
         app = task(None, name, SUBJECT_FOLDER)
         app.title("my application")
         app.destroy()
         app.mainloop()
 
-    pace = 1
+    pace = get_average_pace(name, maindir)
 
     for task in sample(SECOND_TASK_LIST, len(SECOND_TASK_LIST)):
+        task_order.append(task.__name__)
+
         app = task(None, name, SUBJECT_FOLDER, pace)
         app.title("my application")
         app.destroy()
         app.mainloop()
+
+    with open(seance_filename, 'a') as f:
+        f.write("Ordre des différentes tâches :\n")
+        f.write("\n".join(task_order))
 
 
 if __name__ == "__main__":
