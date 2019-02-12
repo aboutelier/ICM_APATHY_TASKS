@@ -1,22 +1,21 @@
 import pickle
 from random import sample
-from functools import partial
 from os.path import join as joinpath
 
 from Auto import Auto
 from Hetero import Hetero
 from SpatialeFacile import SpatialeFacile
 from SpatialeDifficile import SpatialeDifficile
-
+from utils import classe_partielle
 
 SUBJECT_FOLDER = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS\\Sujets"
 
 # Define appropriate tasks
 # ------------------------
-SpatialeFacileFort = partial(SpatialeFacile, gain_faible=False)
-SpatialeFacileFaible = partial(SpatialeFacile, gain_faible=True)
-SpatialeDifficileFort = partial(SpatialeDifficile, gain_faible=False)
-SpatialeDifficileFaible = partial(SpatialeDifficile, gain_faible=True)
+SpatialeFacileFort = classe_partielle(SpatialeFacile, gain_faible=False)
+SpatialeFacileFaible = classe_partielle(SpatialeFacile, gain_faible=True)
+SpatialeDifficileFort = classe_partielle(SpatialeDifficile, gain_faible=False)
+SpatialeDifficileFaible = classe_partielle(SpatialeDifficile, gain_faible=True)
 
 # Write the list of tasks to be proposed to the user
 # --------------------------------------------------
