@@ -420,7 +420,7 @@ class SpatialeFacile(Tk):
 
         # Save the average response time
         with open(self.pace_filename + ".pkl", 'wb') as f:
-            f.dump(RTmoy, f)
+            pickle.dump(RTmoy, f)
 
         self.save_text("Bonnes reponses: %.2f" % self.counter.n_reussites)
         self.save_text("Erreurs distracteur: %.2f" % self.counter.n_distracteur)
