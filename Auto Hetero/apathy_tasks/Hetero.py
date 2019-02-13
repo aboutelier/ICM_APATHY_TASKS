@@ -38,6 +38,7 @@ from tkinter import PhotoImage
 from winsound import PlaySound
 from winsound import SND_FILENAME
 from winsound import SND_ASYNC
+from winsound import SND_NOSTOP
 
 # Nouveaux imports
 # ----------------
@@ -51,7 +52,7 @@ MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image" , "jaugedouble2.ppm")
 
 SON_PACE = joinpath(MAINDIR, "Son", "Metronome.wav")
-SON_PERTE = joinpath(MAINDIR, "Son", "Son_Perte1.wav")
+SON_PERTE = joinpath(MAINDIR, "Son", "Son_Perte2.wav")
 
 DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
@@ -76,7 +77,7 @@ class Hetero(Tk):
         "resultat", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom, pace=1):
+    def __init__(self, parent, nom, pace):
 
         self.pace = pace
         self.filename = joinpath(
@@ -369,7 +370,7 @@ class Hetero(Tk):
             self.n_too_slow += 1
             
         if self.n_too_slow % N_SLOW_BEFORE_SOUND == 0:
-            PlaySound(SON_PERTE, SND_FILENAME | SND_ASYNC)
+            PlaySound(SON_PERTE, SND_FILENAME | SND_ASYNC | SND_NOSTOP)
 
         self.n_old_reussites = n_current_reussites
 

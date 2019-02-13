@@ -50,7 +50,7 @@ MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image", "jaugedouble2.ppm")
 
 SON_PACE = joinpath(MAINDIR, "Son", "Metronome.wav")
-SON_PERTE = joinpath(MAINDIR, "Son", "Son_Perte.mp3")
+SON_PERTE = joinpath(MAINDIR, "Son", "Son_Perte2.wav")
 
 DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
@@ -73,12 +73,12 @@ class Auto(Tk):
         "acote coord (x, y)", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom, maindir, pace=1):
+    def __init__(self, parent, nom, maindir, pace):
 
         self.filename = joinpath(
             DOSSIER_SUJETS, nom, "{}_Auto".format(nom)
         )
-        self.pace = pace
+        self.pace = int(pace)
         self.save_text("TACHE SPATIALE AUTOGENEREE")
         self.save_csv(SEPARATEUR.join(self.valeurs_sauvees))
 
@@ -298,7 +298,7 @@ class Auto(Tk):
         self.chrono_event = self.after(1000, self.show_chrono)
 
     def metronome(self):
-        PlaySound(SON_PACE, SND_FILENAME | SND_ASYNC)
+        # PlaySound(SON_PACE, SND_FILENAME | SND_ASYNC)
         self.metronome_event = self.after(self.pace * 1000, self.metronome)
 
     def update_progress(self):
