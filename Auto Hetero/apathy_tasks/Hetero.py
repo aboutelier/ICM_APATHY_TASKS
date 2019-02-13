@@ -4,14 +4,14 @@ Petite explication des changements
 
 En haut du fichier et dans l'ordre tu trouveras
 
-1) des imports de deux nouvelles classes qui vont servir: 
+1) des imports de deux nouvelles classes qui vont servir:
     - Cercle pour définir les positions, la couleur et le numéro des cercles
     - Counter pour la partie comptage des différentes réponses
 
-2) des liens absolus vers des fichiers sur l'appareil qui sont utilisés 
+2) des liens absolus vers des fichiers sur l'appareil qui sont utilisés
 dans le code
 
-3) des variables globales qui vont modifier le comportement général du 
+3) des variables globales qui vont modifier le comportement général du
 programme. Ex: changer TEST_TIME_SEC permet de diminuer le temps d'acquisition
 ce qui est pratique pour tester le code
 
@@ -76,7 +76,7 @@ class Hetero(Tk):
         "resultat", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom, pace=1):
+    def __init__(self, parent, nom, maindir, pace=1):
 
         self.pace = pace
         self.filename = joinpath(
@@ -102,11 +102,11 @@ class Hetero(Tk):
             self.racine, bg="white", width=self.w, height=self.h
         )
         self.fond.pack(fill="both")
-        
+
         self.jauge = PhotoImage(file = IMAGE_JAUGE_AUTOHETERO)
         self.imagejauge = self.fond.create_image(
-            self.w - 1075, self.h/1.2, 
-            image = self.jauge, 
+            self.w - 1075, self.h/1.2,
+            image = self.jauge,
             anchor = NW)
 
         # Initialize progress
@@ -151,7 +151,7 @@ class Hetero(Tk):
             Circle(13, self.x_mid - 405, self.y_mid + 135),
             Circle(14, self.x_mid + 315, self.y_mid + 135),
         ]
-        
+
         # on initialise l'indice de la cible
         self.cible_idx = 0
 
@@ -194,7 +194,7 @@ class Hetero(Tk):
         self.after(TEST_TIME_SEC * 1000, self.finalisation)
         self.metronome()
         self.update_progress()
-        
+
     def save_text(self, text, newline=True, print_=True):
         # print in the console
         if print_:
@@ -231,9 +231,9 @@ class Hetero(Tk):
         # La cible est d'une couleur aléatoire
         self.circles[self.cible_idx].set_random_color()
 
-        self.draw_circles()    
-    
-    
+        self.draw_circles()
+
+
     def draw_progression(self):
         if self.progress_bar is not None:
             self.fond.delete(self.racine, self.progress_bar)
@@ -302,7 +302,7 @@ class Hetero(Tk):
 
     def reussite(self):
         self.counter.add_reussite()
-        
+
         self.string_info.append("Cible")
 
         response_time = self.store_response_time()
@@ -367,7 +367,7 @@ class Hetero(Tk):
             self.draw_progression()
 
             self.n_too_slow += 1
-            
+
         if self.n_too_slow % N_SLOW_BEFORE_SOUND == 0:
             PlaySound(SON_PERTE, SND_FILENAME | SND_ASYNC)
 
@@ -449,7 +449,7 @@ if __name__ == "__main__":
         sys.exit(
             "Subject name already exists. Try again with a different name."
         )
-    
+
     app = Hetero(None, nom)
     app.title("My application")
     app.destroy()
