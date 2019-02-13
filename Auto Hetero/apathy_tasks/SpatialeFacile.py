@@ -25,6 +25,7 @@ avec les infos que tu veux et l'autre en fichier texte classique avec les
 valeurs qui résument le test.
 
 """
+import pickle
 from os import mkdir
 from os.path import join as joinpath
 from random import randrange
