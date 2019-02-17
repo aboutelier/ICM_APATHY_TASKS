@@ -30,8 +30,6 @@ from os import mkdir
 from os.path import join as joinpath
 from random import randrange
 from time import perf_counter
-import tkinter
-from tkinter import *
 from tkinter import Tk
 from tkinter import NW
 from tkinter import Canvas
@@ -44,31 +42,14 @@ from winsound import SND_ASYNC
 # ----------------
 from counter import CounterFacile
 from circle import Circle
+from config import ApathyTasksConfiguration
 
 # Chemins locaux vers les fichiers
 # --------------------------------
 MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 
-IMAGE_PIECES_FAIBLE = joinpath(MAINDIR, "Image", "pieces.ppm")
-IMAGE_PIECES_FORT = joinpath(MAINDIR, "Image", "pieces2.ppm")
-
-IMAGE_JAUGE = joinpath(MAINDIR, "Image", "jauge.ppm")
-
-SON_FAIBLE = joinpath(MAINDIR, "Son", "Pièces.wav")
-SON_FORT = joinpath(MAINDIR, "Son", "Cash.wav")
-
-DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
-
 # Valeurs modifiables
 # -------------------
-TEST_TIME_SEC = 30
-END_TIMER_SEC = 20
-# TEST_TIME_SEC = 120
-# END_TIMER_SEC = 30
-SUMMARY_TIME_SEC = 15
-
-SEPARATEUR = ";"
-
 DELTA_PROGRESSION_FAIBLE = 2
 N_REUSSITE_AVANT_SON_FAIBLE = 5
 DELTA_PROGRESSION_FORT = 4
@@ -82,67 +63,82 @@ class SpatialeFacile(Tk):
         "resultat", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom, subject_dir, gain_faible=True):
-        # définitions pour les sous-classes faible ou fort gain
-        if gain_faible:
-            category = "Faible"
-            self.image_pieces = IMAGE_PIECES_FAIBLE
-            self.son = SON_FAIBLE
-            self.delta_progression = DELTA_PROGRESSION_FAIBLE
-            self.n_reussite_avant_son = N_REUSSITE_AVANT_SON_FAIBLE
-        else:
-            category = "Fort"
-            self.image_pieces = IMAGE_PIECES_FORT
-            self.son = SON_FORT
-            self.delta_progression = DELTA_PROGRESSION_FORT
-            self.n_reussite_avant_son = N_REUSSITE_AVANT_SON_FORT
-
-        self.filename = joinpath(
-            subject_dir, nom, "{}_SpatialeFacile{}".format(nom, category)
-        )
-        self.pace_filename = joinpath(
-            subject_dir, nom, "{}_pace_{}".format(nom, category.lower())
-        )
-        self.save_text("TACHE SPATIALE FACILE {} GAIN".format(category.upper()))
-        self.save_csv(SEPARATEUR.join(self.valeurs_sauvees))
-
-        self.racine = Tk()
-        self.racine.attributes("-fullscreen", True)
+    def __init__(self, nom, config, gain_faible=True):
+        Tk.__init__(self, None)
+        self.attributes("-fullscreen", True)
 
         # Dimensions de l'écran
-        self.w = self.racine.winfo_screenwidth()
-        self.h = self.racine.winfo_screenheight()
+        self.w = self.winfo_screenwidth()
+        self.h = self.winfo_screenheight()
 
         # Coordonnées du milieu de l'écran
         self.x_mid = self.w / 2
         self.y_mid = self.h / 2
 
+        self.config = config
+        
+        # définitions pour les sous-classes faible ou fort gain
+        if gain_faible:
+            category = "Faible"
+            self.image_pieces = PhotoImage(file=config.img_pieces_faible)
+            self.son = config.son_pieces
+            self.delta_progression = DELTA_PROGRESSION_FAIBLE
+            self.n_reussite_avant_son = N_REUSSITE_AVANT_SON_FAIBLE
+        else:
+            category = "Fort"
+            self.image_pieces = PhotoImage(file=config.img_pieces_fort)
+            self.son = config.son_cash
+            self.delta_progression = DELTA_PROGRESSION_FORT
+            self.n_reussite_avant_son = N_REUSSITE_AVANT_SON_FORT
+        self.image_jauge = PhotoImage(file=config.img_jauge)
+
+        self.filename = joinpath(
+            config.subject_dir,
+            nom,
+            "{nom}_SpatialeFacile{cat}".format(nom=nom, cat=category)
+        )
+        self.pace_filename = joinpath(
+            config.subject_dir,
+            nom,
+            "{nom}_pace_{cat}".format(nom=nom, cat=category.lower())
+        )
+
         # Initialisation de la partie statique de l'affichage
         # (fond blanc + images)
-        self.fond = Canvas(
-            self.racine, bg="white", width=self.w, height=self.h
-        )
-        self.fond.pack(fill="both")
-
-        self.pieces = PhotoImage(file=self.image_pieces)
-        self.fond.create_image(50, 10, image=self.pieces, anchor=NW)
-
-        self.jauge = PhotoImage(file=IMAGE_JAUGE)
-        self.fond.create_image(self.w - 925, (self.h / 1.2), image=self.jauge, anchor=NW)
-        self.progress = self.w - 925
-
-        Tk.__init__(self, parent)
-
+        self._create_canvas()
+        # Add on top the various layers
+        self._initialise_images()
         self._initialise_counters()
         self._initialise_figures()
 
+        self.save_text("TACHE SPATIALE FACILE {} GAIN".format(category.upper()))
+        self.save_csv(config.csv_separator.join(self.valeurs_sauvees))
+
         self.fond.bind("<Button-1>", self.attente)
+
+    def _create_canvas(self):
+        self.fond = Canvas(
+            self, bg="white", width=self.w, height=self.h
+        )
+        self.fond.pack(fill="both")
+
+    def _initialise_images(self):
+        self.fond.create_image(
+            50, 10,
+            image=self.image_pieces,
+            anchor=NW
+        )
+        self.fond.create_image(
+            self.w - 925, self.h / 1.2,
+            image=self.image_jauge,
+            anchor=NW
+        )
 
     def _initialise_counters(self):
         """Mise à zéro des compteurs"""
         self.counter = CounterFacile()
 
-        self.timer = END_TIMER_SEC
+        self.timer = self.config.end_timer
 
         self.SRT = 0
         self.SRTdejafait = 0
@@ -179,6 +175,7 @@ class SpatialeFacile(Tk):
         self.draw_circles()
 
         # On affiche la barre de progression
+        self.progress = self.w - 925
         self.progress_bar = None
         self.draw_progression()
 
@@ -209,11 +206,11 @@ class SpatialeFacile(Tk):
 
     def attente(self, event):
         "Register some events to be triggered at a later time"
-        self.fond.delete(self.racine, self.start)
+        self.fond.delete(self, self.start)
         self.t0 = perf_counter()
         self.start_new_combinaison()
-        self.after((TEST_TIME_SEC - END_TIMER_SEC) * 1000, self.start_chrono)
-        self.after(TEST_TIME_SEC * 1000, self.finalisation)
+        self.after((self.config.test_time_spatial - self.config.end_timer) * 1000, self.start_chrono)
+        self.after(self.config.test_time_spatial * 1000, self.finalisation)
 
     def save_text(self, text, newline=True, print_=True):
         # print in the console
@@ -235,7 +232,7 @@ class SpatialeFacile(Tk):
         # Retire les cercles précédents si ils existent
         if self.ellipses is not None:
             for ellipse in self.ellipses:
-                self.fond.delete(self.racine, ellipse)
+                self.fond.delete(self, ellipse)
 
         # Créé de nouveaux cercles
         self.ellipses = [
@@ -263,7 +260,7 @@ class SpatialeFacile(Tk):
 
     def draw_progression(self):
         if self.progress_bar is not None:
-            self.fond.delete(self.racine, self.progress_bar)
+            self.fond.delete(self, self.progress_bar)
 
         self.progress_bar = self.fond.create_rectangle(
             self.progress,
@@ -294,13 +291,11 @@ class SpatialeFacile(Tk):
         else:
             self.SRT += response_time
 
-        return response_time
-
     def save_line(self):
         # Add elapsed time
         self.string_info.append("{}".format(self.tclic - self.t0))
         # Join into a string and save as a new line in CSV file
-        self.save_csv(SEPARATEUR.join(self.string_info))
+        self.save_csv(self.config.csv_separator.join(self.string_info))
 
     def clic(self, event):
         self.tclic = perf_counter()
@@ -313,12 +308,13 @@ class SpatialeFacile(Tk):
                 self.string_info.append("{}".format(circle))
 
                 if circle.color == "blue":
-                    self.reussite()
+                    self.on_success()
                 elif circle.color == "red":
-                    self.distrait()
+                    self.string_info.append("Distracteur")
+                    self.counter.add_distracteur()
                 else:
-                    self.cercle_gris()
-
+                    self.string_info.append("Cercle gris")
+                    self.counter.add_error_gris()
                 break
         else:
             coordclicx = self.fond.winfo_pointerx()
@@ -326,39 +322,29 @@ class SpatialeFacile(Tk):
             self.string_info.append(
                 "Coords({},{})".format(coordclicx, coordclicy)
             )
-            self.acote()
 
+            self.string_info.append("A cote")
+            self.counter.add_a_cote()
+
+        self.store_response_time()
         self.save_line()
         self.start_new_combinaison()
 
-    def reussite(self):
+    def on_success(self):
         self.string_info.append("Cible")
         self.counter.add_reussite()
 
-        response_time = self.store_response_time()
-        print("RT (sec) = {}\n".format(response_time))
-        self.RTmax = max(self.RTmax, response_time)
-        self.RTmin = min(self.RTmin, response_time)
-
         self.update_progression()
 
+        # Play sound after N times
         if self.counter.n_reussites % self.n_reussite_avant_son == 0:
             PlaySound(self.son, SND_FILENAME | SND_ASYNC)
 
-    def distrait(self):
-        self.string_info.append("Distracteur")
-        self.counter.add_distracteur()
-        self.store_response_time()
-
-    def cercle_gris(self):
-        self.string_info.append("Cercle gris")
-        self.counter.add_error_gris()
-        self.store_response_time()
-
-    def acote(self):
-        self.string_info.append("A cote")
-        self.counter.add_a_cote()
-        self.store_response_time()
+        # Update RTmin and RTmax
+        response_time = self.tclic - self.tapp
+        print("RT (sec) = {}\n".format(response_time))
+        self.RTmax = max(self.RTmax, response_time)
+        self.RTmin = min(self.RTmin, response_time)
 
     def start_chrono(self):
         self.save_csv("# ***** 30 sec line *****")
@@ -366,7 +352,7 @@ class SpatialeFacile(Tk):
 
     def show_chrono(self):
         if self.chrono is not None:
-            self.fond.delete(self.racine, self.chrono)
+            self.fond.delete(self, self.chrono)
 
         self.chrono = self.fond.create_text(
             self.x_mid,
@@ -384,11 +370,8 @@ class SpatialeFacile(Tk):
         self.after_cancel(self.chrono_event)
 
         self.fond.destroy()
-        self.fond = Canvas(
-            self.racine, bg="white", width=self.w, height=self.h
-        )
-        self.fond.pack(fill="both")
 
+        self._create_canvas()
         self.fond.create_text(
             self.x_mid,
             self.y_mid,
@@ -421,7 +404,7 @@ class SpatialeFacile(Tk):
 
         # Save the average response time
         with open(self.pace_filename + ".pkl", 'wb') as f:
-            pickle.dump(RTmoy, f)
+            pickle.dump(RTmoytot, f)
 
         self.save_text("Bonnes reponses: %.2f" % self.counter.n_reussites)
         self.save_text("Erreurs distracteur: %.2f" % self.counter.n_distracteur)
@@ -436,23 +419,23 @@ class SpatialeFacile(Tk):
         self.save_text("RTmax (sec): %.3f" % self.RTmax)
         self.save_text("RTmin (sec): %.3f" % self.RTmin)
 
-        self.after(SUMMARY_TIME_SEC * 1000, self.racine.destroy)
+        self.after(self.config.summary_time * 1000, self.destroy)
 
 
 if __name__ == "__main__":
     nom = input("Nom sujet :")
     gain = input("gain de l'exercice: ")
-    maindir = joinpath(DOSSIER_SUJETS, nom)
+
+    config = ApathyTasksConfiguration(MAINDIR)
+    workdir = joinpath(config.subject_dir, nom)
     try:
-        mkdir(maindir)
+        mkdir(workdir)
     except FileExistsError:
         import sys
         sys.exit(
             "Subject name already exists. Try again with a different name."
         )
 
-    app = SpatialeFacile(None, nom, DOSSIER_SUJETS,
-                         gain_faible=(gain == "faible"))
-    app.title("My application")
-    app.destroy()
+    app = SpatialeFacile(nom, config, gain_faible=(gain.lower() == "faible"))
+    app.title("SpatialeFacile App")
     app.mainloop()

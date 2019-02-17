@@ -28,8 +28,6 @@ valeurs qui résument le test.
 from os import mkdir
 from os.path import join as joinpath
 from time import perf_counter
-import tkinter
-from tkinter import *
 from tkinter import Tk
 from tkinter import NW
 from tkinter import Canvas
@@ -42,25 +40,14 @@ from winsound import SND_ASYNC
 # ----------------
 from counter import CounterFacile
 from circle import Circle
+from config import ApathyTasksConfiguration
 
 # Chemins locaux vers les fichiers
 # --------------------------------
 MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 
-IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image", "jaugedouble2.ppm")
-
-SON_PACE = joinpath(MAINDIR, "Son", "Metronome.wav")
-SON_PERTE = joinpath(MAINDIR, "Son", "Son_Perte.mp3")
-
-DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
-
 # Valeurs modifiables
 # -------------------
-TEST_TIME_SEC = 50
-SUMMARY_TIME_SEC = 15
-
-SEPARATEUR = ";"
-
 # pondération de la vitesse de perte : n pace avant perte visuelle
 DELAY_PROGRESSION = 3
 # nombre de delay progression avant son de perte
@@ -73,61 +60,68 @@ class Auto(Tk):
         "acote coord (x, y)", "temps de reponse", "temps ecoule"
     ]
 
-    def __init__(self, parent, nom, maindir, pace=1):
-
-        self.filename = joinpath(
-            DOSSIER_SUJETS, nom, "{}_Auto".format(nom)
-        )
-        self.pace = pace
-        self.save_text("TACHE SPATIALE AUTOGENEREE")
-        self.save_csv(SEPARATEUR.join(self.valeurs_sauvees))
-
-        self.racine = Tk()
-        self.racine.attributes("-fullscreen", True)
+    def __init__(self, nom, config, pace=1):
+        Tk.__init__(self, None)
+        self.attributes("-fullscreen", True)
 
         # Dimensions de l'écran
-        self.w = self.racine.winfo_screenwidth()
-        self.h = self.racine.winfo_screenheight()
+        self.w = self.winfo_screenwidth()
+        self.h = self.winfo_screenheight()
 
         # Coordonnées du milieu de l'écran
         self.x_mid = self.w / 2
         self.y_mid = self.h / 2
 
+        self.config = config
+        self.pace = pace
+
+        self.filename = joinpath(
+            config.subject_dir, 
+            nom, 
+            "{}_Auto".format(nom)
+        )
+        
         # Initialisation de la partie statique de l'affichage
         # (fond blanc + images)
-        self.fond = Canvas(
-            self.racine, bg="white", width=self.w, height=self.h
-        )
-        self.fond.pack(fill="both")
+        self._create_canvas()
 
-        self.jauge = PhotoImage(file=IMAGE_JAUGE_AUTOHETERO)
-        self.imagejauge = self.fond.create_image(
-            self.w - 1075, self.h/1.2,
-            image=self.jauge,
-            anchor=NW)
-
-        # Initialize progress
-        self.progress = self.w - 292
-        self.n_old_reussites = 0
-        self.n_too_slow = 0
-
-        Tk.__init__(self, parent)
-
+        self._initialise_images()
         self._initialise_counters()
         self._initialise_figures()
         self._initialise_timers()
 
+        self.save_text("TACHE SPATIALE AUTOGENEREE")
+        self.save_csv(self.config.csv_separator.join(self.valeurs_sauvees))
+
         self.start_new_combinaison()
+
+    def _create_canvas(self):
+        self.fond = Canvas(
+            self, bg="white", width=self.w, height=self.h
+        )
+        self.fond.pack(fill="both")
+
+    def _initialise_images(self):
+        self.image_jauge = PhotoImage(file=self.config.img_jauge_auto)
+        self.jauge = self.fond.create_image(
+            self.w - 1075, self.h/1.2,
+            image=self.image_jauge,
+            anchor=NW
+        )
 
     def _initialise_counters(self):
         """Mise à zéro des compteurs"""
         self.counter = CounterFacile()
 
-        self.timer = TEST_TIME_SEC
+        self.timer = self.config.test_time_auto
 
         self.SRT = 0
         self.RTmax = 0
         self.RTmin = 360
+
+        self.n_old_reussites = 0
+        self.n_too_slow = 0
+
 
     def _initialise_figures(self):
         """Initialisation de la partie dynamique de l'affichage"""
@@ -155,10 +149,11 @@ class Auto(Tk):
         self.draw_circles()
 
         # On affiche la barre de progression
+        self.progress = self.w - 292
         self.progress_bar = None
         self.draw_progression()
 
-        self.delta_progression = self.pace * 783 / TEST_TIME_SEC
+        self.delta_progression = self.pace * 783 / self.config.test_time_auto
 
         self.chrono = None
 
@@ -167,7 +162,7 @@ class Auto(Tk):
         self.show_chrono()
         self.metronome()
         self.update_progress()
-        self.after(TEST_TIME_SEC * 1000, self.finalisation)
+        self.after(self.config.test_time_auto * 1000, self.finalisation)
 
     def save_text(self, text, newline=True, print_=True):
         # print in the console
@@ -189,7 +184,7 @@ class Auto(Tk):
         # Retire les cercles précédents si ils existent
         if self.ellipses is not None:
             for ellipse in self.ellipses:
-                self.fond.delete(self.racine, ellipse)
+                self.fond.delete(self, ellipse)
 
         # Créé de nouveaux cercles
         self.ellipses = [
@@ -199,7 +194,7 @@ class Auto(Tk):
 
     def draw_progression(self):
         if self.progress_bar is not None:
-            self.fond.delete(self.racine, self.progress_bar)
+            self.fond.delete(self, self.progress_bar)
 
         self.progress_bar = self.fond.create_rectangle(
             self.w - 292,
@@ -231,7 +226,7 @@ class Auto(Tk):
         self.string_info.append("{}".format(self.tclic - self.t0))
 
         # Join into a string and save as a new line in CSV file
-        self.save_csv(SEPARATEUR.join(self.string_info))
+        self.save_csv(self.config.csv_separator.join(self.string_info))
 
     def clic(self, event):
         self.tclic = perf_counter()
@@ -283,7 +278,7 @@ class Auto(Tk):
 
     def show_chrono(self):
         if self.chrono is not None:
-            self.fond.delete(self.racine, self.chrono)
+            self.fond.delete(self, self.chrono)
 
         self.chrono = self.fond.create_text(
             self.x_mid,
@@ -298,7 +293,7 @@ class Auto(Tk):
         self.chrono_event = self.after(1000, self.show_chrono)
 
     def metronome(self):
-        PlaySound(SON_PACE, SND_FILENAME | SND_ASYNC)
+        PlaySound(self.config.son_pace, SND_FILENAME | SND_ASYNC)
         self.metronome_event = self.after(self.pace * 1000, self.metronome)
 
     def update_progress(self):
@@ -309,9 +304,9 @@ class Auto(Tk):
             self.draw_progression()
 
             self.n_too_slow += 1
-            
+
         if self.n_too_slow % N_SLOW_BEFORE_SOUND == 0:
-            PlaySound(SON_PERTE, SND_FILENAME | SND_ASYNC)
+            PlaySound(self.config.son_perte, SND_FILENAME | SND_ASYNC)
 
         self.n_old_reussites = n_current_reussites
 
@@ -324,7 +319,7 @@ class Auto(Tk):
 
         self.fond.destroy()
         self.fond = Canvas(
-            self.racine, bg="white", width=self.w, height=self.h
+            self, bg="white", width=self.w, height=self.h
         )
         self.fond.pack(fill="both")
 
@@ -364,20 +359,22 @@ class Auto(Tk):
         self.save_text("RTmax (sec): %.3f" % self.RTmax)
         self.save_text("RTmin (sec): %.3f" % self.RTmin)
 
-        self.after(SUMMARY_TIME_SEC * 1000, self.racine.destroy)
+        self.after(self.config.summary_time * 1000, self.destroy)
 
 
 if __name__ == "__main__":
     nom = input("Nom sujet :")
-    maindir = joinpath(DOSSIER_SUJETS, nom)
+
+    config = ApathyTasksConfiguration(MAINDIR)
+    workdir = joinpath(config.subject_dir, nom)
     try:
-        mkdir(maindir)
+        mkdir(workdir)
     except FileExistsError:
         import sys
         sys.exit(
             "Subject name already exists. Try again with a different name."
         )
 
-    app = Auto(None, nom, 1)
-    # app.title("My app")
+    app = Auto(nom, config, pace=1)
+    app.title("Auto App")
     app.mainloop()

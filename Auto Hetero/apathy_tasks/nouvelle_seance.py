@@ -1,4 +1,5 @@
-import pickle
+import os
+import sys
 from random import sample
 from os.path import join as joinpath
 
@@ -7,8 +8,13 @@ from Hetero import Hetero
 from SpatialeFacile import SpatialeFacile
 from SpatialeDifficile import SpatialeDifficile
 from utils import classe_partielle
+from utils import get_pace_from_file
+from config import ApathyTasksConfiguration
 
-SUBJECT_FOLDER = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS\\Sujets"
+MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
+
+# Valeur max (en sec) du temps de réponse utilisé pour les taches Hetero et Auto
+MAX_PACE = 5
 
 # Define appropriate tasks
 # ------------------------
@@ -31,63 +37,62 @@ SECOND_TASK_LIST = [
     Auto,
 ]
 
-def get_pace_from_file(name, maindir, category):
-    filename = joinpath(
-        maindir,
-        "{}_pace_{}.pkl".format(name, category)
-    )
-    with open(filename, 'rb') as f:
-        pace = pickle.load(f)
 
-    return pace
-
-
-def get_average_pace(name, maindir):
-    pace_faible = get_pace_from_file(name, maindir, 'faible')
-    pace_fort = get_pace_from_file(name, maindir, 'fort')
+def get_average_pace(name, workdir):
+    pace_faible = get_pace_from_file(name, workdir, 'faible')
+    pace_fort = get_pace_from_file(name, workdir, 'fort')
 
     return (pace_faible + pace_fort) / 2
 
 
+def run_app(task, *args, **kwds):
+    app = task(*args, **kwds)
+    app.title(task.__name__)
+    app.mainloop()
+
+
 def main(name, maindir):
-    seance_filename = joinpath(
-        maindir,
-        "liste_ordonnee_des_taches_{}.txt".format(name)
-    )
+    config = ApathyTasksConfiguration(maindir)
+    workdir = joinpath(config.subject_dir, name)
+    task_filename = "liste_ordonnee_des_taches_{}.txt".format(name)
+
+    if not os.path.exists(config.subject_dir):
+        os.mkdir(config.subject_dir)
+
+    try:
+        os.mkdir(workdir)
+    except FileExistsError:
+        sys.exit("Subject name already exists. Try again with a different name.")
+
     task_order = []
 
     for task in sample(FIRST_TASK_LIST, len(FIRST_TASK_LIST)):
         task_order.append(task.__name__)
+        run_app(task, name, config)
 
-        app = task(None, name, SUBJECT_FOLDER)
-        app.title("my application")
-        app.destroy()
-        app.mainloop()
+    try:
+        pace = get_average_pace(name, workdir)
+    except FileNotFoundError:
+        sys.exit("Probleme d'enregistrement du temps de réponse.")
+    except EOFError:
+        sys.exit("Le fichier du temps de réponse moyen est vide.")
 
-    pace = get_average_pace(name, maindir)
-
+    pace_msg = "Temps de réponse moyen measuré : {} secs\n".format(pace)
+    if pace > MAX_PACE:
+        pace = MAX_PACE
+        pace_msg += "La valeur est coupée car elle ne peut pas {} secs\n".format(MAX_PACE)
+    
     for task in sample(SECOND_TASK_LIST, len(SECOND_TASK_LIST)):
         task_order.append(task.__name__)
+        run_app(task, name, config, pace=pace)
 
-        app = task(None, name, SUBJECT_FOLDER, pace)
-        app.title("my application")
-        app.destroy()
-        app.mainloop()
-
-    with open(seance_filename, 'a') as f:
+    with open(joinpath(workdir, task_filename), 'a') as f:
         f.write("Ordre des différentes tâches :\n")
         f.write("\n".join(task_order))
+        f.write("\n")
+        f.write(pace_msg)
 
 
 if __name__ == "__main__":
-    name = input("Nom du sujet :")
-    maindir = joinpath(SUBJECT_FOLDER, name)
-
-    try:
-        import os
-        os.mkdir(maindir)
-    except FileExistsError:
-        import sys
-        sys.exit("Subject name already exists. Try again with a different name.")
-
-    main(name, maindir)
+    name = input("Nom du sujet : ")
+    main(name, MAINDIR)
