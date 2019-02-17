@@ -268,17 +268,11 @@ class SpatialeDifficile(Tk):
         self.tapp = perf_counter()
         self.fond.bind("<ButtonPress-1>", self.clic)
 
-    def store_response_time(self, dejafait=False):
-        response_time = self.tclic - self.tapp
-        self.string_info.append("{}".format(response_time))
-        if dejafait:
-            self.SRTdejafait += response_time
-        else:
-            self.SRT += response_time
-
-        return response_time
-
     def save_line(self):
+        response_time = self.tclic - self.tapp
+        self.SRT += response_time
+        # Add response time
+        self.string_info.append("{}".format(response_time))
         # Add elapsed time
         self.string_info.append("{}".format(self.tclic - self.t0))
 
@@ -335,7 +329,7 @@ class SpatialeDifficile(Tk):
 
         self.string_info.append("Nouvelle combi")
 
-        response_time = self.store_response_time()
+        response_time = self.tclic - self.tapp
         print("RT (sec) = {}\n".format(response_time))
         self.RTmax = max(self.RTmax, response_time)
         self.RTmin = min(self.RTmin, response_time)
@@ -357,8 +351,6 @@ class SpatialeDifficile(Tk):
             self.string_info.append("")
         self.string_info.append("Distracteur {}".format(couleur))
 
-        self.store_response_time()
-
         self.save_line()
         self.start_new_combinaison()
 
@@ -371,20 +363,15 @@ class SpatialeDifficile(Tk):
         self.string_info.append("Meme cercle")
         #self.string_info.append("")
 
-        self.store_response_time()
-
         self.save_line()
         self.start_new_combinaison()
 
     def dejafait(self):
         self.counter.add_meme_combinaison()
 
-        RTdejafait = self.tclic - self.tapp
-        self.SRTdejafait += RTdejafait
+        self.SRTdejafait += self.tclic - self.tapp
 
         self.string_info.append("Combi déjà faite")
-
-        self.store_response_time()
 
         self.save_line()
         self.start_new_combinaison()
@@ -395,8 +382,6 @@ class SpatialeDifficile(Tk):
         for _ in range(3 - self.numclic):
             self.string_info.append("")
         self.string_info.append("A cote")
-
-        self.store_response_time()
 
         self.save_line()
         self.start_new_combinaison()
@@ -438,9 +423,9 @@ class SpatialeDifficile(Tk):
 
         if self.counter.total == 0:
             taux = 0
-            RTmoyreussi = 180
             RTmoydejafait = 0
-            RTmoytot = 180
+            RTmoyreussi = self.config.test_time_spatial
+            RTmoytot = self.config.test_time_spatial
         else:
             taux = self.counter.n_reussites / self.counter.total * 100
             if taux == 0:

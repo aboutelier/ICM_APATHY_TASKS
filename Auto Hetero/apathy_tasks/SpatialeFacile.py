@@ -141,7 +141,6 @@ class SpatialeFacile(Tk):
         self.timer = self.config.end_timer
 
         self.SRT = 0
-        self.SRTdejafait = 0
         self.RTmax = 0
         self.RTmin = 360
 
@@ -283,15 +282,10 @@ class SpatialeFacile(Tk):
 
         self.fond.bind("<Button-1>", self.clic)
 
-    def store_response_time(self, dejafait=False):
-        response_time = self.tclic - self.tapp
-        self.string_info.append("{}".format(response_time))
-        if dejafait:
-            self.SRTdejafait += response_time
-        else:
-            self.SRT += response_time
-
     def save_line(self):
+        response_time = self.tclic - self.tapp
+        self.SRT += response_time
+        self.string_info.append("{}".format(response_time))
         # Add elapsed time
         self.string_info.append("{}".format(self.tclic - self.t0))
         # Join into a string and save as a new line in CSV file
@@ -301,7 +295,7 @@ class SpatialeFacile(Tk):
         self.tclic = perf_counter()
         # Parcours la liste de cercles jusqu'à trouver le bon
         # Sinon on est tombé à côté.
-        for idx, circle in enumerate(self.circles):
+        for circle in self.circles:
             isin_x = circle.x_min <= event.x <= circle.x_max
             isin_y = circle.y_min <= event.y <= circle.y_max
             if isin_x and isin_y:
@@ -326,7 +320,6 @@ class SpatialeFacile(Tk):
             self.string_info.append("A cote")
             self.counter.add_a_cote()
 
-        self.store_response_time()
         self.save_line()
         self.start_new_combinaison()
 
@@ -383,9 +376,8 @@ class SpatialeFacile(Tk):
 
         if self.counter.total == 0:
             taux = 0
-            RTmoyreussi = 180
-            RTmoydejafait = 0
-            RTmoytot = 180
+            RTmoyreussi = self.config.test_time_spatial
+            RTmoytot = self.config.test_time_spatial
         else:
             taux = self.counter.n_reussites / self.counter.total * 100
             if taux == 0:
@@ -394,13 +386,9 @@ class SpatialeFacile(Tk):
                 RTmoyreussi = self.SRT / self.counter.n_reussites
 
             if self.counter.n_distracteur == 0:
-                RTmoydejafait = 0
                 RTmoytot = RTmoyreussi
             else:
-                RTmoydejafait = self.SRTdejafait / self.counter.n_distracteur
-                RTmoytot = (self.SRT + self.SRTdejafait) / (
-                    self.counter.n_distracteur + self.counter.n_reussites
-                )
+                RTmoytot = self.SRT / (self.counter.n_distracteur + self.counter.n_reussites)
 
         # Save the average response time
         with open(self.pace_filename + ".pkl", 'wb') as f:
@@ -414,7 +402,6 @@ class SpatialeFacile(Tk):
         self.save_text("Nombre de reponses: {}".format(self.counter.total))
         self.save_text("Taux de reussite: %.2f" % taux)
         self.save_text("RTmoy reussi (sec): %.3f" % RTmoyreussi)
-        self.save_text("RTmoy deja fait (sec): %.3f" % RTmoydejafait)
         self.save_text("RTmoy tot (sec): %.3f" % RTmoytot)
         self.save_text("RTmax (sec): %.3f" % self.RTmax)
         self.save_text("RTmin (sec): %.3f" % self.RTmin)

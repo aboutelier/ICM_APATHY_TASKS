@@ -232,7 +232,7 @@ class Auto(Tk):
         self.tclic = perf_counter()
         # Parcours la liste de cercles jusqu'à trouver le bon
         # Sinon on est tombé à côté.
-        for idx, circle in enumerate(self.circles):
+        for circle in self.circles:
             isin_x = circle.x_min <= event.x <= circle.x_max
             isin_y = circle.y_min <= event.y <= circle.y_max
             if isin_x and isin_y:
@@ -334,8 +334,8 @@ class Auto(Tk):
 
         if self.counter.total == 0:
             taux = 0
-            RTmoyreussi = 180
-            RTmoytot = 180
+            RTmoyreussi = self.config.test_time_auto
+            RTmoytot = self.config.test_time_auto
         else:
             taux = self.counter.n_reussites / self.counter.total * 100
             if taux == 0:
