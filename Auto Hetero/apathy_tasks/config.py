@@ -15,10 +15,10 @@ class ApathyTasksConfiguration(object):
 
         # Sound
         sound_dir = joinpath(maindir, "Son")
-        self.son_cash = joinpath("Cash.wav")
-        self.son_pieces = joinpath("Pièces.wav")
-        self.son_metronome = joinpath("Metronome.wav")
-        self.son_perte = joinpath("Son_Perte1.wav")
+        self.son_cash = joinpath(sound_dir, "Cash.wav")
+        self.son_pieces = joinpath(sound_dir, "Pièces.wav")
+        self.son_metronome = joinpath(sound_dir, "Metronome.wav")
+        self.son_perte = joinpath(sound_dir, "Son_Perte1.wav")
 
         # Timing in seconds
         self.test_time_spatial = 10
