@@ -11,10 +11,8 @@ def classe_partielle(func, *args, **kwargs):
 
 
 def get_pace_from_file(name, workdir, category):
-    filename = joinpath(
-        workdir,
-        "{}_pace_{}.pkl".format(name, category)
-    )
+    filename = joinpath(workdir, "{}_pace_{}.pkl".format(name, category))
+
     with open(filename, 'rb') as f:
         pace = pickle.load(f)
 

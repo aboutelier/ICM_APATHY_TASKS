@@ -13,9 +13,6 @@ from config import ApathyTasksConfiguration
 
 MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
 
-# Valeur max (en sec) du temps de réponse utilisé pour les taches Hetero et Auto
-MAX_PACE = 5
-
 # Define appropriate tasks
 # ------------------------
 SpatialeFacileFort = classe_partielle(SpatialeFacile, gain_faible=False)
@@ -78,10 +75,10 @@ def main(name, maindir):
         sys.exit("Le fichier du temps de réponse moyen est vide.")
 
     pace_msg = "Temps de réponse moyen measuré : {} secs\n".format(pace)
-    if pace > MAX_PACE:
-        pace = MAX_PACE
-        pace_msg += "La valeur est coupée car elle ne peut pas {} secs\n".format(MAX_PACE)
-    
+    if pace > config.max_response_time:
+        pace = config.max_response_time
+        pace_msg += "La valeur est coupée car elle ne peut pas {} secs\n".format(config.max_response_time)
+
     for task in sample(SECOND_TASK_LIST, len(SECOND_TASK_LIST)):
         task_order.append(task.__name__)
         run_app(task, name, config, pace=pace)
