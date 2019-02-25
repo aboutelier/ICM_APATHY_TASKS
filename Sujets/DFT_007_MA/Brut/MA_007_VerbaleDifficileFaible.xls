@@ -1,0 +1,61 @@
+TACHE VERBALE DIFFICILE FAIBLE GAIN						
+						
+Coord distracteur bleu 1 	999,0- 591,0- 1089,0- 681,0					
+Coord distracteur bleu 2 	819,0- 591,0- 909,0- 681,0					
+Coord distracteur bleu 3 	639,0- 591,0- 729,0- 681,0					
+Coord distracteur rouge 1 	639,0- 411,0- 729,0- 501,0					
+Coord distracteur rouge 2 	369,0- 501,0- 459,0- 591,0					
+						
+Coord voyelle 1 	504,0- 636,0					
+Coord voyelle 2 	504,0- 456,0					
+Coord voyelle 3 	594,0- 366,0					
+Coord voyelle 4 	684,0- 276,0					
+Coord voyelle 5 	594,0- 546,0					
+						
+Coord consonne 1 	954,0- 546,0					
+Coord consonne 2 	864,0- 636,0					
+Coord consonne 3 	684,0- 636,0					
+Coord consonne 4 	324,0- 636,0					
+Coord consonne 5 	414,0- 546,0					
+Coord consonne 6 	774,0- 366,0					
+Coord consonne 7 	774,0- 546,0					
+Coord consonne 8 	864,0- 456,0					
+Coord consonne 9 	1044,0- 636,0					
+Coord consonne 10 	684,0- 456,0					
+						
+	Coord Lettre 1	Coord Lettre 2	Coord Lettre 3	Coord Lettre 4	Combi	RT
+	774,0- 366,0	594,0- 366,0	324,0- 636,0	504,0- 636,0	Nouvelle combi	18,07090262
+	864,0- 456,0	504,0- 456,0	594,0- 546,0		Pas consonne	
+	774,0- 546,0	504,0- 636,0	774,0- 366,0	594,0- 366,0	Nouvelle combi	25,68160384
+	324,0- 636,0	504,0- 636,0	774,0- 546,0	594,0- 546,0	Nouvelle combi	18,70186888
+	864,0- 456,0	504,0- 456,0	594,0- 546,0		Pas consonne	
+	954,0- 546,0	504,0- 456,0	774,0- 546,0	684,0- 276,0	Nouvelle combi	12,16573757
+	774,0- 546,0	594,0- 366,0	864,0- 456,0	504,0- 636,0	Nouvelle combi	17,01506422
+	594,0- 366,0	774,0- 366,0	684,0- 276,0	504,0- 636,0	Pas consonne	
+	774,0- 546,0	504,0- 456,0	594,0- 546,0		Pas consonne	
+	954,0- 546,0	324,0- 636,0			Pas voyelle	
+	504,0- 636,0	774,0- 366,0	594,0- 366,0	324,0- 636,0	Nouvelle combi	8,853506341
+						
+30 sec						
+	504,0- 636,0	774,0- 366,0	594,0- 366,0	324,0- 636,0	Combi déjà faite	4,484128807
+	774,0- 546,0	504,0- 456,0	594,0- 546,0		Pas consonne	
+	954,0- 546,0	774,0- 546,0			Pas voyelle	
+	504,0- 456,0	594,0- 546,0			Pas consonne	
+	954,0- 546,0	864,0- 456,0			Pas voyelle	
+	504,0- 456,0	594,0- 546,0			Pas consonne	
+	954,0- 546,0					
+Bonnes réponses=	6					
+Erreurs couleur:	0					
+Erreurs répétition:	1					
+Erreurs même cercle:	0					
+Erreurs pas consonne:	7					
+Erreurs pas voyelle:	3					
+Erreurs à côté:	0					
+Erreurs totales:	11					
+Nombre de réponses:	17					
+Taux de réussite=	35,29					
+RTmoy reussi sec=	16,748					
+RTmoy deja fait sec=	4,484					
+RTmoy tot sec=	14,996					
+RTmax sec=	25,682					
+RTmin sec=	8,854					

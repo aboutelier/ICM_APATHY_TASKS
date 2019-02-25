@@ -1,0 +1,60 @@
+
+TACHE VERBALE DIFFICILE FORT GAIN
+
+Coord distracteur bleu 1 [729.0, 321.0, 819.0, 411.0]
+Coord distracteur bleu 2 [549.0, 321.0, 639.0, 411.0]
+Coord distracteur bleu 3 [369.0, 501.0, 459.0, 591.0]
+Coord distracteur rouge 1 [819.0, 411.0, 909.0, 501.0]
+Coord distracteur rouge 2 [459.0, 591.0, 549.0, 681.0]
+
+Coord voyelle 1 [684.0, 636.0]
+Coord voyelle 2 [1044.0, 636.0]
+Coord voyelle 3 [594.0, 546.0]
+Coord voyelle 4 [684.0, 456.0]
+Coord voyelle 5 [504.0, 456.0]
+
+Coord consonne 1 [324.0, 636.0]
+Coord consonne 2 [954.0, 546.0]
+Coord consonne 3 [414.0, 546.0]
+Coord consonne 4 [774.0, 366.0]
+Coord consonne 5 [594.0, 366.0]
+Coord consonne 6 [864.0, 456.0]
+Coord consonne 7 [864.0, 636.0]
+Coord consonne 8 [684.0, 276.0]
+Coord consonne 9 [504.0, 636.0]
+Coord consonne 10 [774.0, 546.0]
+
+[Coord Lettre 1[Coord Lettre 2[Coord Lettre 3[Coord Lettre 4[Combi[RT
+[774.0, 546.0][684.0, 636.0][864.0, 636.0][1044.0, 636.0][Nouvelle combi[17.134945419576752
+[774.0, 546.0][684.0, 456.0][684.0, 276.0][954.0, 546.0][Pas voyelle
+[864.0, 636.0][1044.0, 636.0][954.0, 546.0][684.0, 636.0][Nouvelle combi[7.374714462007034
+[684.0, 276.0][504.0, 456.0][684.0, 456.0][[Pas consonne
+[594.0, 546.0][324.0, 636.0][684.0, 636.0][684.0, 456.0][Pas consonne
+[324.0, 636.0][684.0, 636.0][774.0, 546.0][684.0, 456.0][Nouvelle combi[12.75090010108704
+[324.0, 636.0][684.0, 636.0][864.0, 636.0][1044.0, 636.0][Nouvelle combi[8.577673718689255
+[684.0, 276.0][684.0, 456.0][504.0, 456.0][[Pas consonne
+[594.0, 546.0][774.0, 546.0][684.0, 636.0][864.0, 636.0][Nouvelle combi[13.840834312477057
+[1044.0, 636.0][324.0, 636.0][684.0, 636.0][864.0, 636.0][Nouvelle combi[18.467664463319863
+[1044.0, 636.0][954.0, 546.0][684.0, 276.0][[Pas voyelle
+[684.0, 456.0][504.0, 456.0][[[Pas consonne
+[594.0, 546.0][684.0, 636.0][[[Pas consonne
+
+30 sec
+[774.0, 546.0][684.0, 636.0][864.0, 636.0][1044.0, 636.0][Combi déjà faite[11.205203765819476
+
+Bonnes réponses=[ 6.00
+Erreurs couleur:[ 0.00
+Erreurs répétition:[ 1.00
+Erreurs même cercle:[ 0.00
+Erreurs pas consonne:[ 5.00
+Erreurs pas voyelle:[ 2.00
+Erreurs à côté:[ 0.00
+Erreurs totales:[8
+Nombre de réponses:[14
+Taux de réussite=[ 42.86
+RTmoy reussi sec=[ 13.024
+RTmoy deja fait sec=[ 11.205
+RTmoy tot sec=[ 12.765
+RTmax sec=[ 18.468
+RTmin sec=[ 7.375
+

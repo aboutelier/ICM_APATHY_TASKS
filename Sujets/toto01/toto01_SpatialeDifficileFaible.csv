@@ -1,0 +1,27 @@
+premier cercle;deuxieme cercle;troisieme cercle;quatrieme cercle;resultat;temps de reponse;temps ecoule
+Cercle 0;Cercle 4;Cercle 1;Cercle 8;Nouvelle combi;1.472407817511538;1.4728024838543732
+Cercle 6;Cercle 12;Cercle 10;Cercle 14;Nouvelle combi;0.8675385702247667;2.4749329436447667
+Cercle 8;Cercle 6;Coords(703,410);;A cote;0.5816737791394644;3.1909344074384336
+Cercle 4;Cercle 7;Cercle 5;Cercle 1;Nouvelle combi;1.3019972906688864;4.49444431225082
+Cercle 8;Cercle 6;Cercle 12;Cercle 10;Nouvelle combi;0.8387431066723181;5.4647118238261925
+Cercle 14;Cercle 12;Cercle 10;Cercle 8;Nouvelle combi;0.7713573158093823;6.3886015273013115
+Cercle 1;Cercle 0;Cercle 1;;Meme cercle;0.5990994058671504;7.1456322907632455
+Cercle 7;Cercle 5;Cercle 4;Cercle 1;Combi déjà faite;0.898165006633846;8.157158435152056
+Cercle 8;Cercle 6;Cercle 12;Cercle 10;Combi déjà faite;0.8420973603303707;9.11753672407243
+# ***** 30 sec line *****
+Cercle 14;Cercle 12;Cercle 6;Cercle 8;Nouvelle combi;0.8450352040736817;10.118613646265729
+Cercle 1;Cercle 7;Cercle 5;Cercle 0;Nouvelle combi;0.6964338901055243;10.990677340982693
+Cercle 4;Cercle 6;Cercle 12;Cercle 14;Nouvelle combi;0.8790154838847357;12.043880169123966
+Cercle 10;Cercle 8;Cercle 1;Cercle 7;Nouvelle combi;0.9010765939884351;13.095038280994231
+Cercle 5;Cercle 0;Cercle 4;Cercle 6;Nouvelle combi;0.6592138180809712;13.952207628957844
+Cercle 12;Cercle 14;Cercle 10;Cercle 8;Combi déjà faite;1.0621246669746327;15.1577537167149
+Cercle 1;Cercle 7;Cercle 5;Cercle 0;Combi déjà faite;0.8086992338878076;16.128805227646993
+Cercle 4;Cercle 6;Cercle 7;Cercle 10;Nouvelle combi;3.8085080545574925;20.065669689706922
+Coords(1192,732);;;;A cote;0.3461117160108955;20.60999129436611
+Coords(1043,406);;;;A cote;0.821911940995335;21.43505482251912
+Cercle 5;Cercle 11;;;Distracteur rouge;1.0273349519302997;22.465549976984633
+Cercle 7;Cercle 5;Cercle 11;;Distracteur rouge;1.2425200061374255;23.826266398960897
+Cercle 1;Cercle 7;Cercle 5;Cercle 11;Distracteur rouge;1.2733351603403804;25.217280642231273
+Cercle 4;Cercle 1;Cercle 7;Cercle 5;Combi déjà faite;1.0382436609282735;26.373893847061453
+Cercle 4;Cercle 1;Cercle 7;Cercle 5;Combi déjà faite;1.0058912772174153;27.497700104451198
+Cercle 1;Cercle 7;Cercle 5;Cercle 4;Combi déjà faite;1.425212779312588;29.042582529163056

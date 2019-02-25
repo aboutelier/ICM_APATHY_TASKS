@@ -1,0 +1,28 @@
+premier cercle;deuxieme cercle;troisieme cercle;quatrieme cercle;resultat;temps de reponse;temps ecoule
+Cercle 7;Cercle 1;Cercle 9;Cercle 2;Nouvelle combi;1.4608111090780653;1.4619348004637516
+Cercle 8;Cercle 6;Cercle 10;Cercle 2;Nouvelle combi;0.8811484052115617;2.5018637933425225
+Cercle 7;Cercle 9;Cercle 13;Cercle 3;Nouvelle combi;0.9636020811470019;3.6075076040963125
+Cercle 0;Cercle 1;Cercle 7;Cercle 3;Nouvelle combi;0.8745461542185353;4.644079061268457
+Cercle 9;Cercle 2;Cercle 8;Cercle 6;Nouvelle combi;0.8158598433970639;5.603814889177528
+Cercle 10;Cercle 8;Cercle 1;Cercle 3;Nouvelle combi;0.8208428136674399;6.599900225722891
+Cercle 7;Cercle 9;Cercle 13;Cercle 9;Meme cercle;0.709342187206417;7.50508348300842
+Cercle 2;Cercle 8;Cercle 10;Cercle 6;Combi déjà faite;0.9834363212830084;8.60155519872393
+Cercle 8;Cercle 1;Cercle 3;Cercle 7;Nouvelle combi;0.8341761360606057;9.580205472651912
+# ***** 30 sec line *****
+Cercle 9;Cercle 2;Cercle 7;Cercle 1;Combi déjà faite;0.817934508361418;10.57931767850856
+Cercle 3;Cercle 0;Cercle 6;Cercle 8;Nouvelle combi;0.8075915424889928;11.55054354827196
+Cercle 10;Cercle 1;Cercle 7;Cercle 2;Nouvelle combi;0.889042962836541;12.584785571457985
+Coords(426,640);;;;A cote;0.14636500811076303;12.873838052235442
+Cercle 13;Cercle 9;Cercle 2;Cercle 10;Nouvelle combi;1.182831849984126;14.062138205425057
+Cercle 8;Cercle 7;Cercle 1;Cercle 6;Nouvelle combi;0.9023791570222386;15.131257328199112
+Cercle 0;Cercle 3;Cercle 7;Cercle 1;Combi déjà faite;3.2742008006557484;18.6034308894926
+Cercle 0;Cercle 3;Cercle 1;Cercle 7;Combi déjà faite;1.1905701000450506;19.907689511639376
+Cercle 0;Cercle 3;Cercle 1;Cercle 7;Combi déjà faite;0.9822162197200157;21.012442656457296
+Cercle 7;Cercle 1;Cercle 3;Cercle 0;Combi déjà faite;1.0827109064936167;22.222522894340187
+Cercle 7;Cercle 3;Cercle 0;Cercle 1;Combi déjà faite;1.02695013173323;23.41804806724261
+Cercle 7;Cercle 0;Cercle 3;Cercle 1;Combi déjà faite;1.1543420272065532;24.68703205166601
+Cercle 7;Cercle 1;Cercle 3;Cercle 0;Combi déjà faite;0.9863314983946623;25.80064098408944
+Cercle 3;Cercle 1;Cercle 7;Cercle 3;Meme cercle;0.982827501269739;26.90574941066714
+Cercle 0;Cercle 1;Cercle 7;Cercle 3;Combi déjà faite;1.0536590328951405;28.070482403706734
+Cercle 1;Cercle 5;;;Distracteur bleu;0.5509419069194621;28.739449239426264
+Cercle 11;;;;Distracteur bleu;0.27975607814884995;29.125483384218754

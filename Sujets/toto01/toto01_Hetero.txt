@@ -1,0 +1,12 @@
+TACHE SPATIALE HETEROGENEREE
+Bonnes reponses: 13.00
+Erreurs gris: 0.00
+Erreurs à côte: 2.00
+Erreurs totales: 2
+Nombre de reponses: 15
+Taux de reussite: 86.67
+RTmoy reussi (sec): 3.549
+RTmoy deja fait (sec): 0.000
+RTmoy tot (sec): 3.549
+RTmax (sec): 11.481
+RTmin (sec): 0.519

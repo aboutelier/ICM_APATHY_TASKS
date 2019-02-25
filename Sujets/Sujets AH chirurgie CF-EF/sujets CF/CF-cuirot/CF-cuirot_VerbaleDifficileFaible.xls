@@ -1,0 +1,65 @@
+
+TACHE VERBALE DIFFICILE FAIBLE GAIN
+
+Coord distracteur bleu 1 [999.0, 591.0, 1089.0, 681.0]
+Coord distracteur bleu 2 [279.0, 591.0, 369.0, 681.0]
+Coord distracteur bleu 3 [639.0, 411.0, 729.0, 501.0]
+Coord distracteur rouge 1 [729.0, 501.0, 819.0, 591.0]
+Coord distracteur rouge 2 [639.0, 591.0, 729.0, 681.0]
+
+Coord voyelle 1 [414.0, 546.0]
+Coord voyelle 2 [594.0, 546.0]
+Coord voyelle 3 [684.0, 276.0]
+Coord voyelle 4 [774.0, 366.0]
+Coord voyelle 5 [504.0, 636.0]
+
+Coord consonne 1 [774.0, 546.0]
+Coord consonne 2 [1044.0, 636.0]
+Coord consonne 3 [684.0, 456.0]
+Coord consonne 4 [504.0, 456.0]
+Coord consonne 5 [864.0, 636.0]
+Coord consonne 6 [684.0, 636.0]
+Coord consonne 7 [954.0, 546.0]
+Coord consonne 8 [324.0, 636.0]
+Coord consonne 9 [864.0, 456.0]
+Coord consonne 10 [594.0, 366.0]
+
+[Coord Lettre 1[Coord Lettre 2[Coord Lettre 3[Coord Lettre 4[Combi[RT
+[594.0, 366.0][774.0, 366.0][864.0, 456.0][684.0, 276.0][Nouvelle combi[58.50659076923077
+[504.0, 456.0][414.0, 546.0][594.0, 366.0][594.0, 546.0][Nouvelle combi[13.511062564102566
+[864.0, 456.0][774.0, 366.0][954.0, 546.0][414.0, 546.0][Nouvelle combi[7.758975589743585
+[594.0, 366.0][594.0, 546.0][504.0, 456.0][504.0, 636.0][Nouvelle combi[3.9427655384615434
+[774.0, 366.0][954.0, 546.0][684.0, 276.0][594.0, 546.0][Pas consonne
+[594.0, 366.0][414.0, 546.0][504.0, 636.0][[Pas consonne
+[504.0, 456.0][414.0, 546.0][594.0, 366.0][504.0, 636.0][Nouvelle combi[3.848761435897444
+[864.0, 456.0][774.0, 366.0][864.0, 456.0][[Meme cercle
+[954.0, 546.0][684.0, 276.0][864.0, 456.0][594.0, 546.0][Nouvelle combi[11.296374974358969
+[954.0, 546.0][774.0, 366.0][864.0, 456.0][684.0, 276.0][Nouvelle combi[6.273541743589732
+[594.0, 366.0][594.0, 546.0][504.0, 456.0][684.0, 276.0][Nouvelle combi[5.57393969230769
+[504.0, 456.0][414.0, 546.0][594.0, 366.0][504.0, 636.0][Combi déjà faite[6.884407794871791
+[954.0, 546.0][684.0, 276.0][864.0, 456.0][594.0, 546.0][Combi déjà faite[8.49368533333336
+[504.0, 456.0][414.0, 546.0][864.0, 456.0][684.0, 276.0][Nouvelle combi[8.014761846153846
+[504.0, 456.0]
+30 sec
+[504.0, 636.0][594.0, 366.0][594.0, 546.0][Nouvelle combi[5.137398974358973
+[954.0, 546.0][684.0, 276.0][504.0, 456.0][414.0, 546.0][Nouvelle combi[6.1778777435897325
+[954.0, 546.0][774.0, 366.0][504.0, 456.0][504.0, 636.0][Nouvelle combi[8.188689230769228
+[954.0, 546.0][594.0, 546.0][594.0, 366.0][684.0, 276.0][Nouvelle combi[7.289027692307684
+[864.0, 456.0][774.0, 366.0][414.0, 546.0][[Pas consonne
+
+Bonnes réponses=[ 13.00
+Erreurs couleur:[ 0.00
+Erreurs répétition:[ 2.00
+Erreurs même cercle:[ 1.00
+Erreurs pas consonne:[ 3.00
+Erreurs pas voyelle:[ 0.00
+Erreurs à côté:[ 0.00
+Erreurs totales:[6
+Nombre de réponses:[19
+Taux de réussite=[ 68.42
+RTmoy reussi sec=[ 11.194
+RTmoy deja fait sec=[ 7.689
+RTmoy tot sec=[ 10.727
+RTmax sec=[ 58.507
+RTmin sec=[ 3.849
+

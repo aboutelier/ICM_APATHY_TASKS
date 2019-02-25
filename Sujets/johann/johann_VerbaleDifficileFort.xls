@@ -1,0 +1,33 @@
+
+TACHE VERBALE DIFFICILE FORT GAIN
+
+Coord distracteur bleu 1 [729.0, 321.0, 819.0, 411.0]
+Coord distracteur bleu 2 [909.0, 501.0, 999.0, 591.0]
+Coord distracteur bleu 3 [459.0, 591.0, 549.0, 681.0]
+Coord distracteur rouge 1 [459.0, 411.0, 549.0, 501.0]
+Coord distracteur rouge 2 [549.0, 321.0, 639.0, 411.0]
+
+Coord voyelle 1 [594.0, 546.0]
+Coord voyelle 2 [684.0, 276.0]
+Coord voyelle 3 [864.0, 456.0]
+Coord voyelle 4 [324.0, 636.0]
+Coord voyelle 5 [864.0, 636.0]
+
+Coord consonne 1 [414.0, 546.0]
+Coord consonne 2 [684.0, 636.0]
+Coord consonne 3 [504.0, 456.0]
+Coord consonne 4 [1044.0, 636.0]
+Coord consonne 5 [684.0, 456.0]
+Coord consonne 6 [594.0, 366.0]
+Coord consonne 7 [504.0, 636.0]
+Coord consonne 8 [774.0, 546.0]
+Coord consonne 9 [954.0, 546.0]
+Coord consonne 10 [774.0, 366.0]
+
+[Coord Lettre 1[Coord Lettre 2[Coord Lettre 3[Coord Lettre 4[Combi[RT
+[684.0, 276.0][684.0, 456.0][594.0, 546.0][414.0, 546.0][Nouvelle combi[5.799102358974352
+[414.0, 546.0][594.0, 546.0][684.0, 456.0][684.0, 276.0][Nouvelle combi[1.2016705641025567
+[684.0, 276.0][684.0, 456.0][864.0, 456.0][774.0, 546.0][Nouvelle combi[1.3891355897436028
+[774.0, 546.0][594.0, 546.0][684.0, 456.0][864.0, 636.0][Nouvelle combi[1.3492713846153777
+
+30 sec

@@ -1,0 +1,14 @@
+
+Hétéro Généré Forte Perte
+
+Combinaison ['Clic gris', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'A côté', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'A côté', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'A côté', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'A côté', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle', 'Nouvelle']
+Temps réponse ['X', 2.7868201025641497, 2.7419241025640986, 2.6916008205128037, 3.503417846153866, 3.7937690256409837, 2.5748853333333273, 2.3822219487179837, 2.3025493333333316, 2.43837907692307, 2.424476717948721, 2.5236541538461665, 2.2064894358974243, 2.2803835897435647, 'X', 2.7839905641025666, 2.3905312820512563, 2.2565825641025867, 2.2431876923076857, 'X', 2.377222153846162, 2.3855757948718406, 2.260115692307693, 2.5654379487179426, 2.4692795897435644, 2.2958785641025656, 2.300394256410243, 2.1892758974358912, 'X', 2.308360205128224, 2.2007183589743704, 2.279463384615383, 2.3240139487179476, 'X', 2.563181948717954, 2.457293948717904, 2.2128525128205183, 2.712777846153813, 2.308869743589753, 2.0764164102563996, 2.156294974359014, 19.033908923076922]
+Bonnes réponses=[ 37.00
+Clic gris:[ 1.00
+Erreurs même cercle:[ 0.00
+Taux de réussite=[ 97.37
+RTmoy=[ 2.837 secondes
+RTmax=[ 19.034 secondes
+RTmin=[ 2.076 secondes
+Temps avant 1er clic=[ 1.094
+

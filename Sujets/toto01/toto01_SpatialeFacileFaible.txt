@@ -1,0 +1,13 @@
+TACHE SPATIALE FACILE FAIBLE GAIN
+Bonnes reponses: 24.00
+Erreurs distracteur: 0.00
+Erreurs cercle gris: 0.00
+Erreurs à côte: 2.00
+Erreurs totales: 2
+Nombre de reponses: 26
+Taux de reussite: 92.31
+RTmoy reussi (sec): 1.076
+RTmoy deja fait (sec): 0.000
+RTmoy tot (sec): 1.076
+RTmax (sec): 5.462
+RTmin (sec): 0.502

@@ -1,0 +1,14 @@
+TACHE SPATIALE DIFFICILE FORT GAIN
+Bonnes reponses: 11.00
+Erreurs distracteur: 2.00
+Erreurs repetition: 10.00
+Erreurs même cercle: 2.00
+Erreurs à côte: 1.00
+Erreurs totales: 15
+Nombre de reponses: 26
+Taux de reussite: 42.31
+RTmoy reussi (sec): 2.332
+RTmoy deja fait (sec): 6.276
+RTmoy tot (sec): 2.939
+RTmax (sec): 1.461
+RTmin (sec): 0.808

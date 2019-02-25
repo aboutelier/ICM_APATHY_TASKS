@@ -1,0 +1,7 @@
+Ordre des différentes tâches :
+SpatialeFacile
+SpatialeDifficile
+SpatialeDifficile
+SpatialeFacile
+Auto
+Hetero

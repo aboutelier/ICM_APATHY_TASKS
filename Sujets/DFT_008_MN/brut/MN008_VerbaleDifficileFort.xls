@@ -1,0 +1,55 @@
+
+TACHE VERBALE DIFFICILE FORT GAIN
+
+Coord distracteur bleu 1 [369.0, 501.0, 459.0, 591.0]
+Coord distracteur bleu 2 [729.0, 501.0, 819.0, 591.0]
+Coord distracteur bleu 3 [819.0, 411.0, 909.0, 501.0]
+Coord distracteur rouge 1 [909.0, 501.0, 999.0, 591.0]
+Coord distracteur rouge 2 [549.0, 501.0, 639.0, 591.0]
+
+Coord voyelle 1 [774.0, 366.0]
+Coord voyelle 2 [684.0, 456.0]
+Coord voyelle 3 [324.0, 636.0]
+Coord voyelle 4 [684.0, 276.0]
+Coord voyelle 5 [684.0, 636.0]
+
+Coord consonne 1 [594.0, 546.0]
+Coord consonne 2 [504.0, 636.0]
+Coord consonne 3 [1044.0, 636.0]
+Coord consonne 4 [954.0, 546.0]
+Coord consonne 5 [414.0, 546.0]
+Coord consonne 6 [864.0, 456.0]
+Coord consonne 7 [774.0, 546.0]
+Coord consonne 8 [864.0, 636.0]
+Coord consonne 9 [594.0, 366.0]
+Coord consonne 10 [504.0, 456.0]
+
+[Coord Lettre 1[Coord Lettre 2[Coord Lettre 3[Coord Lettre 4[Combi[RT
+[684.0, 276.0][594.0, 366.0][774.0, 366.0][504.0, 456.0][Nouvelle combi[17.36420247925753
+[684.0, 636.0][864.0, 636.0][324.0, 636.0][504.0, 456.0][Nouvelle combi[18.85772166938
+[684.0, 456.0][1044.0, 636.0][324.0, 636.0][684.0, 276.0][Pas consonne
+[594.0, 366.0][324.0, 636.0][504.0, 636.0][684.0, 636.0][Nouvelle combi[22.400460471039196
+[864.0, 636.0][684.0, 456.0][504.0, 456.0][684.0, 276.0][Nouvelle combi[17.686064515175985
+[1044.0, 636.0][324.0, 636.0][504.0, 456.0][774.0, 366.0][Nouvelle combi[21.216928874783207
+[594.0, 366.0][684.0, 636.0][1044.0, 636.0][324.0, 636.0][Nouvelle combi[24.893579661818194
+
+30 sec
+[594.0, 366.0][774.0, 366.0][1044.0, 636.0][324.0, 636.0][Nouvelle combi[22.374371077955175
+[324.0, 636.0][594.0, 366.0][684.0, 456.0][1044.0, 636.0][Nouvelle combi[14.312173026177561
+
+Bonnes réponses=[ 8.00
+Erreurs couleur:[ 0.00
+Erreurs répétition:[ 0.00
+Erreurs même cercle:[ 0.00
+Erreurs pas consonne:[ 1.00
+Erreurs pas voyelle:[ 0.00
+Erreurs à côté:[ 0.00
+Erreurs totales:[1
+Nombre de réponses:[9
+Taux de réussite=[ 88.89
+RTmoy reussi sec=[ 19.888
+RTmoy deja fait sec=[ 0.000
+RTmoy tot sec=[ 19.888
+RTmax sec=[ 24.894
+RTmin sec=[ 14.312
+

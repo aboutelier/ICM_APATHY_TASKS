@@ -1,0 +1,59 @@
+TACHE VERBALE DIFFICILE FORT GAIN						
+						
+Coord distracteur bleu 1 	729,0- 501,0- 819,0- 591,0					
+Coord distracteur bleu 2 	459,0- 411,0- 549,0- 501,0					
+Coord distracteur bleu 3 	459,0- 591,0- 549,0- 681,0					
+Coord distracteur rouge 1 	639,0- 231,0- 729,0- 321,0					
+Coord distracteur rouge 2 	819,0- 411,0- 909,0- 501,0					
+						
+Coord voyelle 1 	1044,0- 636,0					
+Coord voyelle 2 	324,0- 636,0					
+Coord voyelle 3 	414,0- 546,0					
+Coord voyelle 4 	684,0- 636,0					
+Coord voyelle 5 	774,0- 366,0					
+						
+Coord consonne 1 	864,0- 456,0					
+Coord consonne 2 	504,0- 636,0					
+Coord consonne 3 	594,0- 366,0					
+Coord consonne 4 	684,0- 456,0					
+Coord consonne 5 	954,0- 546,0					
+Coord consonne 6 	774,0- 546,0					
+Coord consonne 7 	594,0- 546,0					
+Coord consonne 8 	864,0- 636,0					
+Coord consonne 9 	504,0- 456,0					
+Coord consonne 10 	684,0- 276,0					
+						
+	Coord Lettre 1	Coord Lettre 2	Coord Lettre 3	Coord Lettre 4	Combi	RT
+	594,0- 546,0	414,0- 546,0	864,0- 636,0	1044,0- 636,0	Nouvelle combi	10,6030766
+	864,0- 636,0	414,0- 546,0	594,0- 546,0	324,0- 636,0	Nouvelle combi	21,62425241
+	684,0- 456,0	774,0- 366,0	864,0- 636,0	684,0- 636,0	Nouvelle combi	9,076663858
+	954,0- 546,0	1044,0- 636,0	414,0- 546,0		Pas consonne	
+	684,0- 636,0	594,0- 546,0	414,0- 546,0	684,0- 456,0	Nouvelle combi	29,32136478
+	864,0- 636,0	324,0- 636,0	594,0- 546,0	774,0- 366,0	Nouvelle combi	19,13731375
+	1044,0- 636,0	594,0- 546,0	684,0- 636,0	324,0- 636,0	Pas consonne	
+	1289- 875				A cote	
+	1325- 870				A cote	
+	1310- 892				A cote	
+	1297- 858				A cote	
+	684,0- 456,0	1273- 881			A cote	
+	684,0- 456,0	1044,0- 636,0				
+30 sec						
+	594,0- 546,0	414,0- 546,0	Nouvelle combi	15,63763868		
+	594,0- 546,0	684,0- 636,0	774,0- 366,0		Pas consonne	
+	594,0- 546,0	684,0- 636,0	684,0- 456,0	414,0- 546,0	Nouvelle combi	5,07216129
+						
+Bonnes réponses=	7					
+Erreurs couleur:	0					
+Erreurs répétition:	0					
+Erreurs même cercle:	0					
+Erreurs pas consonne:	3					
+Erreurs pas voyelle:	0					
+Erreurs à côté:	5					
+Erreurs totales:	8					
+Nombre de réponses:	15					
+Taux de réussite=	46,67					
+RTmoy reussi sec=	15,782					
+RTmoy deja fait sec=	0					
+RTmoy tot sec=	15,782					
+RTmax sec=	29,321					
+RTmin sec=	5,072					

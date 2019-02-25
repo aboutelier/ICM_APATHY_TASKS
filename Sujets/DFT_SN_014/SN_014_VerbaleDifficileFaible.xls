@@ -1,0 +1,51 @@
+
+TACHE VERBALE DIFFICILE FAIBLE GAIN
+
+Coord distracteur bleu 1 [909.0, 501.0, 999.0, 591.0]
+Coord distracteur bleu 2 [549.0, 321.0, 639.0, 411.0]
+Coord distracteur bleu 3 [639.0, 591.0, 729.0, 681.0]
+Coord distracteur rouge 1 [729.0, 321.0, 819.0, 411.0]
+Coord distracteur rouge 2 [549.0, 501.0, 639.0, 591.0]
+
+Coord voyelle 1 [504.0, 456.0]
+Coord voyelle 2 [864.0, 456.0]
+Coord voyelle 3 [864.0, 636.0]
+Coord voyelle 4 [414.0, 546.0]
+Coord voyelle 5 [774.0, 546.0]
+
+Coord consonne 1 [954.0, 546.0]
+Coord consonne 2 [774.0, 366.0]
+Coord consonne 3 [1044.0, 636.0]
+Coord consonne 4 [594.0, 366.0]
+Coord consonne 5 [684.0, 276.0]
+Coord consonne 6 [324.0, 636.0]
+Coord consonne 7 [504.0, 636.0]
+Coord consonne 8 [594.0, 546.0]
+Coord consonne 9 [684.0, 636.0]
+Coord consonne 10 [684.0, 456.0]
+
+[Coord Lettre 1[Coord Lettre 2[Coord Lettre 3[Coord Lettre 4[Combi[RT
+[1044.0, 636.0][864.0, 636.0][684.0, 456.0][864.0, 456.0][Nouvelle combi[28.357761230769256
+[504.0, 636.0][414.0, 546.0][684.0, 456.0][864.0, 456.0][Nouvelle combi[25.21177805128218
+[684.0, 456.0][774.0, 546.0][864.0, 636.0][[Pas consonne
+[864.0, 636.0][1044.0, 636.0][774.0, 546.0][684.0, 456.0][Nouvelle combi[30.658736820513013
+[504.0, 636.0][414.0, 546.0][324.0, 636.0]
+30 sec
+[504.0, 456.0][Nouvelle combi[42.897649230769275
+[684.0, 456.0][774.0, 546.0]
+Bonnes réponses=[ 4.00
+Erreurs couleur:[ 0.00
+Erreurs répétition:[ 0.00
+Erreurs même cercle:[ 0.00
+Erreurs pas consonne:[ 1.00
+Erreurs pas voyelle:[ 0.00
+Erreurs à côté:[ 0.00
+Erreurs totales:[1
+Nombre de réponses:[5
+Taux de réussite=[ 80.00
+RTmoy reussi sec=[ 31.781
+RTmoy deja fait sec=[ 0.000
+RTmoy tot sec=[ 31.781
+RTmax sec=[ 42.898
+RTmin sec=[ 25.212
+

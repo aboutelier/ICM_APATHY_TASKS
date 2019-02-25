@@ -1,0 +1,14 @@
+TACHE SPATIALE DIFFICILE FAIBLE GAIN
+Bonnes reponses: 11.00
+Erreurs distracteur: 3.00
+Erreurs repetition: 7.00
+Erreurs même cercle: 1.00
+Erreurs à côte: 3.00
+Erreurs totales: 14
+Nombre de reponses: 25
+Taux de reussite: 44.00
+RTmoy reussi (sec): 2.365
+RTmoy deja fait (sec): 2.360
+RTmoy tot (sec): 2.364
+RTmax (sec): 3.809
+RTmin (sec): 0.659

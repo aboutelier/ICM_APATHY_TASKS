@@ -1,0 +1,65 @@
+
+TACHE VERBALE DIFFICILE FAIBLE GAIN
+
+Coord distracteur bleu 1 [549.0, 501.0, 639.0, 591.0]
+Coord distracteur bleu 2 [639.0, 411.0, 729.0, 501.0]
+Coord distracteur bleu 3 [459.0, 411.0, 549.0, 501.0]
+Coord distracteur rouge 1 [639.0, 231.0, 729.0, 321.0]
+Coord distracteur rouge 2 [819.0, 411.0, 909.0, 501.0]
+
+Coord voyelle 1 [864.0, 636.0]
+Coord voyelle 2 [1044.0, 636.0]
+Coord voyelle 3 [954.0, 546.0]
+Coord voyelle 4 [774.0, 546.0]
+Coord voyelle 5 [684.0, 636.0]
+
+Coord consonne 1 [414.0, 546.0]
+Coord consonne 2 [684.0, 456.0]
+Coord consonne 3 [504.0, 456.0]
+Coord consonne 4 [594.0, 546.0]
+Coord consonne 5 [594.0, 366.0]
+Coord consonne 6 [684.0, 276.0]
+Coord consonne 7 [774.0, 366.0]
+Coord consonne 8 [504.0, 636.0]
+Coord consonne 9 [324.0, 636.0]
+Coord consonne 10 [864.0, 456.0]
+
+[Coord Lettre 1[Coord Lettre 2[Coord Lettre 3[Coord Lettre 4[Combi[RT
+[504.0, 636.0][684.0, 636.0][414.0, 546.0][774.0, 546.0][Nouvelle combi[7.334115144016096
+[324.0, 636.0][774.0, 546.0][684.0, 636.0][[Pas consonne
+[864.0, 636.0][594.0, 366.0][684.0, 636.0][774.0, 366.0][Nouvelle combi[16.980286391324853
+[774.0, 546.0][414.0, 546.0][954.0, 546.0][504.0, 636.0][Nouvelle combi[10.679090577902684
+[684.0, 636.0][324.0, 636.0][774.0, 366.0][[Pas voyelle
+[774.0, 546.0][324.0, 636.0][864.0, 636.0][774.0, 366.0][Nouvelle combi[10.294367516935381
+[954.0, 546.0][684.0, 636.0][[[Pas consonne
+[1044.0, 636.0][954.0, 546.0][[[Pas consonne
+[774.0, 366.0][774.0, 546.0][864.0, 636.0][[Pas consonne
+[414.0, 546.0][774.0, 546.0][504.0, 636.0][684.0, 636.0][Nouvelle combi[8.391122640209005
+[324.0, 636.0][774.0, 546.0][684.0, 636.0][[Pas consonne
+[324.0, 636.0][774.0, 546.0][684.0, 636.0][[Pas consonne
+[504.0, 636.0][864.0, 636.0][594.0, 366.0][774.0, 546.0][Nouvelle combi[15.55859354487211
+[774.0, 366.0][324.0, 636.0][[[Pas voyelle
+[324.0, 636.0][774.0, 546.0][684.0, 636.0][[Pas consonne
+[324.0, 636.0][774.0, 366.0][[[Pas voyelle
+[774.0, 546.0][684.0, 636.0][[[Pas consonne
+[414.0, 546.0]
+30 sec
+[504.0, 636.0][[[Pas voyelle
+[774.0, 546.0][684.0, 636.0][[[Pas consonne
+[324.0, 636.0]
+Bonnes réponses=[ 6.00
+Erreurs couleur:[ 0.00
+Erreurs répétition:[ 0.00
+Erreurs même cercle:[ 0.00
+Erreurs pas consonne:[ 9.00
+Erreurs pas voyelle:[ 4.00
+Erreurs à côté:[ 0.00
+Erreurs totales:[13
+Nombre de réponses:[19
+Taux de réussite=[ 31.58
+RTmoy reussi sec=[ 11.540
+RTmoy deja fait sec=[ 0.000
+RTmoy tot sec=[ 11.540
+RTmax sec=[ 16.980
+RTmin sec=[ 7.334
+

@@ -1,0 +1,100 @@
+TACHE VERBALE DIFFICILE FAIBLE GAIN						
+						
+Coord distracteur bleu 1 	639,0- 591,0- 729,0- 681,0					
+Coord distracteur bleu 2 	819,0- 591,0- 909,0- 681,0					
+Coord distracteur bleu 3 	279,0- 591,0- 369,0- 681,0					
+Coord distracteur rouge 1 	639,0- 231,0- 729,0- 321,0					
+Coord distracteur rouge 2 	549,0- 321,0- 639,0- 411,0					
+						
+Coord voyelle 1 	1044,0- 636,0					
+Coord voyelle 2 	414,0- 546,0					
+Coord voyelle 3 	774,0- 546,0					
+Coord voyelle 4 	594,0- 546,0					
+Coord voyelle 5 	504,0- 456,0					
+						
+Coord consonne 1 	684,0- 456,0					
+Coord consonne 2 	774,0- 366,0					
+Coord consonne 3 	864,0- 456,0					
+Coord consonne 4 	864,0- 636,0					
+Coord consonne 5 	504,0- 636,0					
+Coord consonne 6 	684,0- 636,0					
+Coord consonne 7 	954,0- 546,0					
+Coord consonne 8 	324,0- 636,0					
+Coord consonne 9 	684,0- 276,0					
+Coord consonne 10 	594,0- 366,0					
+						
+	Coord Lettre 1	Coord Lettre 2	Coord Lettre 3	Coord Lettre 4	Combi	RT
+	1351- 912				A cote	
+	774,0- 366,0	774,0- 546,0	1044,0- 636,0		Pas consonne	
+	774,0- 366,0	504,0- 456,0	414,0- 546,0		Pas consonne	
+	774,0- 366,0	864,0- 456,0			Pas voyelle	
+	954,0- 546,0	864,0- 456,0			Pas voyelle	
+	954,0- 546,0	774,0- 546,0	594,0- 546,0		Pas consonne	
+	954,0- 546,0	1044,0- 636,0	774,0- 546,0		Pas consonne	
+	954,0- 546,0	774,0- 546,0	684,0- 456,0	594,0- 546,0	Nouvelle combi	5,957431795
+	1044,0- 636,0	954,0- 546,0	864,0- 456,0		Pas voyelle	
+	1044,0- 636,0	954,0- 546,0	774,0- 546,0	594,0- 546,0	Pas consonne	
+	414,0- 546,0	504,0- 456,0			Pas consonne	
+	414,0- 546,0	504,0- 636,0	504,0- 636,0		Meme cercle	
+	414,0- 546,0	594,0- 546,0			Pas consonne	
+	594,0- 546,0	414,0- 546,0	414,0- 546,0			Pas consonne
+				Pas consonne		
+	594,0- 546,0	414,0- 546,0			Pas consonne	
+	414,0- 546,0	594,0- 546,0			Pas consonne	
+	414,0- 546,0	774,0- 546,0			Pas consonne	
+	414,0- 546,0	504,0- 636,0	684,0- 456,0		Pas voyelle	
+	414,0- 546,0	504,0- 636,0	684,0- 456,0		Pas voyelle	
+	414,0- 546,0	504,0- 636,0	594,0- 546,0	954,0- 546,0	Nouvelle combi	4,643872821
+	414,0- 546,0	594,0- 546,0			Pas consonne	
+	414,0- 546,0	504,0- 456,0			Pas consonne	
+	414,0- 546,0	774,0- 546,0			Pas consonne	
+	414,0- 546,0	1044,0- 636,0			Pas consonne	
+	414,0- 546,0	1044,0- 636,0			Pas consonne	
+	954,0- 546,0	774,0- 546,0	864,0- 456,0	774,0- 366,0	Pas voyelle	
+	1044,0- 636,0	954,0- 546,0	774,0- 546,0	864,0- 456,0	Nouvelle combi	4,283245128
+	774,0- 366,0	774,0- 366,0			Meme cercle	
+	1147- 903				A cote	
+	991- 884				A cote	
+	1005- 895				A cote	
+	992- 899				A cote	
+	987- 897				A cote	
+	504,0- 456,0	983- 894			A cote	
+	504,0- 456,0	974- 901			A cote	
+	982- 894				A cote	
+	504,0- 456,0	962- 912			A cote	
+	977- 901				A cote	
+	971- 895				A cote	
+	504,0- 456,0	966- 899			A cote	
+	594,0- 546,0	1065- 487			A cote	
+	591- 673				A cote	
+	594,0- 546,0	684,0- 456,0	774,0- 546,0	864,0- 456,0	Nouvelle combi	9,041067897
+	1109- 635				A cote	
+	1044,0- 636,0	774,0- 546,0			Pas consonne	
+	1044,0- 636,0	864,0- 456,0	594,0- 546,0	414,0- 546,0	Pas consonne	
+	1044,0- 636,0					
+30 sec						
+		864,0- 456,0	774,0- 546,0	594,0- 546,0	Pas consonne	
+	1044,0- 636,0	414,0- 546,0			Pas consonne	
+	1044,0- 636,0	414,0- 546,0			Pas consonne	
+	1044,0- 636,0	774,0- 546,0			Pas consonne	
+	1044,0- 636,0	774,0- 546,0	774,0- 546,0		Pas consonne	
+						
+	1044,0- 636,0	864,0- 456,0	774,0- 546,0	594,0- 546,0	Pas consonne	
+	1044,0- 636,0	864,0- 456,0	774,0- 546,0	504,0- 456,0	Pas consonne	
+	1044,0- 636,0	864,0- 456,0	774,0- 546,0	774,0- 366,0	Nouvelle combi	4,197703795
+						
+Bonnes réponses=	5					
+Erreurs couleur:	0					
+Erreurs répétition:	0					
+Erreurs même cercle:	2					
+Erreurs pas consonne:	27					
+Erreurs pas voyelle:	6					
+Erreurs à côté:	16					
+Erreurs totales:	51					
+Nombre de réponses:	56					
+Taux de réussite=	8,93					
+RTmoy reussi sec=	5,625					
+RTmoy deja fait sec=	0					
+RTmoy tot sec=	5,625					
+RTmax sec=	9,041					
+RTmin sec=	4,198					
