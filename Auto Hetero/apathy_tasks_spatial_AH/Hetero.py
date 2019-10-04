@@ -48,14 +48,15 @@ from circle import Circle
 # Chemins locaux vers les fichiers
 # --------------------------------
 # pour tablette windows: MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
-MAINDIR = "/Users/Ada/Desktop/BIP"
+MAINDIR = "/Users/Ada/apathy_tasks_spatial_AH"
+RESULTDIR = "/Users/Ada/Resultats"
 
 IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image" , "jaugedouble2.ppm")
 
 SON_PACE = joinpath(MAINDIR, "Son", "Metronome.wav")
 SON_PERTE = joinpath(MAINDIR, "Son", "Son_Perte2.wav")
 
-DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
+DOSSIER_SUJETS = joinpath(RESULTDIR, "Sujets")
 
 # Valeurs modifiables
 # -------------------
@@ -354,6 +355,7 @@ class Hetero(Tk):
         )
 
         self.timer -= 1
+        print("timer=", self.timer)
 
         self.chrono_event = self.after(1000, self.show_chrono)
 
@@ -377,13 +379,13 @@ class Hetero(Tk):
 
         self.progress_event = self.after(DELAY_PROGRESSION * self.pace * 1000, self.update_progress)
 
-    def next_second(self):
-        self.timer -= 1
+    # def next_second(self):
+    #     self.timer -= 1
 
-        if self.timer > 0:
-            self.show_chrono()
-        else:
-            self.fond.delete(self.racine, self.chrono)
+    #     if self.timer > 0:
+    #         self.show_chrono()
+    #     else:
+    #         self.fond.delete(self.racine, self.chrono)
 
     def finalisation(self):
         self.after_cancel(self.chrono_event)

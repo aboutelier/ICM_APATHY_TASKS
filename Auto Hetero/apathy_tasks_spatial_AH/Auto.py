@@ -34,9 +34,9 @@ from tkinter import Tk
 from tkinter import NW
 from tkinter import Canvas
 from tkinter import PhotoImage
-from winsound import PlaySound
-from winsound import SND_FILENAME
-from winsound import SND_ASYNC
+# from winsound import PlaySound
+# from winsound import SND_FILENAME
+# from winsound import SND_ASYNC
 
 # Nouveaux imports
 # ----------------
@@ -45,14 +45,16 @@ from circle import Circle
 
 # Chemins locaux vers les fichiers
 # --------------------------------
-MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
+# pour tablette windows: MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
+MAINDIR = "/Users/Ada/apathy_tasks_spatial_AH"
+RESULTDIR = "/Users/Ada/Resultats"
 
 IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image", "jaugedouble2.ppm")
 
 SON_PACE = joinpath(MAINDIR, "Son", "Metronome.wav")
 SON_PERTE = joinpath(MAINDIR, "Son", "Son_Perte2.wav")
 
-DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
+DOSSIER_SUJETS = joinpath(RESULTDIR, "Sujets")
 
 # Valeurs modifiables
 # -------------------
@@ -296,7 +298,9 @@ class Auto(Tk):
             fill="black",
         )
 
+        print("timer=", self.timer)
         self.timer -= 1
+        print("timer=", self.timer)
 
         self.chrono_event = self.after(1000, self.show_chrono)
 
@@ -322,8 +326,8 @@ class Auto(Tk):
 
     def finalisation(self):
         self.after_cancel(self.chrono_event)
-        self.after_cancel(self.metronome_event)
-        self.after_cancel(self.progress_event)
+        self.after_cancel(self.metronome)
+        self.after_cancel(self.update_progress)
 
         self.fond.destroy()
         self.fond = Canvas(

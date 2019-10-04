@@ -35,9 +35,9 @@ from tkinter import Tk
 from tkinter import NW
 from tkinter import Canvas
 from tkinter import PhotoImage
-from winsound import PlaySound
-from winsound import SND_FILENAME
-from winsound import SND_ASYNC
+# from winsound import PlaySound
+# from winsound import SND_FILENAME
+# from winsound import SND_ASYNC
 
 # Nouveaux imports
 # ----------------
@@ -46,7 +46,9 @@ from circle import Circle
 
 # Chemins locaux vers les fichiers
 # --------------------------------
-MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
+# pour tablette windows: MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
+MAINDIR = "/Users/Ada/apathy_tasks_spatial_AH"
+RESULTDIR = "/Users/Ada/Resultats"
 
 IMAGE_PIECES_FAIBLE = joinpath(MAINDIR, "Image", "pieces.ppm")
 IMAGE_PIECES_FORT = joinpath(MAINDIR, "Image", "pieces2.ppm")
@@ -56,7 +58,7 @@ IMAGE_JAUGE = joinpath(MAINDIR, "Image", "jauge.ppm")
 SON_FAIBLE = joinpath(MAINDIR, "Son", "Pièces.wav")
 SON_FORT = joinpath(MAINDIR, "Son", "Cash.wav")
 
-DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
+DOSSIER_SUJETS = joinpath(RESULTDIR, "Sujets")
 
 # Valeurs modifiables
 # -------------------
@@ -508,7 +510,7 @@ if __name__ == "__main__":
             "Subject name already exists. Try again with a different name."
         )
 
-    app = SpatialeDifficile(None, nom, gain_faible=(gain == "faible"))
+    app = SpatialeDifficile(None, nom, DOSSIER_SUJETS, gain_faible=(gain == "faible"))
     app.title("My application")
     app.destroy()
     app.mainloop()
