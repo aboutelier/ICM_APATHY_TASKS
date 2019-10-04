@@ -35,10 +35,10 @@ from tkinter import Tk
 from tkinter import NW
 from tkinter import Canvas
 from tkinter import PhotoImage
-from winsound import PlaySound
-from winsound import SND_FILENAME
-from winsound import SND_ASYNC
-from winsound import SND_NOSTOP
+#from winsound import PlaySound
+#from winsound import SND_FILENAME
+#from winsound import SND_ASYNC
+#from winsound import SND_NOSTOP
 
 # Nouveaux imports
 # ----------------
@@ -47,7 +47,8 @@ from circle import Circle
 
 # Chemins locaux vers les fichiers
 # --------------------------------
-MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
+# pour tablette windows: MAINDIR = "C:\\Users\\ECOCAPTURE\\Desktop\\ECOCAPTURE\\ICM_APATHY_TASKS"
+MAINDIR = "/Users/Ada/Desktop/BIP"
 
 IMAGE_JAUGE_AUTOHETERO = joinpath(MAINDIR, "Image" , "jaugedouble2.ppm")
 
@@ -58,7 +59,7 @@ DOSSIER_SUJETS = joinpath(MAINDIR, "Sujets")
 
 # Valeurs modifiables
 # -------------------
-TEST_TIME_SEC = 50
+TEST_TIME_SEC = 10
 # END_TIMER_SEC = 20
 SUMMARY_TIME_SEC = 15
 
@@ -386,8 +387,8 @@ class Hetero(Tk):
 
     def finalisation(self):
         self.after_cancel(self.chrono_event)
-        self.after_cancel(self.metronome_event)
-        self.after_cancel(self.progress_event)
+        self.after_cancel(self.metronome)
+        self.after_cancel(self.update_progress)
 
         self.fond.destroy()
         self.fond = Canvas(
